@@ -1,0 +1,11 @@
+#!/usr/bin/env php
+<?php
+
+// Environnement d'exécution en mode ligne de commandes
+define('APPLICATION_ENV', isset($_SERVER['USER']) && $_SERVER['USER'] === 'guillaume' ? 'development' : 'production');
+
+// Chargement de l'environnement
+require_once __DIR__ . '/../htdocs/www/env.php';
+
+// Run the application, that's all !
+Sma\Controller\Cli::run();
