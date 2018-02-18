@@ -1,0 +1,38 @@
+{
+    "name": "simplemanager/simplemanager",
+    "description": "SimpleManager",
+    "version": "0.1.0-dev",
+    "type": "project",
+    "homepage": "https://www.simplemanager.org",
+    "license": "AGPL-3.0-or-later",
+    "authors": [
+        {
+            "name": "Guillaume Ponçon",
+            "email": "guillaume.poncon@openstates.com"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/simplemanager/simplemanager/issues",
+        "source": "https://github.com/simplemanager/simplemanager"
+    },
+    "require": {
+        "php": "^7.1.0",
+        "osflab/osf": "~3.0.0",
+        "ext-mbstring": "*",
+        "ext-mcrypt": "*",
+        "ext-redis": "*"
+    },
+    "require-dev": {
+        "zendframework/zend-code": "~3.3.0"
+    },
+    "suggest": {
+        "ext-yaml": "For better performances"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "autoload": {
+        "psr-4": {
+            "": "backend"
+        }
+    }
+}
