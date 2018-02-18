@@ -1,0 +1,22 @@
+<?php 
+
+use App\Guest\View\Helper\GuestCrudHelper;
+use Sma\View\Helper\Crud\CrudConfig;
+use Osf\Stream\Text as T;
+
+/* @var $guestBean \Sma\Bean\GuestBean */
+$guestBean = H::get('guestBean');
+
+// Info concernant les crédits
+$amount = $guestBean->getInvoicesToPayAmountTtc() - $guestBean->getCreditsToPayAmountTtc();
+if ($amount < 0) {
+    echo H::alert(__("Montant à percevoir"), sprintf(__("Vous avez %s TTC de crédit à percevoir. Une fois cette somme transférée, le ou les documents concernés seront marqués comme réglés."), T::currencyFormat(-$amount)))->statusInfo();
+}
+
+echo GuestCrudHelper::buildCrud(
+        __("Liste des factures"), 
+        __("Aucune facture émise pour le moment."), 
+        'file-text', 
+        function ($row) { return H::url('document', 'dl', ['k' => $row['hash']]); }, 
+        $guestBean->getInvoicesToPayCount() ? 'warning' : ($guestBean->getCreditsToPayCount() ? 'info' : 'success'), 
+        (new CrudConfig())->setLinks([]));

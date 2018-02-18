@@ -1,0 +1,41 @@
+<?php 
+
+use Sma\View\Helper\Crud\CrudConfig;
+use App\Common\Container;
+
+$refresh = (bool) Container::getRequest()->getParam('tp');
+
+// Paramétrage CRUD
+$msg = [
+    'title'   => __("Journaux"),
+    'noitem'  => __("Pas d'info."),
+    'view'    => __("Détail du log")
+];
+
+$links = [
+    [
+        'label' => __("Trace"),
+        'icon' => 'bars',
+        'url' => H::url('admin', 'logs') . '/trace/{{id}}',
+        'attrs' => []
+    ],
+];
+
+$icon = 'shopping-basket';
+$actionView = 'log';
+$itemTemplate = __DIR__ . '/list_item.phtml';
+
+$config = (new CrudConfig())
+    ->setMsgs($msg)
+    ->setIcon('shopping-basket')
+    ->setActionView('log')
+    ->setItemTemplate(__DIR__ . '/list_item.phtml')
+    ->setRefresh($refresh)
+    ->setLinks($links);
+
+
+// Menu de la page
+//$refresh || include __DIR__ . '/_menu.phtml';
+
+// Affichage du tableau CRUD
+echo H::crud($config);

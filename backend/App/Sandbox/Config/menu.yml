@@ -1,0 +1,23 @@
+---
+config: 
+    priority: 50
+test:
+  label: Sandbox
+  icon: cubes
+  color: yellow
+  params:
+    controller: sandbox
+  items:
+    tui:
+      label: UI
+      params:
+        action: ui
+    tform:
+      label: Forms
+      params:
+        action: forms
+    tkit:
+      label: Kitchen
+      params:
+        action: kitchen
+...

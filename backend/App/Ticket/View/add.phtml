@@ -1,0 +1,18 @@
+<?php 
+
+$form = H::get('form');
+$isPosted = H::get('posted');
+
+if (!$form->isPosted()) {
+    echo H::alert(__("Pour que votre demande aboutisse"), 
+            H::htmlList()
+                ->addItem(H::link(__("Vérifiez si elle existe déjà dans la liste et <strong>votez</strong> pour le ticket correspondant."), 'ticket', 'list'))
+                ->addItem(__("Sinon, proposez un nouveau ticket ci-dessous."))
+            )->statusWarning();
+}
+
+echo H::form($form);
+
+if (!$form->isPosted()) {
+    echo H::html(H::link(__("liste des tickets"), 'ticket', 'list'), 'div')->escape(false)->addCssClass('text-center');
+}

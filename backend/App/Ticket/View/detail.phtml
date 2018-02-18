@@ -1,0 +1,86 @@
+<?php 
+
+use Osf\View\Table;
+use Osf\Helper\Mysql;
+use Sma\Container;
+
+$newLogPage = Container::getRequest()->getParam('tp') !== null;
+$log = H::get('log');
+
+if (!$newLogPage) {
+    
+    /* @var $ticket \Sma\Db\TicketWithPollsRow */
+    $ticket   = H::get('ticket');
+    $types    = DB::getTicketTable()->getTypes();
+    $statuses = DB::getTicketTable()->getStatuses();
+
+    $fieldParams = [
+        0 => [
+            Table::FP_CSS     => 'text-right',
+            Table::FP_STYLE   => 'font-weight: 600;',
+            Table::FP_PATTERN => '%s&nbsp;:',
+            Table::FP_WIDTH   => '100px'
+        ]
+    ];
+    $type = $types[$ticket->getCategory()];
+
+    $data = [
+        [__("Type"), H::iconCached($type['icon'], $type['status']) . '&nbsp;&nbsp;' . H::html($type['label'])->addCssClass('text-' . $type['status'])],
+        [__("État"), H::html($statuses[$ticket->getStatus()]['label'])->addCssClasses(['label', 'label-' . $statuses[$ticket->getStatus()]['status']])],
+        [__("Description"), Container::getMarkdown()->textLight($ticket->getContent())],
+        [__("Remarques"), $ticket->getResponse() ? Container::getMarkdown()->text($ticket->getResponse()) : H::html(__("Pas d'information de la part de l'équipe de développement pour l'instant."))->appendStyle('color: gray')],
+        [__("Ajout"),       Mysql::formatDateTime($ticket->getDateInsert())],
+        [__("Mise à jour"), Mysql::formatDateTime($ticket->getDateUpdate())],
+    ];
+
+    $table = new Table($data);
+    $table->setFieldParams($fieldParams);
+
+    echo H::box($ticket->getTitle())
+            ->addBadge('#' . (int) $ticket->getId())
+            ->icon($types[$ticket->getCategory()]['icon'])
+            ->status($types[$ticket->getCategory()]['status'])
+            ->addTable(H::table($table));
+}
+
+//$logTable = [];
+//foreach ($log as $logItem) {
+//    $logTable[] = [Mysql::formatDateTime($logItem->getDateInsert()), $logItem->getComment()];
+//}
+//
+//if ($logTable) {
+//    $fieldParams[0][Table::FP_WIDTH] = '160px';
+//    $logTable = new Table($logTable);
+//    $logTable->setFieldParams($fieldParams);
+//    echo H::box(__("Journal"))
+//            ->icon('commenting-o')
+//            ->addTable(H::table($logTable));
+//}
+
+if ($log && $log->count()) {
+    $fieldParams = [];
+    $fieldParams['id'][Table::FP_DISPLAY] = false;
+    $fieldParams['date_insert'][Table::FP_WIDTH] = '135px';
+    $fieldParams['date_insert'][Table::FP_CALLBACK] = '\Osf\Helper\Mysql::formatDateTime';
+    $logTable = new Table($log);
+    $logTable->setFieldParams($fieldParams);
+    echo H::box(__("Journal"))
+            ->icon('commenting-o')
+            ->addTable(H::table($logTable));
+}
+
+if (!$newLogPage) {
+
+    // Formulaire de log pour l'administrateur
+    $formLog = H::get('formLog');
+    if ($formLog) {
+        echo H::form($formLog)->setTarget('#content');
+        
+        // Focus sur l'input du log
+        H::layout()->appendScripts("$('#log').focus()");
+    }
+
+    $links  = clone H::link(__("retour à la liste"), 'ticket', 'list');
+    $links .= ACL::isAdmin() ? ' | ' . clone H::link(__("modifier ce ticket"), 'ticket', 'edit', ['id' => (int) $ticket->getId()]) : '';
+    echo H::html($links, 'div')->escape(false)->addCssClass('text-center');
+}

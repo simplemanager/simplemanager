@@ -1,0 +1,18 @@
+---
+config:
+    priority: 35
+tk: 
+    label: Un besoin ?
+    icon: bug
+    params: 
+        controller: ticket
+    items:
+        add:
+            label: Signaler un bug
+            params:
+                action: add
+        list:
+            label: Liste des tickets
+            params:
+                action: list
+...

@@ -1,0 +1,10 @@
+---
+config:
+  priority: 38
+sdg: 
+  label: Sondage
+  icon: check-square-o
+  color: yellow
+  params: 
+    controller: survey
+...

@@ -1,0 +1,41 @@
+---
+config: 
+  priority: 30
+prf:
+  label: Options
+  icon: cog
+  acl:
+    role: LOGGED
+#  badges: [["35%", red]]
+  params:
+    controller: account
+  items:
+    pra:
+      label: Mon compte
+      params:
+        action: login
+    prc:
+      label: Ma société
+      params:
+        action: company
+    prp:
+      label: Mes paramètres
+      params:
+        action: features
+lin:
+  label: Connexion
+  icon: sign-in
+  acl:
+    role: NOTLOGGED
+  params:
+    controller: account
+    action: login
+cco:
+  label: Créer un compte
+  icon: edit
+  acl:
+    role: NOTLOGGED
+  params:
+    controller: account
+    action: registration
+...

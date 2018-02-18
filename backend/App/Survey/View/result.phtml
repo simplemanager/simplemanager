@@ -1,0 +1,90 @@
+<?php 
+
+use Osf\Form\OsfForm as Form;
+use Osf\Form\Element\ElementSelect;
+
+$stats = H::get('stats');
+
+if (!H::has('user')) {
+    echo H::form((new Form())
+        ->add((new ElementSelect('tables'))
+                ->setPlaceholder(__("Compte"))
+                ->setRequired()
+                ->setLinkPattern(H::url('survey', 'result', ['uid' => '[key]']), '#rzone')
+                ->setOptions(H::get('users'))));
+}
+
+if (is_array($stats)) {
+//    echo '<pre>' . print_r($stats, true);
+    $accordion = H::accordion();
+    foreach (H::get('stats') as $form => $fields) {
+        $grid = H::grid();
+        $cptSize = 0;
+        foreach ($fields['options'] as $fieldKey => $values) {
+            $str = '';
+            switch ($values['element']) {
+                case 'select' : 
+                    $listGroup = H::listGroup();
+                    $title = $values['label'] ?: (isset($values['options']['']) ? trim($values['options'][''], ' -') : null);
+                    if ($title) {
+                        $listGroup->addItem(H::html($title, 'strong'));
+                    }
+                    $max = 0;
+                    foreach ($values['values'] as $value) {
+                        $max = max($max, $value);
+                    }
+                    foreach ($values['options'] as $key => $label) {
+                        if ($key === '') {
+                            continue;
+                        }
+                        $count = isset($values['values'][$key]) ? $values['values'][$key] : 0;
+                        $color = $count === $max && $count !== 0 ? 'navy' : ($count >= $max / 2 && $count !== 0 ? 'light-blue' : ($count === 0 ? 'aqua' : 'blue'));
+                        $listGroup->addItem($label)->badge($count, $color);
+                    }
+                    $str .= $listGroup;
+                    break;
+                case 'checkbox' : 
+                    $listGroup = H::listGroup();
+                    $count = isset($values['values'][1]) ? $values['values'][1] : 0;
+                    $listGroup->addItem($values['label'])->badge($count);
+                    $str .= $listGroup;
+                    break;
+                case 'textarea' : 
+                case 'input' : 
+                    $title = $values['label'] ?: (isset($values['placeholder']) ? $values['placeholder'] : '');
+                    $box = H::box($title);
+                    if (isset($values['values']) && count($values['values'])) {
+                        $content = '';
+                        foreach ($values['values'] as $comment) {
+                            $content .= (string) H::html($comment, 'p');
+                        }
+                        $box->setContent($content);
+                    } else {
+                        $box->setContent(__("Aucun commentaire"));
+                    }
+                    $str .= $box;
+                    break;
+            }
+            if ($cptSize == 0) {
+                $cptSize = 0;
+                $grid->beginRow();
+            }
+            $size = isset($values['size']) ? $values['size'] : 12;
+            $cptSize += $size;
+            $grid->beginCell($size, $size, 12, 12)->append($str)->endCell();
+            if ($cptSize >= 12) {
+                $grid->endRow();
+                $cptSize = 0;
+            }
+        }
+        $accordion->addPanel(H::panel($fields['title'], (string) $grid));
+    }
+    $html = $accordion;
+}
+
+// Pas de stats
+else {
+    $html = H::msg(__("Aucune statistique disponible pour l'instant"));
+}
+
+echo H::html($html, 'div')->setAttribute('id', 'rzone')->escape(false);

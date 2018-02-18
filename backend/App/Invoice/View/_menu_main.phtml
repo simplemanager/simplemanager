@@ -1,0 +1,63 @@
+<?php
+
+use Osf\View\Helper\Bootstrap\Addon\DropDownMenu;
+use App\Invoice\Controller as C;
+//use Sma\Session\Identity as I;
+//use Sma\Bean\InvoiceBean as IB;
+// use App\Common\Container;
+
+$qte = C::QUOTE;
+$ord = C::ORDER;
+$inv = C::INVOICE;
+
+$params = CT::getRequest()->getParams();
+$listType = CT::getRequest()->getAction() === 'list' && isset($params['type']) ? $params['type'] : null;
+$editType = CT::getRequest()->getAction() === 'edit' && isset($params['type']) ? $params['type'] : null;
+
+$nav = H::nav(false, false, true)
+        //->addLink('', H::url('invoice', 'list'), false, false, 'files-o')
+        ->addLink(H::html(__("Devis"))->mobileExclude(),     H::url('invoice', 'list', ['type' => $qte]), $listType === $qte, false, 'file-o', 'blue')
+        ->addLink(H::html(__("Commandes"))->mobileExclude(), H::url('invoice', 'list', ['type' => $ord]), $listType === $ord, false, 'file-text-o', 'blue')
+        ->addLink(H::html(__("Factures"))->mobileExclude(),  H::url('invoice', 'list', ['type' => $inv]), $listType === $inv || !$listType, false, 'file-text', 'blue');
+
+//if (Container::getDevice()->isMobile()) {
+    $nav->addMenu('', (new DropDownMenu())->alignRight()
+            ->addLink(__("Nouveau devis"),     H::url('invoice', 'edit', ['type' => $qte]), $editType === $qte)
+            ->addLink(__("Nouvelle commande"), H::url('invoice', 'edit', ['type' => $ord]), $editType === $ord)
+            ->addLink(__("Nouvelle facture"),  H::url('invoice', 'edit', ['type' => $inv]), $editType === $inv));
+//} else {
+//    $nav->addLink(H::html(__("Nouveau Devis"))->mobileExclude(),     H::url('invoice', 'edit', ['type' => $qte]), false, false, 'file-o')
+//        ->addLink(H::html(__("Nouvelle Commandes"))->mobileExclude(), H::url('invoice', 'edit', ['type' => $ord]), false, false, 'file-text-o')
+//        ->addLink(H::html(__("Nouvelle Factures"))->mobileExclude(),  H::url('invoice', 'edit', ['type' => $inv]), false, false, 'file-text');
+//}
+
+    
+echo $nav;
+
+//if (I::isLevelBeginner()) {
+//    $headButtons = [
+//        H::button(__("+ Devis"), H::url('invoice', 'edit', ['type' => IB::TYPE_QUOTE]))
+//            ->block()->sizeHuge()->statusInfo()->marginBottom(),
+//        H::button(__("+ Commande"), H::url('invoice', 'edit', ['type' => IB::TYPE_ORDER]))
+//            ->block()->sizeHuge()->statusInfo()->marginBottom(),
+//        H::button(__("+ Facture"), H::url('invoice', 'edit', ['type' => IB::TYPE_INVOICE]))
+//            ->block()->sizeHuge()->statusInfo()->marginBottom(),
+//        H::button(__("Liste des devis"), H::url('invoice', 'list', ['type' => IB::TYPE_QUOTE]))
+//            ->block()->sizeLarge()->statusInfo()->marginBottom(),
+//        H::button(__("Liste des commandes"), H::url('invoice', 'list', ['type' => IB::TYPE_ORDER]))
+//            ->block()->sizeLarge()->statusInfo()->marginBottom(),
+//        H::button(__("Liste des factures"), H::url('invoice', 'list', ['type' => IB::TYPE_INVOICE]))
+//            ->block()->sizeLarge()->statusInfo()->marginBottom(),
+//    ];
+//    echo H::grid()->auto($headButtons, 3);
+//}
+
+// Pas débutant
+//else {
+//    echo H::linkApp(__("Devis"),     'invoice', 'edit', ['type' => $qte])->icon('plus', 'blue')->setTooltip(I::isLevelBeginner() ? __("Créer un devis") : null, 'bottom');
+//    echo H::linkApp(__("Commande"),  'invoice', 'edit', ['type' => $ord])->icon('plus', 'blue')->setTooltip(I::isLevelBeginner() ? __("Créer une commande") : null, 'bottom');
+//    echo H::linkApp(__("Facture"),   'invoice', 'edit', ['type' => $inv])->icon('plus', 'blue')->setTooltip(I::isLevelBeginner() ? __("Créer une facture") : null, 'bottom');
+//    echo H::linkApp(__("Devis"),     'invoice', 'list', ['type' => $qte])->icon('file-o')->addCssClass($listType === $qte ? 'bg-aqua' : '')->setTooltip(!I::isLevelExpert() ? __("Liste des devis") : null, 'bottom');
+//    echo H::linkApp(__("Commandes"), 'invoice', 'list', ['type' => $ord])->icon('file-text-o')->addCssClass($listType === $ord ? 'bg-aqua' : '')->setTooltip(!I::isLevelExpert() ? __("Liste des commandes") : null, 'bottom');
+//    echo H::linkApp(__("Factures"),  'invoice', 'list', ['type' => $inv])->icon('file-text')->addCssClass($listType === $inv || !$listType ? 'bg-aqua    ' : '')->setTooltip(!I::isLevelExpert() ? __("Liste des factures") : null, 'bottom');
+//}

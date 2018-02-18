@@ -1,0 +1,18 @@
+---
+config: 
+    priority: 10
+#ev:
+#  label: "Démarches"
+#  icon: list-ul
+##  color: blue
+#  badges: [["10", blue]]
+#  params:
+#    controller: document
+#    action: procedures
+ld:
+  label: "Lettres"
+  icon: envelope-o
+#  color: blue
+  params:
+    controller: document
+...

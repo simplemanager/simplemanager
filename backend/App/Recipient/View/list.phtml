@@ -1,0 +1,78 @@
+<?php 
+
+use Sma\View\Helper\Crud\CrudConfig;
+use Osf\View\Helper\Bootstrap\Addon\DropDownMenu;
+use Sma\Session\Identity;
+use App\Common\Container;
+use Osf\Pdf\Document\Bean\InvoiceBean as IB;
+
+// Mise à jour partielle de la page ?
+$refresh = (bool) Container::getRequest()->getParam('tp');
+
+// Si pas encore de société
+if (!$refresh && !Identity::getIdCompany()) {
+    echo H::alert(__("Qui êtes-vous ?"), sprintf(__("%s pour que l'interface de %s s'adapte à vos besoins."), H::link(__("Complétez votre profil"), 'account', 'company'), APP_NAME))->disableEscape()->statusWarning();
+}
+
+// Paramétrage CRUD
+$msg = [
+    'title'   => H::html(__("Mes clients & contacts"))->mobileExclude() . H::html(__("Mes contacts"))->mobileOnly(),
+    'noitem'  => __("Cliquez sur le bouton \"+\" pour ajouter un contact."),
+    'add'     => __("Ajouter un client / contact"),
+    'view'    => __("Détail client / contact"),
+    'del'     => __("Suppression"),
+    'deldesc' => __("Cette action supprimera définitivement un contact."),
+];
+
+$links = [
+    [
+        'label' => __("Envoyer un courier"),
+        'icon' => 'envelope-o',
+        'url' => H::url('document', 'letter') . '/recipient/{{id}}',
+        'attrs' => []
+    ],
+    '',
+    [
+        'label' => __("Créer un devis"),
+        'icon' => 'file-o',
+        'url' => H::url('invoice', 'edit') . '/type/' . IB::TYPE_QUOTE . '/recipient/{{id}}',
+        'attrs' => []
+    ],
+    [
+        'label' => __("Créer une commande"),
+        'icon' => 'file-text-o',
+        'url' => H::url('invoice', 'edit') . '/type/' . IB::TYPE_ORDER . '/recipient/{{id}}',
+        'attrs' => []
+    ],
+    [
+        'label' => __("Créer une facture"),
+        'icon' => 'file-text',
+        'url' => H::url('invoice', 'edit') . '/type/' . IB::TYPE_INVOICE . '/recipient/{{id}}',
+        'attrs' => []
+    ],
+//    '',
+//    [
+//        'label' => __("Export vCard"),
+//        'icon' => 'vcard-o',
+//        'url' => H::url('invoice', 'export') . '/format/vcard/recipient/{{id}}',
+//        'attrs' => []
+//    ],
+];
+
+
+$config = (new CrudConfig())
+        ->setIcon('address-book-o')
+        ->setMsgs($msg)
+        ->setLinks($links)
+        ->setRefresh($refresh)
+        ->setItemTemplate(__DIR__ . '/list_item.phtml')
+        ->setLinkPattern('/recipient/view/id/[key]');
+
+// Bouton(s) en haut à droite (import/export)
+$config->setButtons(H::exchangeButton(__("mes-contacts"), 'recipient', 'export', 'import'));
+
+// Menu de la page
+$refresh || include __DIR__ . '/_menu.phtml';
+
+// Affichage du tableau CRUD
+echo H::crud($config);

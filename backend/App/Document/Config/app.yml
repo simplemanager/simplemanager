@@ -1,0 +1,31 @@
+##
+## document
+##
+
+app:
+  title: 
+    short: Lettres
+    medium: Lettres et documents
+    long: Générateur de lettres et documents
+  description: 
+    hook: Générez en un éclair lettres, formulaires et documents courants !
+    resume: Grâce à des centaines de documents pré-remplis et à votre compte 
+            {C:APP_NAME}, créez en un rien de temps des lettres et des 
+            documents aux allures professionnelles. 
+  meta: 
+    category: Gestion
+    icon: files-o
+    color: green
+    index: 10
+    status: ALPHA
+    required: 0
+    dependencies: []
+  pages:
+    - title: Lettre (créer)
+      params:
+        action: letter
+      level: 15
+    - title: Courrier (créer)
+      params:
+        action: letter
+      level: 15

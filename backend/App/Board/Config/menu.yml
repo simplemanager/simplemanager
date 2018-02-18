@@ -1,0 +1,11 @@
+---
+config: 
+    priority: 20
+tdb:
+  label: Résultats
+  icon: bar-chart
+#  color: blue
+#  badges: [["7k€", blue]]
+  params:
+    controller: board
+...

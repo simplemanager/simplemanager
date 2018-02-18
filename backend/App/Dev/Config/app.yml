@@ -1,0 +1,20 @@
+##
+## document
+##
+
+app:
+    title: 
+        short: Développement
+        medium: Module de développement
+        long: Gestion du développement pour l'équipe de développement
+    description: 
+        hook: Réservé à l'équipe de développement
+        resume: Réservé à l'équipe de développement
+    meta: 
+        category: Core
+        icon: coffee
+        color: red
+        index: 4000
+        status: ALPHA
+        required: 0
+        dependencies: []

@@ -1,0 +1,21 @@
+##
+## document
+##
+
+app:
+    title: 
+        short: Résultats
+        medium: Tableau de bord
+        long: Visualisation des résultats
+    description: 
+        hook: Statistiques de vente.
+        resume: Visualisez vos résultats sous forme de tableaux et graphiques,
+                exportez ces données.
+    meta: 
+        category: Gestion
+        icon: bar-chart
+        color: black
+        index: 30
+        status: ALPHA
+        required: 0
+        dependencies: []

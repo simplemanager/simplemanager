@@ -1,0 +1,56 @@
+<?php 
+
+use Osf\Form\OsfForm as Form;
+use Osf\Form\Element\ElementSelect;
+use Osf\Form\Element\ElementTextarea;
+use Osf\Form\Element\ElementHidden;
+use App\Dev\Model\Db;
+
+if (H::get('tables')) {
+    echo H::form((new Form())
+//            ->setTitle('Tables', L::ICON_DATABASE)
+            ->add((new ElementSelect('tables'))
+                    ->setPlaceholder('-- BASE :: TABLE --')
+                    ->setRequired()
+                    ->setLinkPattern(H::url('dev', 'db', ['table' => '[key]']), '#dbzone')
+                    ->setOptions(H::get('tables'))));
+    echo H::html('', 'div')->setAttribute('id', 'dbzone');
+}
+
+if (H::get('table')) {
+    echo H::box('Documentation', H::get('doc'))->expandable()->removable();
+    
+    $dataTable = H::get('table');
+//    $table = new \Sma\Db\ProductTable();
+//    var_dump($table->getFields());
+    $accordion = H::accordion()->closeAllItems();
+    $cpt = 0;
+    foreach ($dataTable->getFields() as $field => $params) {
+        $formId = 'frmf' . $cpt++;
+        $definition = Db::getColumnDefinition($dataTable->getSchema(), $dataTable->getTableName(), $field);
+        $title = strtoupper($field) 
+               . ' (' . $params['dataType'] 
+               . ', ' . ($params['isNullable'] ? 'nullable' : 'required')
+               . ($params['characterMaximumLength'] ? ', max:' . $params['characterMaximumLength'] : '') 
+            . ') ';
+        $leftText = H::html('DEF: ' . $definition, 'div')
+                    ->addCssClasses(['pull-left', 'text-warning'])
+                    ->setAttribute('style', 'padding: 5px');
+        $button = H::html(H::button('UPDATE')->statusInfo()->submitForm($formId), 'div')
+                    ->setAttribute('style', "text-align: right")
+                    ->escape(false);
+        $textArea = (new ElementTextarea('comment'))->setValue($params['comment']);
+        $textArea->getHelper()->addCssClass('pre');
+        $panelContent = 
+                H::form((new Form)
+                        ->setAction(H::url('dev', 'db'))
+                        ->add((new ElementHidden('field'))->setValue($dataTable->getSchema() . '.' . $dataTable->getTableName() . '.' . $field))
+                        ->add($textArea))
+                            ->setAttribute('id', $formId);
+        $accordion->addPanel(H::panel($title, $panelContent, $leftText . $button)->statusInfo());
+    }
+    $boxTitle = 'Table ' . strtoupper(str_replace('.', ' :: ', H::get('tableTitle')));
+    echo H::box($boxTitle, $accordion)
+            ->statusInfo()
+            ->icon(L::ICON_DATABASE);
+}

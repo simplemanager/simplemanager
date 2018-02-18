@@ -1,0 +1,197 @@
+<?php 
+
+use Osf\Stream\Text;
+use Sma\Bean\GuestBean;
+use App\Common\Container;
+use App\Guest\Controller;
+
+$guestBean = Controller::getGuestBean();
+
+if (!function_exists('displayInvoicesAndCredits')) {
+    function displayInvoicesAndCredits(GuestBean $guestBean)
+    {
+        // Actions à effectuer
+        $todo = [];
+        if ($guestBean->getInvoicesToPayCount()) {
+            $todo[] = sprintf(__("%d facture%s à régler"), 
+                $guestBean->getInvoicesToPayCount(), 
+                $guestBean->getInvoicesToPayCount() > 1 ? 's' : '');
+        }
+        if ($guestBean->getCreditsToPayCount()) {
+            $todo[] = sprintf(__("%d avoir%s à percevoir"), 
+                $guestBean->getCreditsToPayCount(), 
+                $guestBean->getCreditsToPayCount() > 1 ? 's' : '');
+        }
+
+        // Montant
+        $amount = $guestBean->getInvoicesToPayAmountTtc() - $guestBean->getCreditsToPayAmountTtc();
+        $amountTxt = $amount > 0 
+                ? sprintf(__("Soit un montant total de %s TTC à payer"), Text::currencyFormat($amount))
+                : ($amount < 0
+                        ? sprintf(__("Soit un montant total de %s TTC à percevoir"), Text::currencyFormat(-$amount))
+                        : __("Les montants de ces documents s'annulent"));
+        $status = $amount > 0 ? 'warning' : ($amount < 0 ? 'info' : 'success');
+        
+        echo H::bigMsg(__("Vous avez") . ' ' . implode(__(" et "), $todo), $amountTxt, $status);
+        
+        $buttons = [];
+//        if ($amount > 0) {
+//            $buttons[] = H::button(sprintf(__("Payer %s avec Paypal"), $amountFormatted), H::url('guest', 'invoices'), 'info', 'paypal')->sizeHuge()->block()->marginBottom();
+//        }
+        $label = Container::getDevice()->isMobile() ? __("Factures & Avoirs") : __("Consulter mes factures & avoirs");
+        $buttons[] = H::button($label, H::url('guest', 'invoices'), $status, 'file-text')->sizeHuge()->block()->marginBottom();
+//        H::button("Modifier mes infos", H::url('guest', 'info'), 'info', 'user-o')->sizeHuge()->block()->marginBottom();
+        echo H::grid()->auto($buttons, null, false);
+    }
+}
+
+// Pas d'information
+if (!$guestBean) {
+    echo H::alert(__("Informations inaccessibles"), __("Essayez de vous ré-identifier avec le lien contenu dans votre email"), 'warning');
+}
+
+// Montant à régler
+else if ($guestBean->getInvoicesToPayAmountTtc() - $guestBean->getCreditsToPayAmountTtc() > 0) {
+    displayInvoicesAndCredits($guestBean);
+
+// Commandes à signer
+} else if ($guestBean->getOrdersToSign()) {
+    echo H::bigMsg(sprintf(__("Vous avez %d commande%s à signer"), 
+            $guestBean->getOrdersToSign(),
+            $guestBean->getOrdersToSign() > 1 ? 's' : ''), null, 'warning');
+    $buttons = [
+        H::button("Consulter mes commandes", H::url('guest', 'orders'), 'warning', 'file-text-o')->sizeHuge()->block()->marginBottom(),
+    ];
+    echo H::grid()->auto($buttons, null, false);
+}
+
+// Devis à consulter
+else if ($guestBean->getQuotesToConsult()) {
+    echo H::bigMsg(sprintf(__("Vous avez %d devis à consulter"), 
+            $guestBean->getQuotesToConsult()), null, 'warning');
+    $buttons = [
+        H::button("Consulter mes devis", H::url('guest', 'quotes'), 'warning', 'file-o')->sizeHuge()->block()->marginBottom(),
+    ];
+    echo H::grid()->auto($buttons, null, false);
+}
+
+// Profil incomplet
+else if (Controller::getContactBean()->hasWarning()) {
+    echo H::bigMsg(__("Complétez votre profil"), __("Il manque quelques informations"), 'warning');
+    $buttons = [
+        H::button("Editer mon profil", H::url('guest', 'info'), 'warning', 'user-o')->sizeHuge()->block()->marginBottom(),
+    ];
+    echo H::grid()->auto($buttons, null, false);
+}
+
+// Lettres à lire
+else if ($guestBean->getLetterToRead()) {
+    echo H::bigMsg(sprintf(__("Vous avez %d lettre%s à lire"), 
+            $guestBean->getLetterToRead(),
+            $guestBean->getLetterToRead() > 1 ? 's' : ''), null, 'info');
+    $buttons = [
+        H::button("Consulter mon courrier", H::url('guest', 'letters'), 'info', 'envelope-o')->sizeHuge()->block()->marginBottom(),
+    ];
+    echo H::grid()->auto($buttons, null, false);
+}
+
+// Montant à percevoir ou qui s'annule
+else if ($guestBean->getInvoicesToPayAmountTtc() - $guestBean->getCreditsToPayAmountTtc() <= 0 
+        && ($guestBean->getInvoicesToPayCount() || $guestBean->getCreditsToPayCount())) {
+    displayInvoicesAndCredits($guestBean);
+}
+
+// Tout est OK
+else {
+    echo H::bigMsg(__("Tout est OK"))->statusSuccess();
+    $msg = __("Vous n'avez pas d'action à effectuer pour le moment. Dans cet espace vous pouvez %s. Si vous n'avez plus rien à faire ici, %s.");
+    echo H::box(__("Informations"), sprintf($msg, 
+            (string) H::link(__("vérifier et corriger vos informations personnelles"), 'guest', 'info'), 
+            (string) H::link(__("veuillez vous déconnecter"), 'guest', 'logout')))
+            ->icon('info')->statusSuccess()->coloredTitleBox()->collapsable();
+}
+
+// Accordion
+$accordion = H::accordion();
+
+// Factures
+$boxes = [
+    (string) H::infoBox(sprintf(__("%d facture(s) à régler"), $guestBean->getInvoicesToPayCount()), 
+            Text::currencyFormat($guestBean->getInvoicesToPayAmountTtc()) . ' TTC', 'eur', 'yellow', null,
+            sprintf(__("Soit %s HT"), Text::currencyFormat($guestBean->getInvoicesToPayAmountHt()))),
+    (string) H::infoBox(
+            sprintf(__("%d facture(s) réglée(s)"), $guestBean->getInvoicesPayedCount()), 
+            Text::currencyFormat($guestBean->getInvoicesPayedAmountTtc()) . ' TTC', 'eur', 'green', null, 
+            sprintf(__("Soit %s HT"), Text::currencyFormat($guestBean->getInvoicesPayedAmountHt()))),
+//    (string) H::infoBox(sprintf(__("%d facture(s) en retard"), $guestBean->getInvoicesToPayCount()), Text::currencyFormat($guestBean->getInvoicesToPayAmountTtc()), 'eur', 'red'),
+];
+$accordion->addPanel(H::panel(H::html(
+        sprintf(__("Factures [%d/%d]"), 
+                $guestBean->getInvoicesToPayCount(), 
+                $guestBean->getInvoicesPayedCount() + $guestBean->getInvoicesToPayCount()), 'strong')
+        ->addCssClass($guestBean->getInvoicesToPayCount() ? 'text-red' : null), 
+        H::html(H::grid()->auto($boxes), 'a')->escape(false)->setAttribute('href', H::url('guest', 'invoices'))));
+
+// Avoirs
+$boxes = [
+    (string) H::infoBox(sprintf(__("%d avoir(s) à percevoir"), $guestBean->getCreditsToPayCount()),
+            Text::currencyFormat($guestBean->getCreditsToPayAmountTtc()) . ' TTC', 'eur', 'fuchsia', null, 
+            sprintf(__("Soit %s HT"), Text::currencyFormat($guestBean->getCreditsToPayAmountHt()))),
+    (string) H::infoBox(
+            sprintf(__("%d avoir(s) perçu(s)"), $guestBean->getCreditsPayedCount()),
+            Text::currencyFormat($guestBean->getCreditsPayedAmountTtc()) . ' TTC', 'eur', 'blue', null, 
+            sprintf(__("Soit %s HT"), Text::currencyFormat($guestBean->getCreditsPayedAmountHt()))),
+];
+$accordion->addPanel(H::panel(H::html(
+        sprintf(__("Factures d'avoir [%d/%d]"), 
+                $guestBean->getCreditsToPayCount(), 
+                $guestBean->getCreditsPayedCount() + $guestBean->getCreditsToPayCount()), 'strong')
+        ->addCssClass($guestBean->getCreditsToPayCount() ? 'text-red' : null), 
+        H::html(H::grid()->auto($boxes), 'a')->escape(false)->setAttribute('href', H::url('guest', 'invoices'))));
+
+// Commandes
+$boxes = [
+    (string) H::infoBox(sprintf(__("%d commande(s) à signer"), $guestBean->getOrdersToSign()),
+            $guestBean->getOrdersToSign(), 'file-text-o', 'yellow'),
+    (string) H::infoBox(
+            sprintf(__("%d commande(s) signée(s)"), $guestBean->getOrdersSigned()),
+            $guestBean->getOrdersSigned(), 'file-text-o', 'green'),
+];
+$accordion->addPanel(H::panel(H::html(
+        sprintf(__("Commandes [%d/%d]"), 
+                $guestBean->getOrdersToSign(), 
+                $guestBean->getOrdersSigned() + $guestBean->getOrdersToSign()), 'strong')
+        ->addCssClass($guestBean->getOrdersToSign() ? 'text-red' : null), 
+        H::html(H::grid()->auto($boxes), 'a')->escape(false)->setAttribute('href', H::url('guest', 'orders'))));
+
+// Devis
+$boxes = [
+    (string) H::infoBox(sprintf(__("%d devis à consulter"), $guestBean->getQuotesToConsult()),
+            $guestBean->getQuotesToConsult(), 'file-o', 'yellow'),
+    (string) H::infoBox(
+            sprintf(__("%d devis consultés"), $guestBean->getQuotesConsulted()),
+            $guestBean->getQuotesConsulted(), 'file-o', 'green'),
+];
+$accordion->addPanel(H::panel(H::html(
+        sprintf(__("Devis [%d/%d]"), 
+                $guestBean->getQuotesToConsult(), 
+                $guestBean->getQuotesToConsult() + $guestBean->getQuotesConsulted()), 'strong')
+        ->addCssClass($guestBean->getQuotesToConsult() ? 'text-red' : null), 
+        H::html(H::grid()->auto($boxes), 'a')->escape(false)->setAttribute('href', H::url('guest', 'quotes'))));
+
+// Lettres
+$boxes = [
+    (string) H::infoBox(sprintf(__("%d lettre(s) à lire"), $guestBean->getLetterToRead()),
+            $guestBean->getLetterToRead(), 'envelope-o', 'blue'),
+    (string) H::infoBox(
+            sprintf(__("%d lettre(s) lue(s)"), $guestBean->getLetterRead()),
+            $guestBean->getLetterRead(), 'file-o', 'gray'),
+];
+$accordion->addPanel(H::panel(H::html(
+        sprintf(__("Lettres [%d/%d]"), 
+                $guestBean->getLetterToRead(), 
+                $guestBean->getLetterRead() + $guestBean->getLetterToRead()), 'strong')
+        ->addCssClass($guestBean->getLetterToRead() ? 'text-red' : null), 
+        H::html(H::grid()->auto($boxes), 'a')->escape(false)->setAttribute('href', H::url('guest', 'letters'))));
+
+echo $accordion; //->openAllItems();

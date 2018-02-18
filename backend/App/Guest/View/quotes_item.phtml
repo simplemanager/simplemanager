@@ -1,0 +1,38 @@
+<?php
+
+use Osf\Pdf\Document\Bean\BaseDocumentBean as BDB;
+use Osf\Exception\ArchException;
+use Osf\Stream\Text as T;
+use Osf\Helper\DateTime as DT;
+
+switch (true) {
+    case $row['status'] === BDB::STATUS_SENT : 
+        $status = 'warning';
+        $statusLabel = H::html(__("Non lu"))->addCssClasses(['label', 'label-warning']);
+        $color = 'yellow';
+        $important = true;
+        break;
+    case $row['status'] === BDB::STATUS_READ :
+    case $row['status'] === BDB::STATUS_PROCESSED : 
+        $status = 'success';
+        $statusLabel = H::html(__("Lu"))->addCssClasses(['label', 'label-success']);
+        $color = 'green';
+        $important = false;
+        break;
+    default : 
+        throw new ArchException('Unknown status [' . $row['statuts'] . ']');
+}
+
+
+// TODO : mettre les dates sous forme de champs pour pouvoir trier / filtrer...
+/* @var $bean \Sma\Bean\InvoiceBean */
+$bean = unserialize($row['bean']);
+
+$icon = H::icon('file-pdf-o', null, $color);
+$lines = [
+    $icon . '&nbsp;&nbsp;' . H::html($row['code'], $important ? 'strong' : 'span') .
+    H::html(T::currencyFormat($row['total_ttc']) . ' TTC')->addCssClass('pull-right'),
+    H::html(__("Date limite :")) . ' ' . H::html(T::formatDate($bean->getDateValidity()))->addCssClass('text-' . DT::getDateColor($bean->getDateValidity()), $important) .
+    H::html($statusLabel)->escape(false)->addCssClass('pull-right')
+];
+return H::grid()->auto($lines);

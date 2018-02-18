@@ -1,0 +1,42 @@
+<?php
+
+use Osf\View\Helper\Bootstrap\AbstractViewHelper as AVH;
+use Osf\Stream\Text as T;
+use Sma\Bean\ContactBean;
+use App\Common\Container;
+
+/* @var $bean ContactBean */
+$bean = unserialize($row['bean']);
+$bean = $bean ?: new ContactBean();
+$address = $bean->getAddress() ? $bean->getAddress()->getComputedAddress() : '';
+$warnInfo = $bean->getWarnings(true, false, true);
+// $color = $warnInfo ? ($warnInfo['status'] === 'warning' ? 'orange' : 'red') : 'green';
+$color = $bean->getCompanyName() ? 'purple' : 'aqua';
+
+$companyName = $bean->getCompanyName();
+$fullName = $bean->getComputedFullname(!Container::getDevice()->isMobile());
+$email = $bean->getEmail();
+$warning = $warnInfo ? '&nbsp;&nbsp;' . H::icon($warnInfo['icon'], null, AVH::STATUS_COLOR_LIST[$warnInfo['status']])->setTooltip($warnInfo['title']) : '';
+
+$items = [
+    ($companyName
+        ? H::iconCached('industry', null, $color, true) . '&nbsp;&nbsp;' . H::html($companyName, 'strong') . $warning
+        : '') . 
+    ($fullName
+        ? H::html(H::iconCached('user', null, $companyName ? 'gray' : $color, true) . '&nbsp;&nbsp;' . H::html(T::crop($fullName, 25)) . (!$companyName ? $warning : ''), 'div')->escape(false)
+        : ''),
+    ($email
+        ? H::iconCached('at', null, 'gray', true) . '&nbsp;&nbsp;' . H::html($email)->mobileCrop(25)
+        : '') . 
+        ($row['email'] && ($row['tel'] || $row['gsm']) ? '<br />' : '') . 
+    ($row['tel']
+        ?  H::iconCached('phone', null, 'gray', true) . '&nbsp;&nbsp;' . H::html(T::phoneFormat($row['tel']))
+        : '') . ($row['tel'] && $row['gsm'] ? '<br />' : '') . 
+    ($row['gsm']
+        ? H::iconCached('mobile-phone', null, 'gray', true) . '&nbsp;&nbsp;' . H::html(T::phoneFormat($row['gsm']))
+        : ''),
+    $address
+        ? H::html(nl2br($address))->escape(false)->addCssClass('hidden-sm')->mobileExclude()
+        : ''
+];
+return (string) H::grid()->auto($items, count($items), true);

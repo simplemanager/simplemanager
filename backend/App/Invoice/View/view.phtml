@@ -1,0 +1,187 @@
+<?php 
+
+use Osf\View\Table;
+use Osf\Stream\Text as T;
+use Sma\Bean\InvoiceBean;
+use Sma\Bean\InvoiceBean as IB;
+use Sma\Session\Identity as I;
+use Sma\Controller\Json;
+use App\Common\Container;
+
+/* @var $bean \Sma\Bean\InvoiceBean */
+$bean = H::get('bean');
+$hasWarning = $bean->hasWarning(true);
+$isCreated = $bean->getStatus() === $bean::STATUS_CREATED;
+$manageWarns = $hasWarning && $isCreated;
+
+if (!$bean) {
+    echo H::msg(__("Ce document n'est pas disponible."), 'danger');
+    return;
+}
+
+echo H::linkApp(__("Télécharger"))->url(H::url('invoice', 'export', ['dl' => $bean->getId(), 'file' => $bean->getTypeName(true) . '-' . T::getAlpha($bean->getCode()) . '.pdf']))->setAttributes(['class' => 'extlink', 'target' => '_blank'])->icon('download');
+if ($bean->getStatus() === IB::STATUS_CREATED) {
+    echo H::linkApp(__("Modifier"), 'invoice', 'edit', ['type' => $bean->getType(), 'id' => $bean->getId()])->icon('edit');
+}
+echo H::linkApp(__($bean->getTypeName(true, [], true, true)), 'invoice', 'list', ['type' => $bean->getType()])->icon('list-ul')->setTooltip(sprintf(__("Liste des %s"), $bean->getTypeName(false, [], true, true)), 'bottom');
+if (!$bean->isCredit()) {
+//    echo H::linkApp(__("Dupliquer"), 'invoice', 'edit', ['type' => $bean->getType(), 'from' => $bean->getId()])->icon('clone');
+    echo H::linkApp(__("+ Devis"),  'invoice', 'edit', ['type' => IB::TYPE_QUOTE,   'from' => $bean->getId()])->icon(IB::ICONS[IB::TYPE_QUOTE])->setTooltip(__("Créer un nouveau devis basé sur ce document"), 'bottom');
+    echo H::linkApp(__("+ Cmd."),   'invoice', 'edit', ['type' => IB::TYPE_ORDER,   'from' => $bean->getId()])->icon(IB::ICONS[IB::TYPE_ORDER])->setTooltip(__("Créer une nouvelle commande basée sur ce document"), 'bottom');
+    echo H::linkApp(__("+ Fact."),  'invoice', 'edit', ['type' => IB::TYPE_INVOICE, 'from' => $bean->getId()])->icon(IB::ICONS[IB::TYPE_INVOICE])->setTooltip(__("Créer une nouvelle facture basée sur ce document"), 'bottom');
+}
+if ($bean->getStatus() === $bean::STATUS_CANCELED || $bean->hasWarning(true)) {
+    echo H::linkApp(__("Envoyer"), 'invoice', 'view', ['id' => $bean->getId()])->icon('ban', 'red')->setTooltip(__("Alertes ou annulation détectées"));
+} else {
+    echo H::linkApp(__("Envoyer"), 'invoice', 'send', ['id' => $bean->getId()])->icon('send');
+}
+
+if ($isCreated && Container::getRequest()->getAction() !==  'update') {
+    echo H::linkApp(__("Régénérer"), 'invoice', 'update', ['id' => $bean->getId(), Json::REDIRECT_AUTO_PARAM => Json::encodedCurrentUri()])
+            ->icon('refresh')
+            ->setTooltip(I::isLevelExpert() ? null : __("Régénérer le document : actualise l'expéditeur, le destinataire et ce qui dépend de vos préférences."))
+            // ->isAjaxLink()
+            ;
+}
+
+if ($manageWarns && !I::isLevelExpert()) {
+    echo H::alert(__("Corrigez les alertes"), __("Puis cliquez sur <strong>régénérer</strong> pour mettre à jour le document et vérifier que tout est OK."), 'warning');
+} else if (!$manageWarns && $hasWarning && !I::isLevelExpert()) {
+    echo H::msg(__("Ce document contient des alertes qui ne sont pas modifiables. Il faut que le document soit à l'état 'brouillon' pour pouvoir corriger les alertes depuis cette page. Le retour à l'état 'brouillon' n'est pas toujours possible."), 'warning');
+}
+
+// =======================================================================
+// Description
+// =======================================================================
+
+function getDocHtmlContent(InvoiceBean $bean, $boxTitle = null, bool $manageWarns = false)
+{
+    $data = [];
+//    $data[] = [__("Identification"), (string) H::html($bean->getTypeName(true) . ' ' . $bean->getCode() . ' (#' . $bean->getIdInvoice() . ') ' . sprintf(__("contenant %d produit(s)"), count($bean->getProducts())))];
+    $data[] = [__("Résumé"), H::html($bean->getDescription())];
+    $data[] = [__("Destinat."),  nl2br(H::html($bean->getRecipient()->getAddress()->getComputedAddress(true)))];
+    $data[] = [__("Dest. mail"),  H::html($bean->getRecipient()->getComputedEmail())];
+    $data[] = [__("Emission"), T::formatDate($bean->getDateSending())];
+    $data[] = [__("Validité"), $bean->getDateValidity() ? T::formatDate($bean->getDateValidity()) : __("Non renseigné")];
+    //$data[] = [__("État"), H::html($bean->getStatusName())->addCssClasses(['label', 'label-' . $bean->getStatusColor()])];
+    $data[] = [__("État"), H::statusLabel($bean->getId(), $bean->getStatus(), $bean->getType(), H::url('invoice', 'chst'), false)];
+    
+    // Créer un helper ?
+    $warns = $bean->getWarnings(false, false, true, $manageWarns);
+    $warnTxt = '';
+    if ($warns) {
+        foreach ($warns as $warn) {
+            $warnTxt .= H::iconCached($warn['icon'], null, $warn['status'] === 'warning' ? 'orange' : 'red') . '&nbsp;&nbsp;' . $warn['title'] . '<br />';
+        }
+    } else {
+        $warnTxt = H::html(__("Tout semble OK"))->addCssClass('text-green');
+    }
+    $data[] = [__("Alertes"), $warnTxt];
+    
+    $data[] = [__("TVA"), ($bean->getTaxFranchise() ? H::html(__("Non"))->addCssClass('text-red') . ' (' . __("franchise activée") . ') ' . H::help('franchise-tva') : H::html(__("Oui"))->addCssClass('text-blue'))];
+    foreach ($bean->getLibs(true) as $key => $value) {
+        if ($value !== '') {
+            $data[] = [$key, $value];
+        }
+    }
+    $bean->getMdBefore() && $data[] = [__("Introduction"), $bean->getMdBefore(true)];
+    
+    // Totaux
+    if (I::hasTax() && !$bean->getTaxFranchise()) {
+        $data[] = [__("Total HT"),  H::html(T::currencyFormat($bean->getTotalHtWithDiscount(true)))->addCssClasses(['text-bold', 'text-blue'])];
+        $data[] = [__("Total TTC"), H::html(T::currencyFormat($bean->getTotalTtcWithDiscount(true)))->addCssClasses(['text-bold', 'text-blue'])];
+    } else if ($bean->getTaxFranchise()) {
+        $data[] = [__("Total"), H::html(T::currencyFormat($bean->getTotalHtWithDiscount(true)))->addCssClasses(['text-bold', 'text-blue'])];
+    } else {
+        $data[] = [__("Total"), H::html(T::currencyFormat($bean->getTotalTtcWithDiscount(true)))->addCssClasses(['text-bold', 'text-blue'])];
+    }
+    
+    $fieldParams = [
+        0 => [
+            Table::FP_CSS     => 'text-right',
+            Table::FP_STYLE   => 'font-weight: 600;',
+            Table::FP_PATTERN => '%s&nbsp;:',
+            Table::FP_WIDTH   => '120px'
+        ]
+    ];   
+    $bean->getMdAfter() && $data[] = [__("Bas de page"), $bean->getMdAfter(true)];
+    $dataTable = new Table($data);
+    $dataTable->setFieldParams($fieldParams)->setPaginate(false);
+    $table = H::table($dataTable);
+    if ($boxTitle) {
+        return (string) H::box($boxTitle)->addTable($table)->icon(IB::ICONS[$bean->getType()])->collapsable(); //->addBadge($badge);
+    }
+    return $table;
+}
+
+$boxDetail = getDocHtmlContent($bean, sprintf("%s %s", $bean->getTypeName(true), $bean->getCode()), $isCreated);
+
+echo $boxDetail;
+
+// =======================================================================
+// Produits
+// =======================================================================
+
+$fieldParams = [
+    0 => [
+        Table::FP_STYLE   => 'font-weight: 600',
+        Table::FP_CSS     => 'pre',
+        Table::FP_LABEL   => __("Code"),
+    ],
+    1 => [
+        Table::FP_LABEL   => __("Désignation"),
+        Table::FP_ATTRS   => ['nowrap' => '']
+    ],
+    2 => [
+        Table::FP_CSS     => 'text-right',
+        Table::FP_LABEL   => H::html(I::hasTax() ? __("P.U. HT") : __("P.U."))->addCssClass('pull-right'),
+        Table::FP_ATTRS   => ['nowrap' => '']
+    ],
+    3 => [
+        Table::FP_CSS     => 'text-right',
+        Table::FP_LABEL   => H::html(__("Qt"))->addCssClass('pull-right'),
+        Table::FP_ATTRS   => ['nowrap' => '']
+    ],
+    4 => [
+        Table::FP_CSS     => 'text-right',
+        Table::FP_LABEL   => H::html(__("Taxe"))->addCssClass('pull-right')->addCssClass('text-gray', $bean->getTaxFranchise()), 
+    ],
+    5 => [
+        Table::FP_CSS     => 'text-right',
+        Table::FP_LABEL   => H::html(__("Remise"))->addCssClass('pull-right'), 
+    ],
+    6 => [
+        Table::FP_CSS     => 'text-right',
+        Table::FP_LABEL   => H::html(I::hasTax() ? __("Tot. TTC") : __("Total"))->addCssClass('pull-right'),
+        Table::FP_ATTRS   => ['nowrap' => '']
+    ],
+ ];
+$rows = [];
+foreach ($bean->getProducts() as $product) {
+    $pTotal = $bean->getTaxFranchise() ? $product->getTotalPriceHT() : $product->getTotalPriceTTC();
+    $row = [];
+    $row[] = H::html($product->getCode());
+    $row[] = H::html($product->getTitle());
+    $row[] = T::currencyFormat($product->getPriceHT());
+    $row[] = trim($product->getQuantity() . ' ' . $product->getUnit());
+    $row[] = H::html(T::percentageFormat($product->getTax()))->addCssClass('text-gray', $bean->getTaxFranchise());
+    $row[] = T::percentageFormat($product->getDiscount());
+    $row[] = T::currencyFormat($bean->isCredit() ? -$pTotal : $pTotal);
+    $rows[] = $row;
+}
+$box = H::box(__("Produits"));
+if ($rows) {
+    $table = (new Table($rows))->setPaginate(false)->setFieldParams($fieldParams)->setDisplayLabels();
+    echo $box->addTable(H::table($table))->icon('shopping-basket')->expandable();    
+} else {
+    echo $box->setContent(__("Ce document ne comporte aucun produit."))->collapsable();
+}
+
+// =======================================================================
+// Historique des actions
+// =======================================================================
+
+$eventRows = DB::getDocumentEventTable()->select(['id_account' => I::getIdAccount(), 'id_document' => $bean->getIdDocument()]);
+$actions = H::actionHistory($eventRows, $bean);
+$data[] = [__("Historique"), $actions];
+echo H::box(__("Historique des actions"), $actions)->icon('clock-o')->collapsable();

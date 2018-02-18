@@ -1,0 +1,38 @@
+---
+config: 
+    priority: 3
+iv:
+  label: Factures
+  icon: file-text-o
+  params:
+    controller: invoice
+#    action: list
+#  items:
+#dvs:
+#  label: Devis
+#  icon: file-o
+##  color: blue
+##  badges: [["127", blue]]
+#  params:
+#    controller: invoice
+#    action: list
+#    type: quote
+#cms:
+#  label: Commandes
+#  icon: file-text-o
+##  color: blue
+##  badges: [["127", blue]]
+#  params:
+#    controller: invoice
+#    action: list
+#    type: order
+#ivs:
+#  label: Factures
+#  icon: file-text
+##  color: blue
+##  badges: [["127", blue]]
+#  params:
+#    controller: invoice
+#    action: list
+#    type: invoice
+...

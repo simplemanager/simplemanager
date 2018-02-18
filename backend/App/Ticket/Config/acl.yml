@@ -1,0 +1,14 @@
+## ADMIN : only admins
+## PUBLIC : everyone
+## LOGGED : logged in users
+## XXX : users in group XXX
+## name@host.com : a user
+
+controller: LOGGED
+action:
+    index:
+    list: 
+    add:
+    detail: 
+    poll:
+    comment:

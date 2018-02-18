@@ -1,0 +1,456 @@
+## YAML Template.
+---
+submitValue: Envoyer
+config:
+  class: '\App\Survey\Model\SurveyConfig'
+  pageTitle: 'User Test #1'
+  title: Sondage
+  icon: check-square-o
+#  alertInfo: 
+#    title: Un petit sondage pour finir
+#    content: Prenez 10 minutes pour répondre à ce questionnaire suite à vos manipulations.
+  alertSuccess:
+    title: Merci beaucoup !
+    content: Grâce à vous {C:APP_NAME} va devenir un outil fantastique ;)
+forms:
+  impression:
+    title: Mes impressions générales
+    options:
+      intuitif:
+        label: ''
+        element: select
+        options: 
+          '' : '-- ACCESSIBILITE / NAVIGATION --'
+          oui: C'est très intuitif
+          assez: C'est assez intuitif 
+          temps_adaptation: Il faut un temps d'adaptation 
+          bof: C'est plutôt complexe
+          non: C'est trop complexe
+        required: 1
+        size: 6
+      interface:
+        label: ''
+        element: select
+        options: 
+          '' : '-- INTERFACE / ERGONOMIE --'
+          fantastique: L'interface est fantastique !
+          pratique: L'interface est pratique
+          assez_pratique: L'interface est assez pratique 
+          peu_pratique: L'interface est peu pratique
+          difficile: L'interface est incompréhensible
+        required: 1
+        size: 6
+      pu_faire:
+        label: ''
+        element: select
+        options: 
+          '' : '-- STABILITE --'
+          stable: Le logiciel est stable
+          qq_bugs: J'ai eu quelques bugs
+          plein_bugs: J'ai eu plein de bugs
+          instable: C'est beaucoup trop instable
+        required: 1
+        size: 6
+      performances:
+        label: ''
+        element: select
+        options: 
+          '' : '-- PERFORMANCES --'
+          tres_bonnes: C'était super rapide
+          bonnes: C'était rapide 
+          lent: J'ai eu des lenteurs
+          tres_lent: Ça rame à mort
+        required: 1
+        size: 6
+      fonctionnalites:
+        label: ''
+        element: select
+        options: 
+          '' : '-- FONCTIONNALITES --'
+          pertinent: J'ai trouvé tout ce que je voulais !
+          interessant: J'ai trouvé l'essentiel 
+          manque: Il me manque des fonctionnalités
+          rien: Il y a rien de ce que je veux
+        required: 1
+        size: 6
+      interesse:
+        label: ''
+        element: select
+        options: 
+          '' : '-- SUIS-JE INTERESSE ? --'
+          oui: Oui, je veux adopter {C:APP_NAME} !
+          sous_condition: Ça m'intéresse sous condition
+          non_mieux: J'ai déjà un logiciel concurrent
+          non_excel: J'utilise excel ou word et ça me va
+          non: Je n'ai pas besoin de ce logiciel
+        required: 1
+        size: 6
+      autres_impressions:
+        label: ''
+        element: textarea
+        placeholder: Mes impressions en quelques mots...
+        required : 0
+  fonctionnalites:
+    title: Les fonctionnalités existantes
+    options:
+      lettres:
+        label: Lettres et modèles
+        element: select
+        options: 
+          '' : '-- SELECTIONNEZ --'
+          oui: Très utile
+          assez: Assez utile
+          bof: Peu utile
+          non: Inutile
+        required: 0
+        size: 4
+        left:
+          icon: thumbs-o-up 
+        desc: Créer des lettres et des modèles de lettres pour gagner du temps sur les courriers récurrents.
+      resultats:
+        label: Résultats & Statistiques
+        element: select
+        options: 
+          '' : '-- SELECTIONNEZ --'
+          oui: Très utile
+          assez: Assez utile
+          bof: Peu utile
+          non: Inutile
+        required: 0
+        size: 4
+        left:
+          icon: thumbs-o-up 
+        desc: Visualiser la progression de mes ventes avec des chiffres et des graphiques.
+      moteur_recherche:
+        label: Le moteur de recherche
+        element: select
+        options: 
+          '' : '-- SELECTIONNEZ --'
+          oui: Très utile
+          assez: Assez utile
+          bof: Peu utile
+          non: Inutile
+        required: 0
+        size: 4
+        left:
+          icon: thumbs-o-up 
+        desc: Accès direct aux fonctionnalités et aux données en saisissant des mots clés et des commandes (raccourcis).
+      documentation:
+        label: La documentation
+        element: select
+        options: 
+          '' : '-- SELECTIONNEZ --'
+          oui: Très utile
+          assez: Assez utile
+          bof: Peu utile
+          non: Inutile
+        required: 0
+        size: 4
+        left:
+          icon: thumbs-o-up 
+        desc: En savoir plus sur les possibilités de {C:APP_NAME} grâce à la documentation en ligne de l'application.
+      plus_options:
+        label: Le bouton "plus d'options"
+        element: select
+        options: 
+          '' : '-- SELECTIONNEZ --'
+          oui: Très utile
+          assez: Assez utile
+          bof: Peu utile
+          non: Inutile
+        required: 0
+        size: 4
+        left:
+          icon: thumbs-o-up 
+        desc: Bouton permettant de masquer les champs optionnels (en jaune) pour clarifier les formulaires.
+      personnalisation:
+        label: Personnalisation des documents
+        element: select
+        options: 
+          '' : '-- SELECTIONNEZ --'
+          oui: Très utile
+          assez: Assez utile
+          bof: Peu utile
+          non: Inutile
+        required: 0
+        size: 4
+        left:
+          icon: thumbs-o-up 
+        desc: Permettre de personnaliser le haut de page, le bas de page et l'aspect des documents dans les options.
+      interface_adaptive:
+        label: L'interface évolutive
+        element: select
+        options: 
+          '' : '-- SELECTIONNEZ --'
+          oui: Très utile
+          assez: Assez utile
+          bof: Peu utile
+          non: Inutile
+        required: 0
+        size: 4
+        left:
+          icon: thumbs-o-up 
+        desc: Interface élaguée et simplifiée qui s'adapte à mon profil, mon niveau de connaissance et mes besoins.
+      import_export:
+        label: Import / Export
+        element: select
+        options: 
+          '' : '-- SELECTIONNEZ --'
+          oui: Très utile
+          assez: Assez utile
+          bof: Peu utile
+          non: Inutile
+        required: 0
+        size: 4
+        left:
+          icon: thumbs-o-up 
+        desc: Permettre d'importer et exporter mes contacts, produits et documents aux formats CSV, vCard, etc.
+      tickets:
+        label: Gestion de tickets
+        element: select
+        options: 
+          '' : '-- SELECTIONNEZ --'
+          oui: Très utile
+          assez: Assez utile
+          bof: Peu utile
+          non: Inutile
+        required: 0
+        size: 4
+        left:
+          icon: thumbs-o-up 
+        desc: Pouvoir signaler des bugs, proposer des fonctionnalités et suivre les développements de {C:APP_NAME}.
+      remarques_fonctionalites:
+        label: Remarques
+        element: textarea
+        placeholder: Avez-vous des choses à dire à propos des fonctionnalités proposées ?
+        required : 0
+  prevision:
+    title: Les fonctionnalités futures
+    options:
+      expert_comptable:
+        label: Accès expert-comptable
+        element: select
+        options: 
+          '' : '-- SELECTIONNEZ --'
+          oui: Très utile
+          assez: Assez utile
+          bof: Peu utile
+          non: Inutile
+        required: 0
+        size: 3
+        left:
+          icon: thumbs-o-up 
+        desc: Un accès à votre expert comptable pour qu'il puisse consulter les factures, transmettre des données.
+      interface_client:
+        label: Accès client, paiement en ligne
+        element: select
+        options: 
+          '' : '-- SELECTIONNEZ --'
+          oui: Très utile
+          assez: Assez utile
+          bof: Peu utile
+          non: Inutile
+        required: 0
+        size: 3
+        left:
+          icon: thumbs-o-up 
+        desc: Un espace dédié à vos clients pour qu'ils puissent voir leurs factures et payer en ligne (paypal, etc.)
+      appli_mobile:
+        label: Application mobile
+        element: select
+        options: 
+          '' : '-- SELECTIONNEZ --'
+          oui: Très utile
+          assez: Assez utile
+          bof: Peu utile
+          non: Inutile
+        required: 0
+        size: 3
+        left:
+          icon: thumbs-o-up 
+        desc: Une application iOS / Android pour créer des documents offline, faire signer le client en toute mobilité.
+      envoi_postal:
+        label: Envoi par voie postale
+        element: select
+        options: 
+          '' : '-- SELECTIONNEZ --'
+          oui: Très utile
+          assez: Assez utile
+          bof: Peu utile
+          non: Inutile
+        required: 0
+        size: 3
+        left:
+          icon: thumbs-o-up 
+        desc: Impression et envoi par voie postale en un clic (un prestataire s'occupe de l'envoi qui est facturé via un compte prépayé).
+      save_recup:
+        label: Sauvegarde / Récupération
+        element: select
+        options: 
+          '' : '-- SELECTIONNEZ --'
+          oui: Très utile
+          assez: Assez utile
+          bof: Peu utile
+          non: Inutile
+        required: 0
+        size: 3
+        left:
+          icon: thumbs-o-up 
+        desc: Interface permettant de récupérer un état des données parmi l'historique des sauvegardes quotidiennes.
+      form_adm:
+        label: Formulaire administratif auto
+        element: select
+        options: 
+          '' : '-- SELECTIONNEZ --'
+          oui: Très utile
+          assez: Assez utile
+          bof: Peu utile
+          non: Inutile
+        required: 0
+        size: 3
+        left:
+          icon: thumbs-o-up
+        desc: Remplissage minute de formulaires administratifs courants (pré-remplissage des données, génération du pdf).
+      signature_ecran:
+        label: Signature sur écran
+        element: select
+        options: 
+          '' : '-- SELECTIONNEZ --'
+          oui: Très utile
+          assez: Assez utile
+          bof: Peu utile
+          non: Inutile
+        required: 0
+        size: 3
+        left:
+          icon: thumbs-o-up 
+        desc: Signature manuscrite directement sur son smartphone ou sa tablette (écran blanc pour signer avec le doigt).
+      signature_elec:
+        label: Signature électronique
+        element: select
+        options: 
+          '' : '-- SELECTIONNEZ --'
+          oui: Très utile
+          assez: Assez utile
+          bof: Peu utile
+          non: Inutile
+        required: 0
+        size: 3
+        left:
+          icon: thumbs-o-up 
+        desc: Signature de documents avec clients et contacts, {C:APP_NAME} jouant le rôle de tiers de confiance.
+      psy:
+        label: Psychologue / Coach
+        element: select
+        options: 
+          '' : '-- SELECTIONNEZ --'
+          oui: Très utile
+          assez: Assez utile
+          bof: Peu utile
+          non: Inutile
+        required: 0
+        size: 3
+        left:
+          icon: thumbs-o-up 
+        desc: Un mode "coach" qui vous booste et vous soutient avec humanité dans vos démarches administratives. 
+      notes:
+        label: Notes
+        element: select
+        options: 
+          '' : '-- SELECTIONNEZ --'
+          oui: Très utile
+          assez: Assez utile
+          bof: Peu utile
+          non: Inutile
+        required: 0
+        size: 3
+        left:
+          icon: thumbs-o-up 
+        desc: Un outil simple pour prendre rapidement une note + visualisation des notes + recherche.
+      api_rest:
+        label: API REST
+        element: select
+        options: 
+          '' : '-- SELECTIONNEZ --'
+          oui: Très utile
+          assez: Assez utile
+          bof: Peu utile
+          non: Inutile
+        required: 0
+        size: 3
+        left:
+          icon: thumbs-o-up 
+        desc: Une API Rest pour donner la possibilité de connecter SimpleManager à son propre SI ou à son application.
+      optim_metier:
+        label: Optimisation métier
+        element: select
+        options: 
+          '' : '-- SELECTIONNEZ --'
+          oui: Très utile
+          assez: Assez utile
+          bof: Peu utile
+          non: Inutile
+        required: 0
+        size: 3
+        left:
+          icon: thumbs-o-up 
+        desc: Produits, services et paramètres pré-définis pour des métiers spécifiques (bâtiment, etc.).
+      remarques_prevision:
+        label: Voyez-vous autre chose ?
+        element: textarea
+        placeholder: D'autres idées ?
+        required : 0
+  marketing:
+    title: Communication & Marketing
+    options:
+      utile:
+        label: "Je conseille les stratégies suivantes :"
+        desc: Qu'est-ce qui serait le plus efficace selon vous ?
+        element: select
+        multiple: 1
+        options:
+          video: 'Vidéos : webcasts & conseils sur Youtube'
+          ads: Ads Google
+          rezo_sociaux: Buzz sur réseaux sociaux
+          parrainage: 1 mois gratuit pour chaque parrainage
+          salons: Salons & séminaires
+          mailing: Mailing / Publispostage
+          site: Site web vitrine
+          expert_comptable: Partenariat avec experts comptables
+          modules: Module FB / Prestashop
+          goodies: Offrir des goodies
+          petit_dej: Organiser des petit déj.
+          news: Newsletter
+        default: []
+      prix:
+        label: "Et le tarif suivant :"
+        desc: Que seriez-vous prêt à payer pour une prestation de qualité ?
+        element: select
+        options:
+          '': '-- MON JUSTE PRIX --'
+          3: 3€/mois - 30€/an (nombre de documents limité)
+          5: 5€/mois - 50€/an (illimité, historiques limités)
+          8: 8€/mois - 80€/an (illimité)
+          9: 9€/mois - 90€/an (illimité)
+          12: 12€/mois - 120€/an (illimité, avec cloud)
+          gratuit: Gratuit (mais avec pubs et exploitation commerciale de mes données)
+          autre: J'ai une autre idée de tarification...
+        default: []
+        required: 1
+      remarques_marketing:
+        label: Remarques
+        element: textarea
+        placeholder: Mes suggestions pour la communication, le marketing et les partenariats possibles. 
+        required : 0
+  divers:
+    title: Informations complémentaires
+    options:
+      newsletter:
+        label: Inscrivez-moi à la newsletter {C:APP_NAME} s'il vous plaît.
+        element: checkbox
+        default: 0
+      remarques:
+        label: Remarques
+        element: textarea
+        placeholder: Mes impressions et recommendations sur ce produit. 
+        required : 0

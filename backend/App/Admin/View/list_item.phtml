@@ -1,0 +1,29 @@
+<?php
+
+use Osf\Stream\Text;
+
+$logStatus = [
+    'error' => 'danger',
+    'warning' => 'warning',
+    'info' => 'info'
+];
+
+$logIcons = [
+    'error' => 'bomb',
+    'warning' => 'warning',
+    'info' => 'info-circle'
+];
+
+$ipMaxLen = 15;
+$ip = strlen($row['ip']) > $ipMaxLen 
+    ? H::html(Text::crop($row['ip'], $ipMaxLen))->setTooltip($row['ip']) 
+    : H::html($row['ip']);
+
+$cells = [
+    H::icon($logIcons[$row['level']], $logStatus[$row['level']]) . '&nbsp;&nbsp;' . H::html($row['message'], 'span')->addCssClass('text-' . $logStatus[$row['level']]),
+    $row['date_insert'] . ' ' . $row['category'],
+    $ip,
+    '#' . $row['id'] . ($row['id_account'] ? ', compte n°' . $row['id_account'] : '') // . ' ' . H::html($row['firstname'] . ' ' . $row['lastname'])
+];
+
+return H::grid()->auto($cells);

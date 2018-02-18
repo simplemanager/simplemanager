@@ -1,0 +1,65 @@
+<?php 
+
+use Sma\Bean\LetterTemplateBean as LTB;
+use Sma\View\Helper\Crud\CrudConfig;
+use App\Common\Container;
+
+$links = [
+    [
+        'label' => __("Générer un courrier"),
+        'icon' => 'envelope-o',
+        'color' => 'fuchsia',
+        'url' => function ($row) { return H::url('document', 'generate') . '/tpl/' . $row['id']; },
+        'attrs' => [],
+        'filter' => function ($row) { return $row['data_type'] === LTB::DT_RECIPENT; }
+    ],
+    function ($row) { return $row['data_type'] === LTB::DT_RECIPENT; },
+    [
+        'label' => __("Aperçu"),
+        'icon' => 'eye',
+        'url' => '#',
+        'attrs' => function ($row) { return ['onclick' => "$.ajaxCall('" . H::url('document', 'template', ['view' => $row['id'], 'detail' => 1]) . "','#mview');"]; }
+    ],
+    [
+        'label' => __("Dupliquer"),
+        'icon' => 'clone',
+        'url' => function ($row) { return H::url('document', 'template') . '/from/' . $row['id']; },
+        'attrs' => []
+    ],
+    function ($row) { return ACL::isAdmin() || $row['category'] === 'mine'; },
+    [
+        'label' => __("Modifier"),
+        'icon' => 'pencil',
+        'url' => function ($row) { return H::url('document', 'template') . '/id/' . $row['id']; },
+        'attrs' => [],
+        'css' => ['crud-mod'],
+        'filter' => function ($row) { return ACL::isAdmin() || $row['category'] === 'mine'; },
+    ],
+];
+
+$config = (new CrudConfig())
+    ->setRefresh((bool) Container::getRequest()->getParam('tp'))
+    ->setMsg('title'  , __("Mes Modèles"))
+    ->setMsg('noitem' , __("Aucun modèle disponible."))
+    ->setMsg('add'    , __("Créer un modèle"))
+    ->setMsg('del'    , __("Supprimer"))
+    ->setMsg('deldesc', __("Cette action supprimera définitivement un modèle."))
+    ->setDelCallback(function ($row) { return ACL::isAdmin() || $row['category'] === 'mine'; })
+    ->setLinkAdd(H::url('document', 'template'))
+    ->setLinks($links)
+    ->setIcon('envelope', 'fuchsia')
+    ->setItemTemplate(__DIR__ . '/list_item_template.phtml')
+    ->setLinkPattern('/document/tpldetail/id/[key]')
+    ->setActionDelete('deletetpl')
+    ->setCallbackMode();
+
+// Affichage des boutons si on est pas dans une requête AJAX
+if (!$config->isRefresh()) {
+    echo H::html('', 'div')->setAttribute('id', 'mview');
+    
+    // Menu
+    include __DIR__ . '/_menu_main.phtml';
+}
+
+// Affichage du tableau CRUD
+echo H::crud($config);

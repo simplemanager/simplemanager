@@ -1,0 +1,102 @@
+<?php 
+
+use Osf\Stream\Text as T;
+use Sma\Bean\LetterTemplateBean as LTB;
+use Sma\Db\LetterTemplateTable as LTT;
+use Sma\Session\Identity as I;
+use Sma\Bean\ContactBean;
+use Sma\Log;
+use App\Document\Model\LetterTemplate\LetterTemplateManager as LTM;
+use App\Common\Container;
+
+if (!LTM::isActive()) {}
+
+else if (!H::get('tpl')) {
+    echo H::msg(__("Vous n'avez pas accès à ce modèle."), 'warning');
+    echo Log::hack(__("Tentative d'accès à un modèle qui ne lui appartient pas."));
+}
+
+else {
+    
+    // Données
+    /* @var $bean \Sma\Bean\LetterBean */
+    $tpl = H::get('tpl');
+    $bean = unserialize($tpl['bean']);
+    $catLabels = LTM::getCategoryLabels();
+    $decoration = LTT::getCategoryDecorations($tpl['category']);
+    $categName = isset($catLabels[$tpl['category']]) ? $catLabels[$tpl['category']] : $tpl['category'];
+    $dtopt = LTM::getDataTypeOptions();
+    $dataBean = LTM::buildDataTypeBean($tpl['data_type'], true);
+    $bean->setProvider(ContactBean::buildContactBeanFromContactId(I::getIdContact()));
+    $letterBean = LTM::render($bean, $dataBean);
+    $isRecipient = $tpl['data_type'] === LTB::DT_RECIPENT;
+
+    $filters = null;
+    if ($isRecipient && I::isLevelExpert()) {
+        $filters = explode(',', $tpl['data_type_filters']);
+        array_walk($filters, function (&$item) { $item = $item ? LTM::getDataFiltersOptions()[$item] : ''; });
+        $filters = implode(', ', $filters);
+        if ($filters && $isRecipient) {
+            $filters .= ' ' . H::html(__("(non applicable pour un contact)"))->addCssClass('text-orange');
+        }
+        $filters = $filters ?: __("aucune");
+    }
+
+    // Menu
+    $view = "$.ajaxCall('" . H::url('document', 'template', ['view' => $tpl['id'], 'detail' => '1']) . "','#mview');";
+    echo H::html('', 'div')->setAttribute('id', 'mview');
+    if ($decoration['writable']) {
+        echo H::linkApp(__("Modifier"))->url(H::url('document', 'template', ['id' => $tpl['id']]))->icon('edit');
+    }
+    echo $isRecipient ? H::linkApp(__("Générer"))->url(H::url('document', 'generate', ['tpl' => $tpl['id']]))->icon('envelope-o', 'fuchsia') : '';
+    echo H::linkApp(__("Dupliquer"))->url(H::url('document', 'template', ['from' => $tpl['id']]))->icon('clone');
+    echo H::linkApp(__("Aperçu"))->url('#')->icon('eye')->setAttribute('onclick', $view);
+    echo H::linkApp(__("Modèles"))->url(H::url('document', 'templates'))->icon('list-ul');
+    
+    
+//    echo H::linkApp(__("Aperçu"), 'document', 'letter', ['recipient' => $id])->icon('envelope-o')->setTooltip(I::isLevelBeginner() ? __("Créer une lettre avec ce contact comme destinataire") : null, 'bottom');
+//    echo H::linkApp(__("+ Devis"), 'invoice', 'edit', ['type' => IC::QUOTE, 'recipient' => $id])->icon('file-o')->setTooltip(I::isLevelBeginner() ? __("Créer un devis avec ce contact comme destinataire") : null, 'bottom');
+//    echo H::linkApp(__("+ Cmd."), 'invoice', 'edit', ['type' => IC::ORDER, 'recipient' => $id])->icon('file-text-o')->setTooltip(I::isLevelBeginner() ? __("Créer une commande avec ce contact comme destinataire") : null, 'bottom');
+//    echo H::linkApp(__("+ Fact."), 'invoice', 'edit', ['type' => IC::INVOICE, 'recipient' => $id])->icon('file-text')->setTooltip(I::isLevelBeginner() ? __("Créer une facture avec ce contact comme destinataire") : null, 'bottom');
+
+    $dtIcons = LTM::getDataTypeIcons();
+    $helpKey = 'form-template-type-' . ($isRecipient ? 'user' : 'doc');
+    $dtIcon = H::icon($dtIcons[$tpl['data_type']], null, $isRecipient ? 'green' : 'yellow');
+    
+    // Description
+    $desc = [
+        __("Nom")           => H::html($tpl['title']),
+        __("Description")   => H::html($tpl['description']),
+        __("Catégorie")     => H::html($categName)->addCssClasses(['label', 'label-' . $decoration['level']]),
+        __("Données cible") => T::toLower($dtopt[$tpl['data_type']]) . '&nbsp;&nbsp;' . $dtIcon . '&nbsp;&nbsp;' . H::help($helpKey),
+        __("Optimisé pour") => T::toLower(LTM::getTargetTypeOptions()[$tpl['target_type']]),
+        __("Modifiable")    => ($decoration['writable'] 
+                ? H::html('oui')->addCssClasses(['label', 'label-success'])
+                : H::html('non')->addCssClasses(['label', 'label-danger']) . '<br />Ce document ne vous appartient pas, vous pouvez cependant le dupliquer.'
+            ),
+    ];
+    if ($filters) {
+        $desc[__("Filtres")] = $filters;
+    }
+    $list = H::htmlList();
+    foreach ($desc as $label => $value) {
+        $list->addItem(H::html($label, 'strong') . '&nbsp;: ' . $value);
+    }
+    
+    // Ecriture
+    $accordion = H::accordion();
+    $lib = function (array $libs) {
+        $html = '';
+        foreach ($libs as $label => $value) {
+            if (!$label || !$value) { continue; }
+            $html .= '<li><strong>' . htmlspecialchars($label) . '</strong> ';
+            $html .= htmlspecialchars($value) . '</li>';
+        }
+        return $html ? '<ul>' . $html . '</ul>' : '';
+    };
+    $accordion
+            ->addPanel(H::panel(__("Description"), (string) $list))
+            ->addPanel(H::panel(__("Source"), $lib($bean->getLibs()) . nl2br(htmlspecialchars($bean->getBody()))))
+            ->addPanel(H::panel(__("Exemple"), $lib($letterBean->getLibs()) . Container::getMarkdown()->text(htmlspecialchars($letterBean->getBody()))));
+    echo $accordion->openAllItems();
+}

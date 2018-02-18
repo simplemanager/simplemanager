@@ -1,0 +1,43 @@
+##
+## account
+##
+
+app:
+  title: 
+    short: Mon profil
+    medium: Gérer mon compte
+    long: Gestion de mon compte et de mes infos
+  description: 
+    hook: Complétez votre profil et limitez les redondances de saisies
+    resume: Pré-remplissez les informations administratives afin de 
+            gagner du temps et d'avoir toutes vos informations à portée 
+            de main. {C:APP_NAME} respecte votre vie privée, vos 
+            informations vous appartiennent à 100%.
+  meta: 
+    category: Core
+    icon: user
+    color: red
+    index: 500
+    status: ALPHA
+    required: 1
+    dependencies: []
+  pages:
+    - title: Ma société
+      params:
+        action: company
+      level: 12
+      keywords: logo options
+    - title: Mon compte
+      params:
+        action: login
+      level: 12
+      keywords: options
+    - title: Mes paramètres
+      params:
+        action: features
+      level: 12
+      keywords: options configuration couleur 
+    - title: Logo (modifier)
+      params:
+        action: company
+      level: 12

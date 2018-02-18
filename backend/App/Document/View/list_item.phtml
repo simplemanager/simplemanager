@@ -1,0 +1,28 @@
+<?php
+
+use Osf\Stream\Text;
+use Sma\Container;
+
+$icon = H::iconCached('file-pdf-o') . '&nbsp;';
+$descIcon = H::iconCached('user-circle-o') . '&nbsp;&nbsp;';
+$dateIcon = H::iconCached('calendar-o') . '&nbsp;&nbsp;';
+
+$title = $row['subject'] ?: __("Document sans nom");
+$desc = $row['description'];
+$dateInsert = Text::formatDateTime(new DateTime($row['date_insert']));
+//$dateUpdate = Text::formatDateTime(new DateTime($row['date_update']));
+
+$gridRow = [
+    $icon . '&nbsp;' . H::html($title)->mobileCrop(25),
+    $descIcon . H::html($desc)->mobileCrop(25)
+];
+
+if (!Container::getDevice()->isMobile()) {
+//    $gridRow[] = H::html($desc)->mobileExclude();
+    $gridRow[] = H::html($dateIcon . $dateInsert)->escape(false)->mobileExclude();
+}
+
+$rowCount = count($gridRow);
+return ($rowCount === 1 ? $gridRow[0] : H::grid()->auto($gridRow, $rowCount))
+    . '</td><td nowrap style="width: 10px" class="text-right">'
+    . H::statusLabel((int) $row['id'], $row['status'], $row['type'], H::url('document', 'chst'));

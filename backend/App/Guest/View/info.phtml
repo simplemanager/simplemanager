@@ -1,0 +1,18 @@
+<?php 
+
+use App\Guest\Controller as GuestController;
+
+$msg = '';
+if (GuestController::getContactBean()->hasWarning()) {
+    $warns = [];
+    foreach (GuestController::getContactBean()->getWarnings() as $warn) {
+        $warns[] = $warn['title'];
+    }
+    $msg = (string) H::alert(
+            __("Completez votre profil"), 
+            H::htmlList()->addItems($warns))->statusWarning();
+}
+
+if (H::has('form')) {
+    echo H::form(H::get('form')->setHtmlBefore($msg));
+}

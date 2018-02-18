@@ -1,0 +1,23 @@
+<?php 
+
+use Sma\Session\Identity;
+
+if (H::has('form') && !H::get('posted') && Identity::isLevelBeginner()) {
+    echo H::alert(__("Avertissement"), 
+            sprintf(__("Votre niveau d'utilisation dans les préférences est 'Facile'. Vous risquez de trouver le formulaire de création de modèles un peu technique. Avant de vous lancer dans la création de modèles, vous devriez vous familiariser avec les fonctionnalités de %s, régler votre niveau d'utilisation sur 'Normal' et lire la documentation sur les modèles de lettres."), APP_NAME),
+            'warning');
+}
+
+if (H::has('form')) {
+    echo H::get('form');
+}
+
+if (H::get('preview')) {
+    $docUrl = '/document/template/render/letter.pdf';
+    include __DIR__ . '/_doc_preview.phtml';
+}
+
+if (!H::get('posted')) {
+    echo H::html(H::link(__("Annuler et afficher la liste"), 'document', 'templates'), 'div')->escape(false)->addCssClass('text-center');
+}
+

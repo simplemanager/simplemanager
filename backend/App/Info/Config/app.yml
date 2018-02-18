@@ -1,0 +1,22 @@
+##
+## info
+##
+
+app:
+    title: 
+        short: Informations
+        medium: Infos & Actus
+        long: Informations & actualités
+    description: 
+        hook: Restez informé pour être dans le coup et ne rien oublier
+        resume: Choisissez vos thèmes et souscriptions, recevez l'actualité
+                et des conseils avisés sur votre métier, votre situation et 
+                vos démarches (déménagement, impots, voyage...)
+    meta: 
+        category: Information
+        icon: newspaper-o
+        color: blue
+        index: 800
+        status: ALPHA
+        required: 1
+        dependencies: []

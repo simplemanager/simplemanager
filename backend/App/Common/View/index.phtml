@@ -1,0 +1,79 @@
+<?php 
+
+use Sma\Session\Identity;
+use App\Invoice\Controller as IC;
+use Sma\Bean\InvoiceBean as IB;
+
+if (Identity::isLogged() && !Identity::getIdCompany()) {
+    H::layout()->setPageTitle(sprintf(__("Bienvenue %s"), Identity::get('firstname')));
+    echo H::callout(__("Pour commencer"), sprintf(__("Nous vous invitons à %s afin de gagner du temps sur vos démarches."), H::link(__("compléter votre profil"), 'account', 'company')))->statusInfo();
+} else if (Identity::isLogged()) {
+    H::layout()->setPageTitle(sprintf(__("Bonjour %s !"), Identity::get('firstname'))); 
+} else {
+    H::layout()->setPageTitle(sprintf(__("Bienvenue sur %s"), APP_NAME)); 
+}
+
+//echo H::box(__("Projet en pause"))
+//    ->statusWarning()
+//    ->expandable()
+//    ->icon('info')
+//    ->setContent(sprintf(__("Les développements sur %s sont à l'arrêt pour l'instant. Pour plus d'information, consultez notre <a href='https://blog.simplemanager.org' target='_blank'>blog</a>."), APP_NAME));
+
+if (Identity::isLogged()) {
+
+//    $cells[] = (string) H::button(__("Devis"),    H::url('invoice', 'edit', ['type' => IC::QUOTE]))->sizeHuge()->statusInfo()->block()->addCssClass('margin-bottom');
+//    $cells[] = (string) H::button(__("Commande"), H::url('invoice', 'edit', ['type' => IC::ORDER]))->sizeHuge()->statusInfo()->block()->addCssClass('margin-bottom');
+//    $cells[] = (string) H::button(__("Facture"),  H::url('invoice', 'edit', ['type' => IC::INVOICE]))->sizeHuge()->statusInfo()->block()->addCssClass('margin-bottom');
+//    $cells[] = (string) H::button(__("Lett    re"), H::url('document', 'letter'))->sizeHuge()->statusInfo()->block()->addCssClass('margin-bottom');
+    //echo H::smallBox(sprintf(__("Découvrez %s"), APP_NAME), 'En 10 minutes chrono !', L::ICON_HELP, L::COLOR_GREEN, 'allons-y', H::url('info', 'book'), 'login');
+    //echo H::infoBox('Votre profil', 'complétez vos infos', L::ICON_USER, L::COLOR_RED, 30, 'complet à 30%');
+
+    // echo H::callout(sprintf(__("C'est quoi ce %s en haut à droite&nbsp;?"), H::iconCached('comments')), sprintf(__("Eh bien, c'est pour poster une idée ou un commentaire, car sur %s, votre avis est important."), APP_NAME))->statusInfo()->disableEscape();
+    
+    $cells[] = (string) H::box('Gérer')->coloredTitleBox()->statusInfo()->collapsable()->addNav(H::nav(true)
+            ->addLink(__("Contacts"),    H::url('recipient'), false, false, 'user-o', 'blue' /*'fuchsia'*/)
+            ->addLink(__("Produits"),    H::url('product'),   false, false, 'shopping-basket', 'blue' /*'purple'*/)
+            ->addLink(__("Facturation"), H::url('invoice'),   false, false, 'dollar', 'blue')
+            ->addLink(__("Lettres"),     H::url('document'),  false, false, 'files-o', 'blue' /*'teal'*/));
+    $cells[] = (string) H::box('Créer')->coloredTitleBox()->statusInfo()->collapsable()->addNav(H::nav(true)
+            ->addLink(__("+ Facture"),  H::url('invoice', 'edit', ['type' => IC::INVOICE]), false, false, IB::getIconFromType(IB::TYPE_INVOICE), IB::getColorFromType(IB::TYPE_INVOICE))
+            ->addLink(__("+ Commande"), H::url('invoice', 'edit', ['type' => IC::ORDER]),   false, false, IB::getIconFromType(IB::TYPE_ORDER)  , IB::getColorFromType(IB::TYPE_ORDER))
+            ->addLink(__("+ Devis"),    H::url('invoice', 'edit', ['type' => IC::QUOTE]),   false, false, IB::getIconFromType(IB::TYPE_QUOTE)  , IB::getColorFromType(IB::TYPE_QUOTE))
+            ->addLink(__("+ Lettre"),   H::url('document', 'letter'), false, false, 'envelope-o', 'blue' /*'teal'*/));
+//    $cells[] = (string) H::box('Consulter')->coloredTitleBox()->statusInfo()->collapsable()->addNav(H::nav(true)
+//            ->addLink(__("Résultats"), H::url('board', 'results'), false, false, 'line-chart')
+//            ->addLink(__("Alertes"),   H::url('board', 'alerts'), false, false, 'bell-o')
+//            ->addLink(__("Stats"),     H::url('board', 'stats'), false, false, 'bar-chart')
+//            ->addLink(__("Aide"),      H::url('info', 'faq'), false, false, 'question-circle-o'));
+    $cells[] = (string) H::box('Régler')->coloredTitleBox()->statusInfo()->collapsable()->addNav(H::nav(true)
+            ->addLink(__("Compte"),         H::url('account', 'login'), false, false, 'user', 'blue')
+            ->addLink(__("Société"),        H::url('account', 'company'), false, false, 'industry', 'blue')
+            ->addLink(__("Paramètres"),     H::url('account', 'features'), false, false, 'sliders', 'blue')
+            ->addLink(__("Tickets (bugs)"), H::url('ticket', 'list'), false, false, 'ticket', 'orange'));
+    echo H::grid()->auto($cells, 3);
+}
+
+// Page d'accueil, non loggué
+else {
+//    echo H::alert(__("Projet en développement"), __("SimpleManager est en cours de conception. Vous pouvez néammoins l'essayer gratuitement. D'ici le lancement, l'intégrité de vos données n'est pas assurée."))->statusWarning();
+    echo H::grid()->beginRow()->beginCell3();
+    echo H::get('form');
+    echo H::button(H::html(__("Mot de passe oublié"), 'small'), H::url('account', 'password'))
+            ->block()->sizeLarge()->addCssClass('margin-bottom');
+    echo H::button(H::html(__("Créer un compte"), 'strong'), H::url('account', 'registration'))
+            ->sizeLarge()->block()->statusSuccess()->addCssClass('margin-bottom');
+    echo H::grid()->endCell()->beginCellRest();
+    $panel = H::panel(__('Débarrassez-vous de la paperasse'))
+             ->icon('hand-o-right')->statusInfo()->start(); 
+    echo H::html(sprintf(__("Simplifiez-vous la vie, adoptez %s, un collaborateur fiable !"), APP_NAME), 'p');
+    ?>
+<ul>
+  <li><strong><?php echo H::html(__("Inspirez confiance"), 'strong'); ?></strong><br /><?= H::html("en produisant de beaux documents qui respirent le professionnalisme."); ?><br />&nbsp;</li>
+  <li><strong><?php echo H::html(__("Ne perdez plus de temps"), 'strong'); ?></strong><br /><?= H::html("en rédaction, mise en page et saisie de données redondantes."); ?><br />&nbsp;</li>
+  <li><strong><?php echo H::html(__("Ne faites plus d'erreurs"), 'strong'); ?></strong><br /><?= H::html("grâce aux contrôles automatiques garants de la cohérence des données."); ?><br />&nbsp;</li>
+  <li><strong><?php echo H::html(__("En toute confidentialité"), 'strong'); ?></strong><br /><?= H::html(sprintf("vos données sont placées en lieu sûr, %s ne les vendra jamais.", APP_NAME)); ?></li>
+</ul>
+<?php 
+    echo $panel;
+    echo H::grid()->endCell()->endRow();
+}

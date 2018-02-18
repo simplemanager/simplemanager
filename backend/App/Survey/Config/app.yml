@@ -1,0 +1,20 @@
+##
+## document
+##
+
+app:
+    title: 
+        short: Sondage
+        medium: Sondage du moment
+        long: Sondage du moment
+    description: 
+        hook: 
+        resume: ""
+    meta: 
+        category: Core
+        icon: check-square-o
+        color: orange
+        index: 2200
+        status: ALPHA
+        required: 0
+        dependencies: []

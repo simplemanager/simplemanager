@@ -1,0 +1,23 @@
+<?php
+
+use Sma\Session\Identity;
+
+H::get('menu') && include __DIR__ . '/_menu_begin.phtml';
+
+// Info débutant
+if (H::get('menu') && Identity::isLevelBeginner()) {
+    H::layout()->addAlert(__("Personnalisez vos paramètres..."), __("...pour qu'ils répondent à vos besoins. Les sections [Société] et [Produits] sont importantes, les autres paramètres peuvent être laissés par défaut.")
+            . ' ' . sprintf(__("Quand vous connaîtrez bien %s, vous n'aurez plus besoin de messages de conseils. Modifiez [Interface] -> [Niveau de difficulté] pour adapter %s à votre niveau."), APP_NAME, APP_NAME), 'info');
+}
+
+// Pas de civilité, proposer de la remplir
+if (!H::get('menu') && !Identity::get('civilityalert') && Identity::get('contact', 'civility') === null) {
+    echo H::alert(null, sprintf(__("Vous n'avez pas encore de civilité. %s, ça sera rapide."), H::link(__("Complétez votre compte"), 'account', 'edit', ['my' => 'profile'])), 'info');
+    Identity::set('civilityalert', 1);
+} else if (H::get('menu')) {
+    Identity::set('civilityalert', 0);
+}
+
+echo H::form(H::get('form'))->render();
+
+H::get('menu') && include __DIR__ . '/_menu_end.phtml';

@@ -1,0 +1,14 @@
+<?php if (!isset($docUrl) || !is_string($docUrl)) { echo __("Requête invalide"); exit; } ?>
+<div id="fullwin" style="display: none; position: absolute;width: 100%; height: 100%; left: 0; top: 0; z-index: 99999; background: black;"><?php echo H::button(__("Retour"))->icon('caret-left')->flat()->sizeLarge()->setAttribute('style', 'width: 100%; background: #111; border: 0;color: #fff;font-weight: 600;')->setAttribute('onclick', '$(this).parent().hide();'); ?><i style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);" class="fa fa-hourglass-half"></i></div>
+<script>
+//$('#showpdf').on('click',function(e){
+//    e.preventDefault();
+var currentState = history.state;
+history.pushState(currentState, 'edit');
+$('#fullwin').show();window.scrollTo(0,0);
+$('#fullwin > i').replaceWith('<iframe id="icontainer" style="width: 100%; height: 100%; border: 0;" src="/pdfjs/web/viewer.html?file=<?php echo $docUrl; ?>"></iframe>');
+//});
+window.onpopstate = function(e) {
+  $('#fullwin').hide();
+};
+</script>

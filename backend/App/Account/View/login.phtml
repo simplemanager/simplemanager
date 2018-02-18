@@ -1,0 +1,98 @@
+<?php 
+
+use Osf\View\Table;
+use Osf\Stream\Text as T;
+use Osf\View\Helper\Bootstrap\Grid;
+use Sma\Db\DbRegistry;
+use Sma\Session\Identity;
+
+if (!H::get('redirect')) {
+
+    // A PARAMETRER
+    $privateData = H::get('privateData');
+
+    H::layout()
+            ->setPageTitle(Identity::isLogged() 
+                    ? __("Mon compte")
+                    : __("Connexion"))
+            ->addBreadcrumbLink(Identity::isLogged()
+                    ? __("Compte")
+                    : __("Identification"), H::url('account', 'login'));
+
+    H::get('menu') && include __DIR__ . '/_menu_begin.phtml';
+
+    if (H::has('form')) {
+    
+        $content = H::get('form');
+        if (!H::get('form')->isPosted()) {
+            $content .= H::button(H::html(__("Créer un compte"), 'strong'), H::url('account', 'registration'))
+                    ->sizeLarge()->block()->statusSuccess()->addCssClass('margin-bottom');
+            $content .= H::button(H::html(__("Mot de passe oublié"), 'small'), H::url('account', 'password'))
+                    ->block()->sizeLarge()->addCssClass('margin-bottom');
+//            $content .= H::html(H::link(__("Créer un compte"), 'account', 'registration'), 'p')->escape(false)->addCssClass('text-center');
+        }
+        echo H::html($content, 'div', ['class' => 'center-block', 'style' => 'max-width: 500px'], false);
+    } 
+    
+    
+    else if (Identity::isLogged()) {
+
+        if (!H::get('menu') && !DbRegistry::hasContact()) {
+            echo H::alert(__("Parfait"), sprintf(__("Maintenant, pour créer des documents, vous aurez besoin d'au moins un client. Commencer par %s serait une bonne idée."), H::link(__("ajouter des contacts"), 'recipient', 'list')), 'info');
+        }
+        
+        $i = Identity::getAll();
+
+        $address = trim(nl2br(H::html($i['contact']['address'] . "\n" . $i['contact']['postal_code'] . ' ' . $i['contact']['city'] . "\n" . $i['contact']['country'])));
+        $data = [
+            [__("Civilité"), (string) H::html($i['contact']['civility'])],
+            [__("Nom"),      (string) H::html($i['lastname'])],
+            [__("Prénom"),   (string) H::html($i['firstname'])],
+            [__("E-mail"),   (string) H::html($i['email'])],
+            [__("Fonction"), (string) H::html($i['contact']['function'])],
+            [__("Mobile"),   (string) H::html(T::phoneFormat((string) $i['contact']['gsm']))]
+        ];
+        if ($privateData) {
+            $data = array_merge($data, [
+                [__("Tél."), (string) H::html($i['contact']['tel'])],
+                [__("Fax."), (string) H::html($i['contact']['fax'])],
+                [__("Adresse"), $address]
+            ]);
+        }
+        $dataTable = new Table($data);
+        $dataTable->setFieldParams([
+            0 => [
+                Table::FP_CSS     => 'text-right',
+                Table::FP_STYLE   => 'font-weight: 600;',
+                Table::FP_PATTERN => '%s&nbsp;:',
+                Table::FP_WIDTH   => '30%'
+            ]
+        ]);
+
+        $g = new Grid();
+        $tab = H::table($dataTable);
+        echo H::box(__("Mon compte"))->icon('user')->addBadgePercentage(Identity::getCompletion(Identity::SECTION_CONTACT))
+                ->addTable($tab
+                ->addActionButton((string) H::button()->icon('pencil')->marginLeft()
+                    ->url(H::url('account', 'edit', ['my' => 'profile']), 
+                          $tab->getBoxId())->setTooltip(__("Modifier")))
+                ->addActionButton((string) H::button()->icon('at')->marginLeft()
+                    ->url(H::url('account', 'edit', ['my' => 'email']), 
+                          $tab->getBoxId())->setTooltip(__("Changer d'email")))
+                ->addActionButton((string) H::button()->icon('key')->marginLeft()
+                    ->url(H::url('account', 'edit', ['my' => 'pass']), 
+                          $tab->getBoxId())->setTooltip(__("Changer mon mot de passe")))
+                ->addActionButton((string) H::button()->icon('sort-numeric-asc')->marginLeft()
+                    ->url(H::url('account', 'edit', ['my' => 'sequences']),
+                          $tab->getBoxId())->setTooltip(__("Modifier les séquences (numérotation automatique des factures)"))))
+                // Niveau débutant
+                ->setPrepend(H::get('menu') && Identity::isLevelBeginner() ? H::alert(null, __("Modifiez votre compte, changez d'e-mail ou de mot de passe avec les boutons en bas à droite."), 'info') : null);
+    }
+
+    H::get('menu') && include __DIR__ . '/_menu_end.phtml';    
+} 
+
+// redirect
+else {
+    echo H::load() . '<br />';
+}

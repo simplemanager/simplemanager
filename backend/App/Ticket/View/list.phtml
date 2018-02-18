@@ -1,0 +1,59 @@
+<?php 
+
+use Sma\Container;
+
+//H::layout()->addAlert(__("Un ticket c'est quoi ?"), __("Tout simplement une demande faite à l'équipe de développement, que ce soit une correction ou une amélioration."), 'info');
+
+$tickets  = H::get('tickets');
+$types    = DB::getTicketTable()->getTypes();
+$statuses = DB::getTicketTable()->getStatuses();
+$isAdmin  = ACL::isAdmin();
+
+$jsFile = /*Application::isDevelopment() ? __DIR__ . '/list.js' :*/ __DIR__ . '/list.min.js';
+Container::getJsonRequest()->appendScripts(file_get_contents($jsFile));
+
+$bugs  = '<table class="table table-hover">';
+    $bugs .= '<thead><tr>'
+           . '<th style="width: 50px">Id</th>'
+           . '<th style="width: 10px">&nbsp;</th>'
+           . '<th>Intitulé</th>'
+           . '<th style="text-align:right" class="hidden-xs">Mise à jour</th>'
+           . '<th style="width:150px;text-align:center">Progression</th>'
+           . '<th style="width:60px">Votes</th>'
+           . '<th style="width:20px;text-align:right">&nbsp;</th>'
+           . '</tr></thead><tbody>';
+foreach ($tickets as $ticket) {
+    $status = H::html($statuses[$ticket['status']]['label'], 'span')->addCssClasses(['label', 'label-' . $statuses[$ticket['status']]['status']]);
+    $actions = [clone H::icon('eye', 'info')->setTooltip(__("Détail"), 'left')->appendStyle('cursor: pointer')->url(H::url('ticket', 'detail', ['id' => $ticket['id']]))];
+    $starStyle = ($ticket['voted'] ? 'color:orange' : 'color:gray') . ';cursor:pointer';
+    $starLabel = $ticket['voted'] ? __("Supprimer le vote") : __("Voter");
+    $star = clone H::icon('star')
+            ->appendStyle($starStyle)
+            ->setTooltip($starLabel, 'left')
+            ->setAttribute('id', 'st' . $ticket['id'])
+            ->setAttribute('onclick', "clickStar(" . $ticket['id'] . "," . (int) ! (bool) $ticket['voted'] . ");");
+    $type = $types[$ticket['category']];
+    if ($isAdmin) {
+        $actions[] = clone H::icon('pencil', 'info')->padding(6)->appendStyle('cursor: pointer')->url(H::url('ticket', 'edit', ['id' => $ticket['id']]));
+    }
+    $trdecoration = $ticket['visibility'] !== 'public' ? ' style="background: #ffffcc"' : '';
+    $bugs .= '<tr' . $trdecoration . '>'
+           . '<td onclick="dispTick(' . $ticket['id'] . ');" class="clickable">#' . $ticket['id'] . '</td>'
+           . '<td onclick="dispTick(' . $ticket['id'] . ');" class="clickable">' . H::icon($type['icon'], $type['status'])->setTooltip($type['label'], 'right') . '</td>'
+           . '<td onclick="dispTick(' . $ticket['id'] . ');" class="clickable">' . H::html($ticket['title'])->addCssClass('text-' . $type['status']) . '</td>'
+           . '<td onclick="dispTick(' . $ticket['id'] . ');" class="clickable hidden-xs" style="text-align:right">' . preg_replace('/^([0-9]+)\-([0-9]+)\-([0-9]+).*$/', '$3/$2/$1', $ticket['date_update']) . '</td>'
+           . '<td onclick="dispTick(' . $ticket['id'] . ');" class="clickable" style="text-align:center">' . $status . '</td>'
+           . '<td>' . $star . '&nbsp;' . H::html((int) $ticket['poll_count'], 'span')->setAttribute('id', 'stv' . $ticket['id']) . '</td>'
+           . '<td nowrap style="text-align:right">' . implode('&nbsp;', $actions) . '&nbsp;</td>'
+           . '</tr>';
+}
+$bugs .= '</tbody></table>';
+
+echo H::form(H::get('formFilter'))->setTargetDefault();
+
+echo H::box(H::html(__("Liste des tickets"))->escape(false), $bugs)
+        ->setContentHtmlTable()
+       // ->coloredTitleBox()
+        ->icon('ticket');
+
+echo H::html(H::link(__("ouvrir un ticket"), 'ticket', 'add'), 'div')->escape(false)->addCssClass('text-center');

@@ -1,0 +1,31 @@
+---
+config: 
+    priority: 42
+adm:
+  label: Administration
+  icon: sliders
+  color: yellow
+  params:
+    controller: admin
+  items:
+    ah:
+      label: Liste des comptes
+      params:
+        action: board
+#    aap:
+#      label: Applications
+#      params:
+#        action: apps
+    log:
+      label: Journaux
+      params:
+        action: logs
+    act:
+      label: Actions
+      params:
+        action: actions
+    sec:
+      label: Sécurité
+      params: 
+        action: security
+...

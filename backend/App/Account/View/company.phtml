@@ -1,0 +1,73 @@
+<?php 
+
+use Osf\View\Table;
+use Sma\Session\Identity;
+use Osf\Stream\Text as T;
+use Osf\View\Helper\Bootstrap\Grid;
+
+H::get('menu') && include __DIR__ . '/_menu_begin.phtml';
+
+// Mes informations ne sont pas encore entrées
+if (H::get('menu') && H::get('form') && Identity::isLevelBeginner() && !Identity::getIdCompany()) {
+    H::layout()->addAlert(sprintf(__("Bonjour %s !"), Identity::get('firstname')), __("Pour commencer, complétez votre profil en spécifiant au minimum votre statut juridique."), 'info');
+}
+
+// Si c'est la première fois que je remplis ce formulaire...
+if (H::get('first_time')) {
+    echo H::alert(sprintf(__("Fantastique !")), sprintf(__("Nous en savons déjà un peu plus sur vous. Si vous avez encore une minute, ajoutez un logo ci-dessous et %s afin d'avoir une interface %s optimale."), H::link(__("remplissez vos paramètres"), 'account', 'features'), APP_NAME))->disableEscape()->statusSuccess();
+}
+
+if (H::get('form')) {
+    echo H::form(H::get('form'));
+}
+
+if (H::get('company')) {
+
+    $c = H::get('company');
+    $a = $c['address'];
+    
+    $address = trim(nl2br(H::html($a['address'] . "\n" . $a['postal_code'] . ' ' . $a['city'] . "\n" . T::toUpper($a['country']))));
+    $logo = include __DIR__ . '/_logo.phtml';
+    $statusTitles = \Sma\Db\CompanyTable::STATUS_TITLES_SHORT;
+    $legalStatus = isset($statusTitles[$c['legal_status']]) ? $statusTitles[$c['legal_status']] : $c['legal_status'];
+    $data = [
+        [__("Logo"),     $logo],
+        [__("Type"),     (string) H::html($legalStatus)],
+        [__("Nom"),      (string) H::html($c['title'])],
+        [__("Couleur"),  (string) H::htmlCached('logo_div', '', 'div', ['style' => 'display: inline-block; width: 20px; height: 20px; vertical-align: sub;', 'id' => 'icolor']) 
+                       . (string) H::html(__("extraite du logo"), 'span', ['id' => 'tcolor', 'style' => 'padding: 3px 0 0 5px'])],
+        [__("Slogan"),   (string) H::html($c['description'])],
+        [__("Adresse"),  $address],
+        [__("E-mail"),   (string) H::html($c['email'])],
+        [__("Tél."),     (string) H::html(T::phoneFormat($c['tel']))],
+        [__("Fax."),     (string) H::html(T::phoneFormat($c['fax']))],
+        [__("Url"),      (string) H::html($c['url'], 'a')->setAttribute('href', $c['url'])->setAttribute('target', '_blank')],
+       // [__("Fonction"), (string) H::html($i['contact']['function'])],
+    ];
+    $dataTable = new Table($data);
+    $dataTable->setFieldParams([
+        0 => [
+            Table::FP_CSS     => 'text-right',
+            Table::FP_STYLE   => 'font-weight: 600;',
+            Table::FP_PATTERN => '%s&nbsp;:',
+            Table::FP_WIDTH   => '30%'
+        ]
+    ]);
+   
+    $g = new Grid();
+    $tab = H::table($dataTable);
+    $percentage = Identity::getCompletion(Identity::SECTION_COMPANY);
+    $buttonLabel = Identity::isLevelBeginner() ? __("Modifier") : null;
+    $box = H::box(__("Ma société"))
+            ->icon('industry')
+            ->addBadgePercentage($percentage)
+            ->addTable($tab
+                ->addActionButton((string) H::button($buttonLabel)->icon('pencil')->setTooltip(__("Modifier"), 'left')
+                    ->url(H::url('account', 'company', ['edit' => 'company']), 
+                        $tab->getBoxId())))
+            // Niveau débutant
+            ->setPrepend(H::get('menu') && Identity::isLevelBeginner() ? H::alert(null, __("Pour modifier ces informations, cliquez sur le bouton en bas à droite."), 'info') : null);
+    echo $box;
+}
+
+H::get('menu') && include __DIR__ . '/_menu_end.phtml';

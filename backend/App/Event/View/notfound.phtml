@@ -1,0 +1,6 @@
+<?php
+
+H::layout()->setPageTitle('Oops !');
+
+echo H::callout(__("Cette page n'existe pas (404)"), __("Le contenu que vous souhaitez afficher n'existe pas ou n'est plus disponible."), 'danger');
+echo H::html(H::link(__("accueil"), ''), 'div', ['class' => 'text-center'])->escape(false);

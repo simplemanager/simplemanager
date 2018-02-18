@@ -1,0 +1,20 @@
+<?php 
+
+use Osf\Crypt\Crypt;
+
+$links = [];
+if (H::has('form')) {
+    echo H::form(H::get('form'));
+} else {
+    
+    $links[] = (string) H::link(__("modifier mon sondage"), 'survey', 'index', ['frsh' => Crypt::getRandomHash()]);
+    $links[] = (string) H::link(__("revenir à l'accueil"), 'common');
+}
+
+if (ACL::isAdmin() && !H::get('posted') && H::has('form')) {
+    $links[] = (string) H::link(__("résultats"), 'survey', 'result');
+}
+
+if ($links) {
+    echo H::html(implode(' | ', $links), 'div')->escape(false)->addCssClass('text-center');
+}

@@ -1,0 +1,20 @@
+<?php
+
+H::layout()->setPageTitle(sprintf(__("Applications %s"), APP_NAME))
+           ->addBreadcrumbLink('apps', H::url('play'));
+
+$apps = H::get('apps');
+//$box = H::box('Applications disponibles')->badge(count($apps['indexes']))->collapsable()->statusInfo()->start();
+
+asort($apps['indexes']);
+$cpt = 0;
+
+// foreach + auto
+$cells = [];
+foreach ($apps['indexes'] as $appId => $level) {
+    if ($appId === 'play') { continue; }
+    $app = $apps['app'][$appId];
+    $cells[] = (string) H::smallBox($app['title']['short'], $app['title']['medium'], $app['meta']['icon'],  $app['meta']['color'], 'Executer', H::url($appId));
+    //$cells[] = (string) H::infoBox($app['title']['short'], $app['title']['medium'], $app['meta']['icon'],  $app['meta']['color']);
+}
+echo H::grid()->auto($cells, 4, false);

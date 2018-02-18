@@ -1,0 +1,17 @@
+---
+config:
+  priority: 70
+dv: 
+  label: Développement
+  icon: coffee
+  color: yellow
+  params: 
+    controller: dev
+  items:
+    dvdb: 
+      label: Base de données
+      params: 
+        action: db
+      acl:
+        role: ADMIN
+...

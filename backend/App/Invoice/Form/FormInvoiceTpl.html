@@ -1,0 +1,51 @@
+<div id="root[NUM]">
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-lg-12">
+      <div class="form-group input-group">
+        <div class="input-group-addon" 
+             onclick="toggleSubform([NUM])">
+          <i id="card[NUM]" class="fa fa-chevron-down clickable"></i>
+          <i id="caru[NUM]" class="fa fa-chevron-up clickable" style="display: none"></i>
+        </div>
+        <select class="selectized" name="pd[NUM]" style="display: none"></select>
+        <div class="input-group-addon" style="width: 10%; min-width: 50px">
+          <input type="number" name="pq[NUM]" placeholder="Qté" value="" class="form-control" style="border: 0; height: 30px;">
+        </div>
+        <div class="input-group-addon" data-toggle="tooltip" data-original-title="" title="Supprimer" style="border-left: 0" 
+             onclick="delPr([NUM])">
+          <i id="pdel[NUM]" class="fa fa-times text-gray psuppr clickable"></i>
+        </div>
+        <input type="hidden" name="ph[NUM]">
+      </div>
+    </div>
+  </div>
+  <div class="row" id="compl[NUM]" style="display: none">
+    <div class="col-xs-12 col-sm-3 col-lg-3">
+      <div class="form-group">
+        <div class="input-group">
+          <label class="input-group-addon" for="price"><i class="fa fa-eur"></i></label>
+          <input step="0.01" type="number" required="" placeholder="Prix" name="pp[NUM]" 
+                 data-toggle="tooltip" data-placement="bottom" data-original-title="" class="form-control" 
+                 title="Laisser vide pour utiliser le prix par défaut (sauf création de produit). Fixer un prix différent pour ce document ne modifiera pas le prix par défaut de votre produit.">
+        </div>
+      </div>
+    </div>
+    <div class="col-xs-12 col-sm-3 col-lg-3" style="display: block;">
+      <div class="form-group">
+        <div class="input-group">
+          <div class="input-group-addon"><i class="fa fa-percent"></i></div>
+          <input type="number" placeholder="Remise" name="pr[NUM]" data-toggle="tooltip" 
+                 class="form-control" data-placement="bottom" data-original-title="" 
+                 title="Remise exceptionnelle pour ce document uniquement">
+        </div>
+      </div>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-lg-6">
+      <div class="form-group">
+        <textarea id="pdd[NUM]" name="pdd[NUM]" placeholder="Informations complémentaires" data-toggle="tooltip" 
+                  data-placement="bottom" class="form-control" data-original-title="" 
+                  title="Informations à insérer à côté du produit (dans ce document uniquement)" rows="1"></textarea>
+      </div>
+    </div>
+  </div>
+</div>

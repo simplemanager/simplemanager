@@ -1,0 +1,30 @@
+<?php H::layout()->setPageTitle(__("Oops !")); ?>
+<?php H::breadcrumb()->setActive(__("erreur")) ?>
+
+<?php echo H::callout(H::get('title'), H::get('description'))->statusDanger(); ?>
+<?php $pover = ''; ?>
+<?php if (APPLICATION_ENV === 'development') : ?>
+<?php $panel = H::box(__("Trace de l'exception"))->statusDanger()->start(); ?>
+<?php $e = H::get('exception'); ?>
+<?php echo H::panel(null, get_class($e) . ' : <strong>' . Osf\Exception\Error::buildErrorLink($e->getFile(), $e->getLine()) . '</strong>: ' . $e->getMessage() . ' ' . $e->getCode())->statusDanger(); ?>
+<table class="table table-bordered">
+  <tr>
+    <th style="width: 10px">#</th>
+    <th>Fichier</th>
+    <th>Fonction</th>
+  </tr>
+<?php foreach ($e->getTrace() as $key => $item) : ?>
+  <tr>
+    <td><?php echo $key + 1; ?>.</td>
+    <td><?php echo isset($item['file']) ? Osf\Exception\Error::buildErrorLink($item['file'], $item['line']) : '-'; ?></td>
+    <td><?php echo H::html($item['function']) ?>(<?php if (isset($item['args'][0])) : ?><a href="#" data-placement="left" data-html="true" data-selector="true" data-toggle="popover<?php echo $key; ?>" title="Function arguments" data-content="<pre><?php echo print_r($item['args'], true); ?></pre>">...</a><?php endif; ?>)
+    <?php $pover .= '$(document).ready(function(){$(\'[data-toggle="popover' . $key . '"]\').popover();});' . "\n"; ?>
+    </td>
+  </tr>
+<?php endforeach; ?>
+</table>
+<?php echo $panel; ?>
+<?php Osf\Container\OsfContainer::getViewHelper()->script->addFootScript($pover); ?>
+<?php endif; 
+
+echo H::html(H::link('accueil', '', ''), 'div')->addCssClass('text-center')->escape(false);

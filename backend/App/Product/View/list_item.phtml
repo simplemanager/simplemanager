@@ -1,0 +1,34 @@
+<?php
+
+use Osf\Stream\Text;
+use Sma\Container;
+use Osf\Helper\Mysql;
+
+$elt = (int) $row['status'] ? null : 'del';
+
+$priceType = ' ' . H::html(Text::toUpper($row['price_type']), 'span', ['class' => 'text-gray'])->appendStyle('display: inline-block; width: 10px');
+$price = H::html(H::html(Text::currencyFormat($row['price'])) . $priceType, $elt ?: 'span')->escape(false)->addCssClass('pull-right');
+$code = H::html($row['code'], $elt ?: 'strong');
+$uid = ''; //H::html($row['uid'])->appendStyle('width: 30px; display: inline-block;');
+$items = [$price . $uid . $code];
+
+// Mobile
+if (Container::getDevice()->isMobile()) {
+    $title = H::html(H::html(Text::crop($row['title'], 30), $elt))->escape(false);
+    $items[] = $title;
+} 
+
+// Tablettes et ordinateurs
+else {
+    $title = H::html($row['title'], $elt);
+    $date = H::html(Mysql::formatDate($row['date_update']), 'span')->marginRight()->addCssClasses(['hidden-xs', 'hidden-sm', 'hidden-md']);
+    $description = Container::getMarkdown()->textLight(H::html($row['description']));
+    $items[] = $date . ' ' . H::html($title . ($description ? '<br />' . $description : ''))->escape(false)->addCssClass('hidden-sm')->mobileExclude() . 
+               $title->addCssClasses(['hidden-md', 'hidden-lg']);
+}
+
+//return clone H::grid()->auto($items, count($items), true);
+return H::grid()->beginContainer()->beginRow()
+        ->beginCell3() . $items[0] . H::grid()->endCell()
+        ->beginCellRest() . $items[1] . H::grid()->endCell()
+        ->endRow()->endContainer();

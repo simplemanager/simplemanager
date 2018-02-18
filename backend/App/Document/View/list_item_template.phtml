@@ -1,0 +1,59 @@
+<?php
+
+use Sma\Bean\LetterTemplateBean as LTB;
+use Sma\Db\LetterTemplateTable as LTT;
+use Osf\Stream\Text;
+use App\Document\Model\LetterTemplate\LetterTemplateManager as LTM;
+use Sma\Session\Identity as I;
+// use Sma\Container;
+
+$mine = $row['category'] === 'mine';
+[$color, $level, $icon, $writable] = array_values(LTT::getCategoryDecorations($row['category']));
+
+// Données
+$icon = H::iconCached($icon, null, $color) . '&nbsp;';
+$title = $row['title'];
+$desc = $row['description'];
+$categories = LTM::getCategoryLabels();
+
+// Titre
+$typeIcons = [];
+if ($row['target_type'] === 'both' || $row['target_type'] === 'email') {
+    $typeIcons[] = (string) H::iconCached('at');
+}
+if ($row['target_type'] === 'both' || $row['target_type'] === 'letter') {
+    $typeIcons[] = (string) H::iconCached('envelope-o');
+}
+$fields = [$icon . '&nbsp;' . H::html($title)->mobileCrop(30) . '&nbsp;&nbsp;' . implode(', ', $typeIcons)];
+
+// Data type
+$dtOptions = LTM::getDataTypeOptions();
+$dtIcons = LTM::getDataTypeIcons();
+$isRecipient = $row['data_type'] === LTB::DT_RECIPENT;
+$dtIcon = H::icon($dtIcons[$row['data_type']], null, $isRecipient ? 'green' : 'yellow');
+I::isLevelExpert() || $dtIcon->setTooltip(__("Donnée cible"));
+$filters = [];
+if ($row['data_type_filters'] && $row['data_type'] !== 'recipient') {
+    $filterLabels = LTM::getDataFiltersOptions();
+    foreach (explode(',', $row['data_type_filters']) as $dataType) {
+        $filters[] = $filterLabels[$dataType];
+    }
+}
+$filtersTxt = $filters ? ' ' . H::html('[' . implode(', ', $filters) . ']')->addCssClass('text-fuchsia') : '';
+$fields[] = $dtIcon . '&nbsp;&nbsp;' . $dtOptions[$row['data_type']] . $filtersTxt;
+
+// Description
+//if (!Container::getDevice()->isMobile()) {
+//    $fields[] = H::html(Text::crop($desc, 20))->mobileExclude()->addCssClass('visible-lg');
+//}
+
+// Date / Type
+$iconDate = H::iconCached('calendar-o', null, $color) . '&nbsp;&nbsp;';
+$dateUpdate = Text::formatDate(new DateTime($row['date_update']), null, true);
+$fields[] = H::html($iconDate . $dateUpdate . ' - ' . H::html((isset($categories[$row['category']]) 
+        ? $categories[$row['category']]
+        : $row['category']))->addCssClasses(['label', 'label-' . $level]))
+        ->addCssClasses($writable ? [] : ['onlyread'])
+        ->escape(false); // ->mobileExclude();
+
+return H::grid()->auto($fields);

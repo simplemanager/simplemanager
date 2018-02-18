@@ -1,0 +1,21 @@
+##
+## play
+##
+
+app:
+    title: 
+        short: Sma Play
+        medium: Gestionnaire d'apps
+        long: Ajouter ou supprimer des applications
+    description: 
+        hook: Ajoutez ou supprimez des applications selon vos besoins
+        resume: Les applications apportent de nouvelles fonctionnalités à votre 
+                compte {C:APP_NAME}. 
+    meta: 
+        category: Core
+        icon: play-circle-o
+        color: fuchsia
+        index: 1
+        status: ALPHA
+        required: 1
+        dependencies: []

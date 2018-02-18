@@ -1,0 +1,11 @@
+<?php $panel = H::panel(__('Tests'))->start(); ?>
+<ul>
+  <li><?php echo H::link(__("Test de la lib haru"), null, 'testharu'); ?></li>
+  <li><?php echo H::link(__("Régénération des données en base"), null, 'initdb'); ?></li>
+  <li><?php echo H::link(__("Génération aléatoire d'une lettre depuis la DB"), null, 'letterdb'); ?></li>
+  <li><?php echo H::link(__("Génération aléatoire d'une lettre depuis le bean"), null, 'lettersimple'); ?></li>
+  <li><?php echo H::link(__("Affichage d'une lettre sérialisée"), null, 'serialized'); ?></li>
+  <li><?php echo H::link(__("Test des traitements d'images"), null, 'testimage'); ?></li>
+  <li><?php echo H::link(__("Test des accès en base"), null, 'dbtest'); ?></li>
+</ul>
+<?php echo $panel; 

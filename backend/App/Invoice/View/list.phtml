@@ -1,0 +1,195 @@
+<?php
+
+use Sma\View\Helper\Crud\CrudConfig;
+use Sma\Bean\InvoiceBean as IB;
+use Sma\Session\Identity;
+// use Sma\Controller\Json;
+use App\Invoice\Controller as CTRL;
+use App\Common\Container;
+
+
+// Mise à jour partielle de la page ?
+$refresh = Container::getRequest()->getParam('tp') && !Container::getRequest()->getParam('nr');
+
+// Si pas encore de société
+if (!$refresh && !Identity::getIdCompany()) {
+    echo H::alert(__("Qui êtes-vous ?"), sprintf(__("%s pour que vos factures reflètent votre structure."), H::link(__("Complétez votre profil"), 'account', 'company')))->disableEscape()->statusWarning();
+}
+
+// inv, qte, ord
+$type = H::get('type');
+
+// Paramétrage CRUD
+$msg = [
+    'title'   => $type === CTRL::QUOTE ? __("Mes devis") : ($type === CTRL::ORDER ? __("Mes commandes") : __("Mes factures")),
+    'noitem'  => sprintf(__("Pas de %s pour le moment. Cliquez sur le bouton + pour créer un document."), IB::getTypeNameFromType($type)),
+    'add'     => __(($type === IB::TYPE_QUOTE ? __("Nouveau") : __("Nouvelle")) . ' ' . IB::getTypeNameFromType($type, true)),
+//    'view'    => __("Détail d'un document"),
+];
+
+if ($type !== IB::TYPE_INVOICE) {
+    $msg['del'] = __("Supprimer");
+    $msg['deldesc'] = __("Cette action n'est pas recommandée. Elle supprimera définitivement un document. Cela risque de rompre la numérotation. Pour rendre ce document inaccessible depuis l'espace destinataire, changez l'état pour 'brouillon' ou 'annulé'.");
+}
+
+$links = [
+    [
+        'label' => __("Aperçu"),
+        'icon' => 'eye',
+        'url' => '#',
+        'attrs' => function ($row)  { return ['onclick' => "$.ajaxCall('" . H::url('invoice', 'preview', ['view' => $row['id']]) . "', '#mview');"]; }
+    ],
+    [
+        'label' => __("Télécharger"),
+        'icon' => 'download',
+        'url' => function ($row) { return H::url('invoice', 'export', ['dl' => $row['id'], 'file' => IB::getTypeNameFromType($row['type'], true) . '-' . $row['code'] . '.pdf']); },
+        'attrs' => ['class' => 'extlink', 'target' => '_blank'],
+    ],
+    [
+        'label' => __("Détails"),
+        'icon' => 'list-ul',
+        'url' => function ($row) { return H::url('invoice', 'view', ['type' => $row['type'], 'id' => $row['id']]); },
+        'attrs' => []
+    ],
+    function ($row) { return $row['status'] !== IB::STATUS_CANCELED; },
+    [
+        'label' => __("Régénérer"),
+        'icon' => 'refresh',
+        'color' => 'blue',
+        'url' => function ($row) { return H::url('invoice', 'update', ['id' => $row['id']], ['type', 'ai', 'tp']); },
+        'attrs' => [],
+        'filter' => function ($row) { return $row['status'] === IB::STATUS_CREATED; }
+    ],
+    [
+        'label' => function ($row) { return $row['status'] === IB::STATUS_CREATED ? __("Envoyer") : __("Envoyer à nouveau"); },
+        'icon' => 'send-o',
+        'color' => 'blue',
+        'url' => function ($row) { return H::url('invoice', 'send', ['id' => $row['id']]); },
+        'attrs' => [],
+        'filter' => function ($row) { return $row['status'] !== IB::STATUS_CANCELED; }
+    ],
+];
+$links[] = '';
+$links[] = [
+    'label' => __("Modifier"),
+    'icon' => 'edit',
+    'url' => function ($row) { return H::url('invoice', 'edit', ['type' => $row['type'], 'id' => $row['id']]); },
+    'attrs' => [],
+    'filter' => function ($row) { return $row['type'] !== IB::TYPE_INVOICE || $row['status'] === 'created'; }
+];
+$links[] = [
+    'label' => __("Dupliquer"),
+    'icon' => 'clone',
+    'url' => function ($row) { return H::url('invoice', 'edit', ['type' => $row['type'], 'from' => $row['id']]); },
+    'attrs' => []
+];
+
+// Transformations
+if (in_array($type, [CTRL::ORDER, CTRL::INVOICE])) {
+    $links[] = [
+        'label' => __("Créer un Devis"),
+        'icon' => 'file-o',
+        'url' => function ($row) { return H::url('invoice', 'edit', ['type' => CTRL::QUOTE, 'id' => $row['id']]); },
+        'attrs' => [],
+        'filter' => function ($row) { return ((float) $row['total_ht']) > 0; }
+    ];
+}
+if (in_array($type, [CTRL::QUOTE, CTRL::INVOICE])) {
+    $links[] = [
+        'label' => __("Créer une Commande"),
+        'icon' => 'file-text-o',
+        'url' => function ($row) { return H::url('invoice', 'edit', ['type' => CTRL::ORDER, 'id' => $row['id']]); },
+        'attrs' => [],
+        'filter' => function ($row) { return ((float) $row['total_ht']) > 0; }
+    ];
+}
+if (in_array($type, [CTRL::QUOTE, CTRL::ORDER])) {
+    $links[] = [
+        'label' => __("Créer une Facture"),
+        'icon' => 'file-text',
+        'url' => function ($row) { return H::url('invoice', 'edit', ['type' => CTRL::INVOICE, 'id' => $row['id']]); },
+        'attrs' => []
+    ];
+}
+if ($type === CTRL::INVOICE) {
+    $links[] = [
+        'label' => __("Rembourser (avoir)"),
+        'icon' => 'file',
+        'url' => function ($row) { return H::url('invoice', 'edit', ['type' => $row['type'], 'from' => $row['id'], 'credit' => 'true']); },
+        'attrs' => [],
+        'filter' => function ($row) { return ((float) $row['total_ht']) > 0; }
+    ];
+}
+
+//$links[] = function ($row) { return $row['type'] === IB::TYPE_INVOICE && in_array($row['status'], [IB::STATUS_SENT, IB::STATUS_READ]); };
+//$links[] = [
+//    'label' => __("Marquer comme payé (définitif)"),
+//    'icon' => 'paw',
+//    'color' => 'green',
+//    'url' => function ($row) { return H::url('invoice', 'chst', ['id' => $row['id'], 'nr' => 1, 'st' => IB::STATUS_PROCESSED, Json::REDIRECT_AUTO_PARAM => Json::encodedCurrentUri()], ['type', 'ai', 'tp']); },
+//    'attrs' => [],
+//    'filter' => function ($row) { return $row['type'] === IB::TYPE_INVOICE && in_array($row['status'], [IB::STATUS_SENT, IB::STATUS_READ]); }
+//];
+
+//$links[] = function ($row) { return $row['status'] === IB::STATUS_READ; };
+//$links[] = [
+//    'label' => __("Annuler"),
+//    'icon' => 'paw',
+//    'color' => 'red',
+//    'url' => function ($row) { return H::url('invoice', 'chst', ['id' => $row['id'], 'st' => IB::STATUS_PROCESSED, ], ['type', 'ai', 'tp']); },
+//    'attrs' => [],
+//    'filter' => function ($row) { return $row['type'] === IB::TYPE_INVOICE && in_array($row['status'], [IB::STATUS_SENT, IB::STATUS_READ]); }
+//];
+
+$config = (new CrudConfig())
+        ->setIcon('files-o')
+        ->setLinks($links)
+        ->setMsgs($msg)
+        ->setLinkAdd(H::url('invoice', 'edit', ['type' => $type]))
+        ->setItemTemplate(__DIR__ . '/list_item.phtml')
+        ->setUrlParams(['type' => $type])
+        ->setLinkPattern('/invoice/view/id/[key]')
+        ->setRefresh($refresh)
+        ->setCallbackMode();
+
+// Affichage des boutons si on est pas dans une requête AJAX
+if (!$refresh) {
+    
+    // Boutons Devis / Commande / Facture
+//    if (!Container::getDevice()->isMobile()) {
+//        $buttons = [
+//            H::button(H::html(__("Devis"))->addCssClass('hidden-lg') . 
+//                      H::html(__("Nouveau Devis"))->addCssClass('visible-lg'), 
+//                      H::url('invoice', 'edit', ['type' => 'quote']))
+//                ->block()->sizeHuge()->statusInfo()->marginBottom(),
+//            H::button(H::html(__("Commande"))->addCssClass('hidden-lg') . 
+//                      H::html(__("Nouvelle Commande"))->addCssClass('visible-lg'), 
+//                      H::url('invoice', 'edit', ['type' => 'order']))
+//                ->block()->sizeHuge()->statusInfo()->marginBottom(),
+//            H::button(H::html(__("Facture"))->addCssClass('hidden-lg') . 
+//                      H::html(__("Nouvelle Facture"))->addCssClass('visible-lg'), 
+//                      H::url('invoice', 'edit', ['type' => 'invoice']))
+//                ->block()->sizeHuge()->statusInfo()->marginBottom(),
+//        ];
+//        echo H::html(H::grid()->beginRow()
+//                ->beginCell(4, 4, 4, 12, []) . $buttons[0] . H::grid()->endCell()
+//                ->beginCell(4, 4, 4, 12, []) . $buttons[1] . H::grid()->endCell()
+//                ->beginCell(4, 4, 4, 12, []) . $buttons[2] . H::grid()->endCell()
+//                ->endRow())->escape(false)->mobileExclude();
+//        unset($buttons);
+//    }
+    
+    include __DIR__ . '/_menu_main.phtml';
+    echo H::html('', 'div')->setAttribute('id', 'mview');
+}
+
+// Affichage du tableau CRUD
+echo H::crud($config)
+        ->setBox(clone H::box('')->setAppend((string) H::html(H::link(H::button(__("Actualiser"))->sizeLarge()->status('default'), 
+            'invoice', 'list', 
+            ['type' => $type, 
+             'ai' => Container::getRequest()->getParam('ai'), 
+             'tp' => Container::getRequest()->getParam('tp'), 
+             'nr' => 1])->setIsAjaxLink(), 'div')
+                ->escape(false)
+                ->addCssClass('text-center')));

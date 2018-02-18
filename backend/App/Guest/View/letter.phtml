@@ -1,0 +1,17 @@
+<?php 
+
+use Sma\Bean\LetterBean;
+
+if (!H::has('bean')) {
+    echo H::msg(__("Document introuvable"), 'danger');
+}
+
+else {
+    
+    /* @var $bean LetterBean */
+    $bean = H::get('bean');
+    
+    H::layout()->setPageTitle($bean->getTitle());
+    var_dump($bean);
+    
+}

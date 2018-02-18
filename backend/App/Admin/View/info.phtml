@@ -1,0 +1,89 @@
+<?php 
+
+use Osf\View\Table;
+
+/* @var $account \Sma\Db\AccountRow */
+/* @var $company \Sma\Db\CompanyRow */
+/* @var $contact \Sma\Bean\ContactBean */
+
+[$account, $company, $contact, $imgUrl] = H::get('info');
+
+$fieldParams = [
+    0 => [
+        Table::FP_CSS     => 'text-right',
+        Table::FP_STYLE   => 'font-weight: 600;',
+        Table::FP_PATTERN => '%s&nbsp;:',
+        Table::FP_WIDTH   => '120px'
+    ]
+];
+$cells = [];
+
+$data = [];
+$data[] = [__("Id"), H::html($account->getId())];
+$data[] = [__("Prénom"), H::html($account->getFirstname())];
+$data[] = [__("Nom"), H::html($account->getLastname())];
+$data[] = [__("Email"), H::html($account->getEmail())];
+$data[] = [__("Status"), H::html($account->getStatus())];
+$data[] = [__("Insertion"), H::html($account->getDateInsert())];
+$data[] = [__("Mise à jour"), H::html($account->getDateUpdate())];
+$data[] = [__("Commentaires"), H::html($account->getComment())];
+
+$dataTable = new Table($data);
+$dataTable->setFieldParams($fieldParams)->setPaginate(false);
+$cells[] = (string) H::box(__("Compte"))
+        ->addTable(H::table($dataTable))
+        ->icon('user')
+        ->collapsable();
+
+if ($contact) {
+    $data = [];
+    $data[] = [__("Id"), H::html($contact->getId())];
+    $data[] = [__("Nom complet"), H::html($contact->getComputedFullname())];
+    $data[] = [__("Titre"), H::html($contact->getTitle())];
+    $data[] = [__("Adresse"), nl2br(H::html($contact->getAddress()->getComputedAddress()))];
+    $data[] = [__("Email"), H::html($contact->getEmail())];
+    $data[] = [__("Tel"), H::html($contact->getTel())];
+    $data[] = [__("Fax"), H::html($contact->getFax())];
+    $data[] = [__("Gsm"), H::html($contact->getGsm())];
+
+    $dataTable = new Table($data);
+    $dataTable->setFieldParams($fieldParams)->setPaginate(false);
+    $cells[] = (string) H::box(__("Contact"))
+            ->addTable(H::table($dataTable))
+            ->icon('user')
+            ->collapsable();
+
+    $data = [];
+    $data[] = [__("Id"), H::html($contact->getIdCompany())];
+    $data[] = [__("Nom"), H::html($contact->getCompanyName())];
+    $data[] = [__("Slogan"), H::html($contact->getCompanyDesc())];
+    $data[] = [__("Email"), H::html($contact->getCompanyEmail())];
+    $data[] = [__("Intro"), H::html($contact->getCompanyIntro())];
+    $data[] = [__("Siret"), H::html($contact->getCompanySiret())];
+    $data[] = [__("Registration"), H::html($contact->getCompanyRegistration())];
+    $data[] = [__("Ape"), H::html($contact->getCompanyApe())];
+    $data[] = [__("TVA"), H::html($contact->getCompanyTvaIntra())];
+
+    $dataTable = new Table($data);
+    $dataTable->setFieldParams($fieldParams)->setPaginate(false);
+    $cells[] = (string) H::box(__("Entreprise"))
+            ->addTable(H::table($dataTable))
+            ->icon('user')
+            ->collapsable();
+}
+
+echo H::grid()->auto($cells);
+
+if ($imgUrl) {
+    $cells = [];
+    $cells[] = (string) H::box(__("Logo (fond blanc)"), 
+            H::html(null, 'img')->setAttribute('src', $imgUrl)->appendStyle('padding: 20px') . 
+            H::html(null, 'img')->setAttribute('src', $imgUrl)->appendStyle('width: 120px; padding: 20px;') . 
+            H::html(null, 'img')->setAttribute('src', $imgUrl)->appendStyle('width: 80px; padding: 20px;'));
+    $cells[] = (string) H::box(__("Logo (fond sombre)"), 
+            H::html(null, 'img')->setAttribute('src', $imgUrl)->appendStyle('background: #2c3e50; padding: 20px') . 
+            H::html(null, 'img')->setAttribute('src', $imgUrl)->appendStyle('background: #2c3e50; width: 120px; padding: 20px;') . 
+            H::html(null, 'img')->setAttribute('src', $imgUrl)->appendStyle('background: #2c3e50; width: 80px; padding: 20px;'));
+    echo H::grid()->auto($cells);
+}
+

@@ -1,0 +1,51 @@
+<?php 
+
+use Sma\Container;
+use Osf\Stream\Text;
+
+$msg = 'Il faut en dire un peu plus...';
+$comment = H::get('comment');
+if ($comment !== '') {
+    $session = Container::getSession('comments');
+    if ($comment === 'reset') {
+        $session->set('step', 0);
+        $msg = "Messages réinitialisés.";
+    } else if (Text::toLower($comment) === 'oui' || Text::toLower($comment) === 'yes') {
+        $msg = "Ok good.";
+    } else if (Text::toLower($comment) === 'non' || Text::toLower($comment) === 'no') {
+        $msg = "Arf. Allez une autre petite remarque maintenant.";
+    } else if (Text::toLower($comment) === 'bonjour') {
+        $msg = "Salut. Ca va ?";
+    } else if (strlen($comment) === 1) {
+        $msg = "C'est à dire ?";
+    } else if (strlen($comment) < 5) {
+        $msg = "Ce message est un peu court mais on va s'en contenter...";
+    } else if (strlen($comment) > 255) {
+        $msg = "Voilà un message un peu long, je n'ai pas tout retenu. Allez, un petit effort de concision !";
+    } else {
+        $step = (int) $session->get('step');
+        switch ($step) {
+            case 0 : $msg = "Merci c'est sympa. Encore encore ;)"; break;
+            case 1 : $msg = "Fantastique ! \nMerci ^^"; break;
+            case 2 : $msg = "Vraiment on peut dire que grâce à vous, " . APP_NAME . " va s'améliorer, c'est fantastique ;)"; break;
+            case 3 : $msg = "Trop cool toutes vos remarques ^^"; break;
+            case 4 : $msg = "Génial ! Continuez comme ça, nous étudions TOUS les commentaires et les idées que vous proposez."; break;
+            case 5 : $msg = "Si seulement tout le monde pouvait en écrire autant... :D"; break;
+            case 6 : $msg = "Encore merci ! Le saviez-vous ? Vous pouvez aussi utiliser les tickets pour nous proposer des améliorations."; break;
+            case 7 : $msg = "Trop bien ! Vous nous gâtez, l'équipe de développement vous dite encore MERCI !"; break;
+            case 8 : $msg = "C'est un record ! Là je dois dire que vous êtes unique. C'est tellement rare d'écrire autant de commentaire :)."; break;
+            case 9 : $msg = "Vraiment vous êtes trop sympa. Voulez-vous un retour de la part de notre équipe de développement ? N'hésitez pas à nous le signaler !"; break;
+            default : $msg = "Vous êtes au top ! \nContinuez comme ça ;)";
+        }
+        $session->set('step', $step + 1);
+    }
+}
+
+?>
+<form method="POST" accept-charset="UTF-8" role="form" action="/ticket/comment">
+  <div class="form-group">
+    <textarea rows="4" id="comment" placeholder="<?php echo $msg; ?>" name="comment"class="form-control"></textarea>
+  </div>
+  <input type="submit" id="submit" value="Proposer" name="submit" class="btn btn-primary btn-block margin-bottom">
+</form>
+<script>$('form').off('submit').on('submit',function(e){e.preventDefault();$.ajaxCall($(this),$(this),1)});</script>

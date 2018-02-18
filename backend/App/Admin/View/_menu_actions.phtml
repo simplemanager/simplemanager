@@ -1,0 +1,8 @@
+<?php
+
+use App\Common\Container; 
+
+$nav = H::nav(false, false, true)
+        ->addLink(H::html(__("Notifications"))->mobileExclude(), H::url('admin', 'notif'), Container::getRequest()->getAction() === 'notif', false, 'bell-o', 'blue');
+
+echo $nav;

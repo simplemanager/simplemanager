@@ -1,0 +1,13 @@
+---
+config: 
+    priority: 1
+usr:
+  label: "Clients"
+  icon: user-o
+#  icon: address-card-o
+#  color: blue
+#  badges: [["127", blue]]
+  params:
+    controller: recipient
+    action: list
+...

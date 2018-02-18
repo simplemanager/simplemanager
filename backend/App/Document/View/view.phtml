@@ -1,0 +1,70 @@
+<?php 
+
+use Osf\View\Table;
+use App\Common\Container as C;
+use Sma\Session\Identity as I;
+
+/* @var $docRow \Sma\Db\DocumentRow */
+/* @var $docBean \Sma\Bean\LetterBean */
+
+$doc = H::get('doc');
+
+$docRow = $doc['document'];
+$docHistory = $doc['history'];
+$id = $docRow->getId();
+
+$fieldParams = [
+    0 => [
+        Table::FP_CSS     => 'text-right',
+        Table::FP_STYLE   => 'font-weight: 600;',
+        Table::FP_PATTERN => '%s&nbsp;:',
+        Table::FP_WIDTH   => '120px'
+    ]
+];
+
+$data = [];
+$data[] = [__("État"), H::statusLabel($docRow->getId(), $docRow->getStatus(), $docRow->getType(), H::url('document', 'chst'), false)];
+$data[] = [__("Objet / Sujet"), (string) H::html($docRow->getTitle())];
+
+// Historique des enregistrements
+$accordion = H::accordion();
+$first = true;
+$bean = null;
+foreach ($docHistory as $history) {
+    $docBean = unserialize($history['source']);
+    $title = $history['date_insert'] . ($first && !C::getDevice()->isMobile() ? ' ' . __("(version courante)") : '');
+    $content = $docBean->getBody(true);
+    $accordion->addPanel(clone H::panel($title, $content));
+    if ($first) {
+        $bean = clone $docBean;
+        $libs = $bean->getLibs(true);
+        $data[] = [__("Libellés"), implode('', array_map(function ($key, $value) { return $value ? H::html($key, 'strong')->escape(false) . ' ' . $value . '<br>' : ''; }, array_keys($libs), $libs))];
+        $data[] = [__("Destinataire"), nl2br(H::html($bean->getRecipient()->getAddress()->getComputedAddress(true)))];
+        $data[] = [__("Contenu"), $content];
+        $data[] = [__("Confidentiel"), $bean->getConfidential() ? __("Oui") : __("Non")];
+        $first = false;
+    }
+}
+$boxHistory = (string) H::box(__("Historique du contenu"), $accordion)->icon('history')->collapsable();
+$dataTable = new Table($data);
+$dataTable->setFieldParams($fieldParams)->setPaginate(false);
+$boxDetail = (string) H::box(sprintf(__("Détail du courrier #%s"), $docRow->getUid()))
+        ->addTable(H::table($dataTable))
+        ->icon('envelope-o')
+        ->collapsable();
+
+// Historique des actions
+$eventRows = DB::getDocumentEventTable()->select(['id_account' => I::getIdAccount(), 'id_document' => $docRow->getId()]);
+$actions = H::actionHistory($eventRows, $bean);
+$boxActions = H::box(__("Historique des actions"), $actions)->icon('clock-o')->collapsable();
+
+// Menu
+echo H::linkApp(__("Télécharger"))->url(H::url('document', 'letter', ['dl' => $id, 'file' => $bean->buildFileName()]))->setAttribute('target', '_blank')->addCssClass('extlink')->icon('download');
+echo H::linkApp(__("Modifier"), 'document', 'letter', ['id' => $id])->icon('edit');
+echo H::linkApp(__("Dupliquer"), 'document', 'letter', ['from' => $id])->icon('clone');
+echo H::linkApp(__("Lettres"), 'document')->icon('list-ul');
+//    echo H::linkApp('Commande', 'document', 'edit', ['type' => IC::ORDER, 'recipient' => $id])->icon('eye');
+//    echo H::linkApp('Devis',    'invoice', 'edit', ['type' => IC::QUOTE, 'recipient' => $id])->icon('file-o');
+
+echo $boxDetail . $boxActions . $boxHistory;
+

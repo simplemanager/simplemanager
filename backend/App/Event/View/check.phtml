@@ -1,0 +1,37 @@
+<?php
+
+use Osf\Pdf\Document\Bean\BaseDocumentBean;
+use Sma\Bean\InvoiceBean;
+// use Sma\Session\Identity;
+
+H::layout()->setPageTitle(__("Contrôle de document"));
+
+$bean = H::get('bean');
+$hash = H::get('hash');
+
+if ($bean instanceof BaseDocumentBean) {
+    $docType = $bean instanceof InvoiceBean ? $bean->getTypeName(false) : __("lettre");
+    echo H::alert(
+        sprintf(__("Document existant (%s)"), $docType),
+        sprintf(__("Ce document daté du %s est présent dans la base %s."), $bean->getDateSending()->format('d/m/Y'), APP_NAME)
+    )->statusSuccess()->removable(false);
+//    if (!Identity::isLogged()) {
+//        echo H::alert(__("Vous êtes hors ligne"), sprintf(__("Pour contrôler l'intégrité de ce document vous devez le comparer avec la version enregistrée. Pour cela, %s."), H::link(__("identifiez-vous"), 'account', 'login')))->statusWarning();
+//    } else {
+        echo H::msg(__("Si vous constatez une différence entre votre copie et l'original présent dans notre base, l'original fait foi."))->statusWarning();
+        $icon = H::icon('file-pdf-o', null, 'red')
+                ->appendStyle('font-size: 80px') . '<br />Télécharger la version originale';
+        $filename = $bean->buildFileName();
+        $url = H::url('document', 'dl', ['k' => $hash]);
+        $link = "window.open('" . $url . "', '_blank');";
+        echo H::html($icon, 'div')
+                ->addCssClasses(['text-center', 'clickable'])
+                ->escape(false)
+                ->appendStyle('margin-top: 30px')
+                ->setAttribute('onclick', $link);
+//    }
+} else {
+    echo H::alert(
+        __("Document inexistant"), 
+        sprintf(__("Ce document n'est pas présent dans la base %s. Il peut y avoir plusieurs raisons à cela : la suppression du document ou du compte de son propriétaire, un défaut d'enregistrement (aperçu ou enregistrement depuis un aperçu) ou une falsification de document existant."), APP_NAME), 'danger');
+}

@@ -1,0 +1,9 @@
+<?php 
+
+// include __DIR__ . '/_menu_edit.phtml';
+
+$docId = H::get('doc');
+if ($docId) {
+    $docUrl = H::url('invoice', 'export', ['dl' => $docId, 'file' => 'preview.pdf']);
+    include __DIR__ . '/../../Document/View/_doc_preview.phtml';
+}

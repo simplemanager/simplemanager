@@ -1,0 +1,25 @@
+<?php 
+
+// H::load(H::url('info', 'conditions', ['no' => 'layout']))
+
+if (H::has('form')) {
+    if (!H::get('form')->isPosted()) {
+        echo H::modal('cdt', "Conditions d'utilisation", H::load());
+        echo H::grid()->beginRow()->beginCell(5, 6, 12, 12);
+    }
+    echo H::form(H::get('form'));
+    if (!H::get('form')->isPosted()) {
+        echo H::panel(null, __("* Répétez le mot de passe dans les deux champs. Sécurisez-le en utilisant chiffres, lettres et caractères spéciaux."));
+        echo H::grid()->endCell()->beginCellRest();
+//        echo H::callout(sprintf(__("Essayez %s gratuitement"), APP_NAME),
+//                sprintf(__("%s est gratuit en 2017 et propose 1 mois d'essai gratuit à partir du 1 janvier 2018."), APP_NAME));
+        echo H::markdown()->setOpenedItem(-1)->file(__DIR__ . '/registration.md');
+        $panel = H::panel()->start(); ?>
+        Conformément à la loi "informatique et libertés" du 6 janvier 
+        1978 modifiée en 2004, vous bénéficiez d’un droit d’accès et de rectification aux informations qui vous 
+        concernent, que vous pouvez exercer en vous connectant à votre espace personnel.<?php /* ou en 
+        <?php echo H::link(sprintf(__("contactant l'équipe %s"), APP_NAME), 'contact'); */ ?>.
+        <?php echo $panel; ?>
+        <?php echo H::grid()->endCell()->endRow();
+    }
+}

@@ -1,0 +1,14 @@
+<?php $h = \App\Common\Container::getViewHelper(); ?>
+<?php $h->adminLayout->pageTitle(sprintf(__("Bienvenue sur %s"), APP_NAME)); ?>
+
+<div class="row">
+  <div class="col-md-6 col-sm-12 col-xs-12">
+  <?php $panel = $h->box(__("Services en ligne gratuits !"))->icon('fa-user')->start(); ?>
+  <ul>
+    <li><?php echo $h->link(__("Générez votre devis en une minute"), 'document', 'order', ['new' => 'quote']); ?></li>
+    <li><?php echo $h->link(__("Générez votre commande en quelques clics"), 'document', 'order', ['new' => 'order']); ?></li>
+    <li><?php echo $h->link(__("Générez votre facture prêt à poster !"), 'document', 'order', ['new' => 'invoice']); ?></li>
+  </ul>
+  <?php echo $panel; ?>
+  </div>
+</div>

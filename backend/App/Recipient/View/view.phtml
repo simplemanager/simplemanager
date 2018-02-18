@@ -1,0 +1,81 @@
+<?php
+
+use Osf\Stream\Text as T;
+use Osf\View\Table;
+use Sma\Session\Identity as I;
+use Sma\Bean\ContactBean;
+use App\Invoice\Controller as IC;
+
+/* @var $bean ContactBean */
+$bean = H::get('bean');
+$id = $bean ? $bean->getIdCompany() : null;
+
+// Boutons
+if (H::get('decorations') && $id) {
+    
+    echo H::modal(
+        'mform',
+        'Modifier',
+        H::html('', 'div', ['id' => 'medit']),
+        clone H::button(__("Fermer"))->statusDefault()->setAttribute('data-dismiss', 'modal') . 
+        clone H::button(__("Enregistrer"))
+                ->setAttribute('type', 'submit')
+                ->setAttribute('onclick', "\$.ajaxCall(\$('#fedit'),'#medit');")
+                ->statusPrimary());
+    $jsEdit = "$('#mform').modal('show');$.ajaxCall('" . H::url('recipient', 'edit', ['for' => 'modal', 'id' => $id]) . "', '#medit');";
+    
+    echo H::linkApp(__("Modifier"))->url('#')->icon('edit')->setAttribute('onclick', $jsEdit)->setTooltip(I::isLevelBeginner() ? __("Modifier ce contact") : null, 'bottom');
+    echo H::linkApp(__("Contacts"))->url(H::url('recipient', 'list'))->icon('list-ul')->setTooltip(I::isLevelBeginner() ? __("Liste des contacts") : null, 'bottom');
+    echo H::linkApp(__("+ Lettre"), 'document', 'letter', ['recipient' => $id])->icon('envelope-o')->setTooltip(I::isLevelBeginner() ? __("Créer une lettre avec ce contact comme destinataire") : null, 'bottom');
+    echo H::linkApp(__("+ Devis"), 'invoice', 'edit', ['type' => IC::QUOTE, 'recipient' => $id])->icon('file-o')->setTooltip(I::isLevelBeginner() ? __("Créer un devis avec ce contact comme destinataire") : null, 'bottom');
+    echo H::linkApp(__("+ Cmd."), 'invoice', 'edit', ['type' => IC::ORDER, 'recipient' => $id])->icon('file-text-o')->setTooltip(I::isLevelBeginner() ? __("Créer une commande avec ce contact comme destinataire") : null, 'bottom');
+    echo H::linkApp(__("+ Fact."), 'invoice', 'edit', ['type' => IC::INVOICE, 'recipient' => $id])->icon('file-text')->setTooltip(I::isLevelBeginner() ? __("Créer une facture avec ce contact comme destinataire") : null, 'bottom');
+}
+
+// Affichage
+if (!$id) {
+    echo H::msg(__("Ce contact n'existe pas"))->statusDanger();
+} else {
+    $computedAddress = $bean->getAddress()->getComputedAddress();
+    $computedAddressDelivery = $bean->getAddressDelivery()->getComputedAddress();
+    $c = DB::getCompanyTable()->findSafe($bean->getIdCompany());
+    
+    $fieldParams = [
+        0 => [
+            Table::FP_CSS     => 'text-right',
+            Table::FP_STYLE   => 'font-weight: 600;',
+            Table::FP_PATTERN => '%s&nbsp;:',
+            Table::FP_WIDTH   => '30%'
+        ]
+    ];
+    
+    $data = [];
+    $bean->getTitle() && $data[] = [__("Nom"), (string) H::html($bean->getTitle())];
+    $bean->getEmail() && $data[] = [__("E-mail"), (string) H::html($bean->getEmail())];
+    $bean->getUrl() && $data[] = [__("Site web"), (string) H::html($bean->getUrl(), 'a')->setAttribute('href', $bean->getUrl())->setAttribute('target', '_blank')];
+    $bean->getTel() && $data[] = [__("Téléphone"), (string) H::html(T::phoneFormat($bean->getTel()), 'a')->setAttribute('href', 'tel:' . T::phoneClean($bean->getTel()))];
+    $bean->getFax() && $data[] = [__("Fax"), (string) H::html(T::phoneFormat($bean->getFax()), 'a')->setAttribute('href', 'tel:' . T::phoneClean($bean->getFax()))];
+    $data[] = [__("Fact. HT"), $bean->getChargeWithTax() ? __("Non (client à facturer avec la TVA)") : __("Oui (client à facturer hors taxe, sans TVA)")];
+    $bean->getCompanyTvaIntra() && $data[] = [__("TVA Intra"), (string) H::html($bean->getCompanyTvaIntra())];
+    $computedAddress && $data[] = [__("Facturation"), nl2br(H::html($computedAddress))];
+    $computedAddressDelivery && $data[] = [__("Livraison"), nl2br(H::html($computedAddressDelivery))];
+    $c->getDescription() && $data[] = [__("Mots clés"), (string) H::html(str_replace(',', ', ', $c->getDescription()))];
+
+    $data[] = [__("Alertes"), H::beanWarnings($bean)];
+    $data[] = [__("Création"), (string) H::html($c->getDateInsert())];
+    $data[] = [__("Mise à jour"), (string) H::html($c->getDateUpdate())];
+    $dataTable = new Table($data);
+    $dataTable->setPaginate(false)
+              ->setFieldParams($fieldParams);
+    echo H::box(__("Société & Généralités"))->addTable(H::table($dataTable))->collapsable()->icon('industry');
+    
+    $fullName = $bean->getComputedFullname();
+    if ($fullName || $bean->getGsm()) {
+        $data = [];
+        $data[] = [__("Nom"), $fullName];
+        $bean->getGsm() && $data[] = [__("Mobile"), $bean->getGsm()];
+        $dataTable = new Table($data);
+        $dataTable->setFieldParams($fieldParams)->setPaginate(false);
+        echo H::box(__("Contact"))->addTable(H::table($dataTable))->collapsable()->icon('user');
+    }
+}

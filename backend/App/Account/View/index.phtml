@@ -1,0 +1,12 @@
+<?php 
+
+include __DIR__ . '/_menu_begin.phtml';
+
+echo H::callout(__("Comment gerer mes options ?"), 
+        H::markdown()->renderText(__("Modifiez ici vos informations société, votre compte et vos paramètres") . "\n\n" . 
+                    __("* **[Ma Société](/account/company)** : caractéristiques et informations générales sur mon entreprise.") . "\n" . 
+                    sprintf(__("* **[Mon Compte](/account/login)** : informations sur moi-même et mon compte %s."), APP_NAME) . "\n" . 
+                    __("* **[Mes Paramètres](/account/features)** : pour optimiser mes fonctionnalités et mes saisies.") . "\n"), 
+        'info');
+
+include __DIR__ . '/_menu_end.phtml';

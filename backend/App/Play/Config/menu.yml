@@ -1,0 +1,9 @@
+---
+config: 
+    priority: 1
+apps:
+  label: Mes apps
+  icon: play
+  params:
+    controller: play
+...

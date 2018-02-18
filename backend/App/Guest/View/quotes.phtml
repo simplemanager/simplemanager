@@ -1,0 +1,12 @@
+<?php 
+
+use App\Guest\View\Helper\GuestCrudHelper;
+
+/* @var $guestBean \Sma\Bean\GuestBean */
+$guestBean = H::get('guestBean');
+echo GuestCrudHelper::buildCrud(
+        __("Liste des devis"), 
+        __("Aucun devis émis pour le moment."), 
+        'file-o', 
+        function ($row) { return H::url('document', 'dl', ['k' => $row['hash']]); }, 
+        $guestBean->getQuotesToConsult() ? 'warning' : 'success');

@@ -1,0 +1,1268 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: OSF 2.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-03-20 15:34+0100\n"
+"PO-Revision-Date: 2017-03-20 15:34+0100\n"
+"Last-Translator: Guillaume Ponçon <guillaume.poncon@openstates.com>\n"
+"Language-Team: contact@openstates.com\n"
+"Language: fr_FR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.7.1\n"
+"X-Poedit-KeywordsList: __\n"
+"X-Poedit-Basepath: ../../../../../../../../../web\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Poedit-SearchPath-0: library/osf/library\n"
+"X-Poedit-SearchPath-1: apps/simplemanager.fr/backend\n"
+
+#: apps/simplemanager.fr/backend/App/Account/Controller.php:35
+#: apps/simplemanager.fr/backend/Sma/Plugin/LayoutPlugin.php:69
+#: apps/simplemanager.fr/backend/App/Common/View/index.phtml:37
+msgid "Compte"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Account/Controller.php:53
+msgid "Activation effectuée !"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Account/Controller.php:53
+#, php-format
+msgid "%s, votre compte est actif. Vous pouvez maintenant vous identifier."
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Account/Controller.php:55
+msgid "L'activation a échouée"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Account/Controller.php:55
+msgid ""
+"Le délai d'activation est dépassé ou votre compte est déjà actif. Si vous "
+"n'arrivez pas à vous identifier, créez un nouveau compte."
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Account/Controller.php:65
+msgid "Echec d'identification"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Account/Controller.php:66
+msgid ""
+"Ce compte n'existe pas ou n'est pas encore actif, ou peut-être avez-vous "
+"fait une erreur de saisie ?"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Account/Controller.php:94
+msgid "Création d'un compte"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Account/Controller.php:109
+msgid "Merci !"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Account/Controller.php:130
+#: apps/simplemanager.fr/backend/App/Account/View/_menu_begin.phtml:19
+msgid "Mon compte"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Account/Controller.php:139
+#: apps/simplemanager.fr/backend/App/Account/Controller.php:193
+msgid "Une erreur s'est produite à l'enregistrement des valeurs."
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Account/Controller.php:151
+msgid "Mot de passe perdu"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Account/Controller.php:163
+#: apps/simplemanager.fr/backend/App/Account/Controller.php:164
+msgid "Fonctionnalités"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Account/Controller.php:169
+#: apps/simplemanager.fr/backend/App/Account/Controller.php:170
+#: apps/simplemanager.fr/backend/App/Account/View/_menu_begin.phtml:18
+#: apps/simplemanager.fr/backend/App/Account/View/company.phtml:43
+msgid "Ma société"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Account/Controller.php:207
+#: apps/simplemanager.fr/backend/App/Account/Controller.php:208
+msgid "Personnalisation"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Account/Controller.php:233
+msgid ""
+"Votre logo n'a pu être enregistré en l'état. Tentez de changer le type et la "
+"taille du fichier."
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Account/Form/FormCompany.php:44
+#: apps/simplemanager.fr/backend/App/Account/Form/FormContact.php:56
+#: apps/simplemanager.fr/backend/App/Recipient/Form/FormContact.php:42
+msgid "Mettre à jour"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Account/Form/FormLogin.php:32
+#: apps/simplemanager.fr/backend/App/Account/View/login.phtml:13
+#: apps/simplemanager.fr/backend/App/Account/View/login.phtml:16
+msgid "Identification"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Account/Form/FormLogin.php:39
+msgid "Adresse e-mail"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Account/Form/FormLogin.php:48
+msgid "Mot de passe"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Account/Form/FormRegistration.php:25
+msgid "Inscription"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Account/Form/FormRegistration.php:40
+msgid "Confirmer le mot de passe *"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Account/Form/FormRegistration.php:47
+msgid "J'ai lu et approuvé les "
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Account/Form/FormRegistration.php:47
+msgid "conditions d'utilisation"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Account/Form/FormRegistration.php:50
+msgid "S'inscrire"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Account/Form/FormRegistration.php:57
+msgid "Les mots de passe ne correspondent pas"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Account/Form/FormRegistration.php:62
+msgid "Vous devez accepter les conditions d'utilisation"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Account/Form/FormRegistration.php:70
+msgid "Cet e-mail est déjà enregistré."
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Account/Form/FormRegistration.php:74
+#, php-format
+msgid "Avez-vous %s ?"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Account/Form/FormRegistration.php:74
+msgid "oublié votre mot de passe"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Account/Form/FormRegistration.php:78
+msgid "Un message vous a déjà été envoyé pour activer votre compte."
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Account/Form/FormRegistration.php:82
+msgid "Votre compte est désactivé."
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Account/Form/FormRegistration.php:86
+msgid "Votre compte est suspendu."
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Account/Model/Auth.php:61
+#, php-format
+msgid "Bravo %s&nbsp;!"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Account/Model/Auth.php:63
+msgid ""
+"Il ne reste plus qu'une petite étape pour vous compter parmi nos membres. "
+"Vous verrez que SimpleManager vous simplifiera la vie."
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Account/Model/Auth.php:63
+msgid "Pour activer votre compte, cliquez sur le lien suivant&nbsp;:"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Account/Model/Auth.php:64
+msgid "J'active mon compte"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Account/Model/Auth.php:65
+#, php-format
+msgid ""
+"Note : vous avez jusqu'au %s pour activer votre compte. Cependant, vous "
+"pouvez "
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Account/Model/Auth.php:65
+msgid "d/m/Y à H:i"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Account/Model/Auth.php:65
+msgid "renouveller votre inscription"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Account/Model/Auth.php:65
+msgid "à tout moment au dela de ce délai."
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Admin/Config/menu_old.php:65
+msgid "Publicité"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Admin/Config/menu_old.php:70
+msgid "Campagnes"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Admin/Config/menu_old.php:75
+msgid "Rentabilité"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Admin/Config/menu_pme.php:5
+msgid "Accueil"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Admin/Config/menu_pme.php:9
+msgid "Devis & Factures"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Admin/Config/menu_pme.php:15
+msgid "Parcourir et gérer"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Admin/Config/menu_pme.php:21
+#: apps/simplemanager.fr/backend/App/Invoice/View/_menu_main.phtml:13
+msgid "Nouveau devis"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Admin/Config/menu_pme.php:27
+#: apps/simplemanager.fr/backend/App/Invoice/View/_menu_main.phtml:14
+msgid "Nouvelle commande"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Admin/Config/menu_pme.php:33
+#: apps/simplemanager.fr/backend/App/Invoice/View/_menu_main.phtml:15
+msgid "Nouvelle facture"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Admin/Config/menu_pme.php:41
+msgid "Mon entreprise"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Admin/Config/menu_pme.php:47
+msgid "Informations"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Admin/Config/menu_pme.php:53
+msgid "Clients & Prospects"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Admin/Config/menu_pme.php:59
+#: apps/simplemanager.fr/backend/App/Common/Generated/menu_strings.php:9
+#: apps/simplemanager.fr/backend/App/Common/View/index.phtml:29
+msgid "Produits"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Admin/Config/menu_pme.php:65
+msgid "Réglages"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Admin/Config/menu_pme.php:71
+#: apps/simplemanager.fr/backend/App/Common/Generated/menu_strings.php:11
+#: apps/simplemanager.fr/backend/App/Common/Generated/menu_strings.php:18
+#: apps/simplemanager.fr/backend/App/Common/View/index.phtml:32
+msgid "Résultats"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Admin/Config/menu_pme.php:77
+msgid "Stratégie"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Admin/Config/menu_pme.php:85
+msgid "Procédures"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Admin/Config/menu_pme.php:91
+msgid "Déclarer mon activité"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Admin/Config/menu_pme.php:97
+msgid "Déclarer mes impôts"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Admin/Config/menu_pme.php:105
+msgid "Configuration"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Admin/Config/menu_pme.php:111
+msgid "Mes applications"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Admin/Config/menu_pme.php:117
+msgid "Mon interface"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Admin/Config/menu_pme.php:123
+msgid "Accès clients"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Admin/Config/menu_pme.php:129
+msgid "Accès comptable"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Board/Controller.php:20
+msgid "Tableau de Bord"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Common/Generated/menu_strings.php:6
+#: apps/simplemanager.fr/backend/App/Invoice/Controller.php:36
+msgid "Facturation"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Common/Generated/menu_strings.php:7
+msgid "Mes apps"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Common/Generated/menu_strings.php:8
+#: apps/simplemanager.fr/backend/App/Common/View/index.phtml:28
+msgid "Clients"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Common/Generated/menu_strings.php:10
+#: apps/simplemanager.fr/backend/App/Common/View/index.phtml:30
+msgid "Courriers"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Common/Generated/menu_strings.php:12
+#: apps/simplemanager.fr/backend/Sma/Plugin/LayoutPlugin.php:70
+#: apps/simplemanager.fr/backend/App/Account/View/_menu_begin.phtml:15
+msgid "Options"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Common/Generated/menu_strings.php:13
+msgid "Connexion"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Common/Generated/menu_strings.php:14
+msgid "Administration"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Common/Generated/menu_strings.php:15
+msgid "Tableau de bord"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Common/Generated/menu_strings.php:16
+msgid "Applications"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Common/Generated/menu_strings.php:17
+msgid "Statistiques"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Common/Generated/menu_strings.php:19
+msgid "Documentation"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Common/Generated/menu_strings.php:20
+msgid "Guide"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Common/Generated/menu_strings.php:21
+#: apps/simplemanager.fr/backend/App/Info/View/display.phtml:13
+msgid "A propos"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Common/Generated/menu_strings.php:22
+msgid "Développement"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Common/Generated/menu_strings.php:23
+msgid "Travaux en cours"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Common/Generated/menu_strings.php:24
+msgid "Base de données"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Common/Generated/menu_strings.php:25
+msgid "Sandbox"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Common/Generated/menu_strings.php:26
+msgid "UI"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Common/Generated/menu_strings.php:27
+msgid "Forms"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Common/Generated/menu_strings.php:28
+msgid "Kitchen"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Document/Controller.php:24
+msgid "Lettres & Documents"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Document/Controller.php:30
+msgid "Nouvelle lettre"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Document/Controller.php:43
+msgid ""
+"La génération du document comporte des erreurs. Nous analysons la situation "
+"de notre côté."
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Document/Controller.php:70
+msgid "Liste des lettres"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Document/Controller.php:81
+msgid "Démarches administratives"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Document/Form/FormLetter.php:37
+msgid "-- Destinataire --"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Document/Form/FormLetter.php:49
+msgid "Contenu de votre lettre."
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Document/Form/FormLetter.php:49
+msgid ""
+"N'incluez pas l'introduction (M./Mme xxx,) et la signature, qui sont générés "
+"automatiquement."
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Document/Form/FormLetter.php:69
+#: apps/simplemanager.fr/backend/App/Invoice/Controller.php:46
+msgid "Aperçu"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Event/Controller.php:24
+msgid "Erreur détectée"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Event/Controller.php:30
+msgid "Cette page est introuvable (404)"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Event/Controller.php:31
+msgid "Il semble que ce contenu n'existe pas ou n'est plus disponible."
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Event/Controller.php:34
+msgid "Redirection"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Event/Controller.php:56
+msgid ""
+"Une erreur indépendante de notre volonté est survenue, nous nous efforçons "
+"de la corriger au plus vite. Veuillez nous excuser pour la gêne occasionnée."
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Invoice/Controller.php:28
+msgid "devis"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Invoice/Controller.php:29
+msgid "commande"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Invoice/Controller.php:30
+msgid "facture"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Invoice/Controller.php:41
+msgid "Nouveau"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Invoice/Controller.php:41
+msgid "Nouvelle"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Invoice/Controller.php:51
+msgid "Expédition"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Invoice/Controller.php:57
+msgid "Gestion des devis"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Invoice/Controller.php:58
+msgid "Gestion des commandes"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Invoice/Controller.php:59
+msgid "Gestion des factures"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Play/Controller.php:24
+msgid "Qu'est-ce qu'une application ?"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Play/Controller.php:25
+msgid ""
+"Les applications apportent des fonctionnalités à votre interface "
+"SimpleManager, un peu comme celles de votre smartphone. Choisissez ici les "
+"applications SMA qui correspondent à vos besoins."
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Product/Controller.php:22
+msgid "Produits & Services"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Product/Controller.php:58
+#, php-format
+msgid "Produit %s ajouté. Vous pouvez en saisir un autre ou fermer la fenêtre."
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Product/Controller.php:64
+msgid "Une erreur a été détectée lors de l'enregistrement de votre produit."
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Product/Controller.php:65
+#: apps/simplemanager.fr/backend/App/Recipient/Controller.php:48
+msgid ""
+"Ce problème a été envoyé à nos équipes qui font tout leur possible pour le "
+"régler. Toutes nos excuses pour la gêne occasionnée."
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Product/Controller.php:77
+msgid "Impossible de supprimer ce produit"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Product/Form/FormProduct.php:61
+msgid "Valeur maximale atteinte. Saisissez le code manuellement."
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Product/Form/FormProduct.php:75
+msgid "Ce code produit existe déjà."
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Recipient/Controller.php:23
+msgid "Clients & Contacts"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Recipient/Controller.php:48
+msgid "Une erreur a été détectée lors de l'enregistrement de votre contact."
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Recipient/Controller.php:66
+msgid "Impossible de supprimer ce client"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Recipient/Form/FormRecipient.php:33
+#: apps/simplemanager.fr/backend/App/Account/View/login.phtml:38
+msgid "Prénom"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Recipient/Form/FormRecipient.php:34
+#: apps/simplemanager.fr/backend/App/Account/View/company.phtml:22
+#: apps/simplemanager.fr/backend/App/Account/View/login.phtml:37
+#: apps/simplemanager.fr/backend/App/Product/View/view.phtml:31
+#: apps/simplemanager.fr/backend/App/Recipient/View/view.phtml:29
+#: apps/simplemanager.fr/backend/App/Recipient/View/view.phtml:47
+msgid "Nom"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Recipient/Form/FormRecipient.php:35
+#: apps/simplemanager.fr/backend/Sma/Plugin/LayoutPlugin.php:71
+#: apps/simplemanager.fr/backend/App/Common/View/index.phtml:39
+#: apps/simplemanager.fr/backend/App/Recipient/View/view.phtml:41
+msgid "Société"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Recipient/Form/FormRecipient.php:41
+#: apps/simplemanager.fr/backend/App/Account/View/company.phtml:25
+#: apps/simplemanager.fr/backend/App/Account/View/login.phtml:39
+#: apps/simplemanager.fr/backend/App/Recipient/View/view.phtml:30
+msgid "E-mail"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Recipient/Form/FormRecipient.php:45
+msgid "Site web (url)"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Recipient/Form/FormRecipient.php:48
+msgid "Mots clés, ex: commerce, particulier, vip"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Recipient/Form/FormRecipient.php:49
+msgid "Pour améliorer vos recherches"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Recipient/Form/FormRecipient.php:63
+msgid "...et/ou un nom de société"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Recipient/Form/FormRecipient.php:64
+msgid "Entrez un prénom..."
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Recipient/Form/FormRecipient.php:65
+msgid "...et/ou un nom"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/Sma/Controller/Json.php:110
+msgid "Fonctionnalité en travaux"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/Sma/Controller/Json.php:110
+msgid ""
+"Cette fonctionnalité n'est pas encore disponible car en cours de "
+"développement ou maintenance."
+msgstr ""
+
+#: apps/simplemanager.fr/backend/Sma/Db/ImageTable.php:33
+msgid "La taille du fichier est trop importante."
+msgstr ""
+
+#: apps/simplemanager.fr/backend/Sma/Plugin/AclPlugin.php:27
+msgid ""
+"You are not allowed to access this page. Please log in with an authorized "
+"account."
+msgstr "Cette page n'est pas accessible."
+
+#: apps/simplemanager.fr/backend/Sma/Plugin/LayoutPlugin.php:69
+msgid "Modifier mes infos"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/Sma/Plugin/LayoutPlugin.php:70
+msgid "Paramètres SimpleManager"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/Sma/Plugin/LayoutPlugin.php:71
+msgid "Options de mon entreprise"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/Sma/Plugin/LayoutPlugin.php:83
+msgid "Déconnexion"
+msgstr ""
+
+#: library/osf/library/Osf/Form/Element/ElementAbstract.php:372
+msgid "This value is required"
+msgstr "Valeur requise"
+
+#: library/osf/library/Osf/Form/Helper/FormFile.php:52
+msgid "Choisir un fichier"
+msgstr ""
+
+#: library/osf/library/Osf/Form/Helper/FormFile.php:166
+msgid "Choisir une image"
+msgstr ""
+
+#: library/osf/library/Osf/Image.php:205
+msgid "La taille de votre fichier est trop importante."
+msgstr ""
+
+#: library/osf/library/Osf/Image.php:208
+msgid ""
+"Votre fichier n'a pas été chargé en entier. Cela est peut-être dû à une "
+"connexion trop lente. Veuillez réessayer."
+msgstr ""
+
+#: library/osf/library/Osf/Image.php:211
+msgid ""
+"Une erreur a été détectée lors de l'envoi de votre fichier. Veuillez "
+"réessayer."
+msgstr ""
+
+#: library/osf/library/Osf/Image.php:216
+msgid ""
+"Ce fichier ne peut être traité. Veuillez nous excuser pour la gêne "
+"occasionnée."
+msgstr ""
+
+#: library/osf/library/Osf/Image.php:218
+msgid ""
+"Ce fichier ne semble pas être une image valide. Veuillez sélectionner un "
+"fichier contenant une image."
+msgstr ""
+
+#: library/osf/library/Osf/Image.php:220
+msgid ""
+"Votre fichier est trop lourd, veuillez vous assurer qu'il fasse moins de "
+"10mb."
+msgstr ""
+
+#: library/osf/library/Osf/Image.php:226
+msgid ""
+"Impossible de lire votre image. Veuillez vous assurer qu'elle est lisible et "
+"non corrompue."
+msgstr ""
+
+#: library/osf/library/Osf/Image.php:233
+#, php-format
+msgid ""
+"Votre image est de petite taille (%s). Remplacez-la par une image de "
+"résolution supérieure (au moins %s) pour être sûr qu'elle s'affichera "
+"correctement dans vos documents."
+msgstr ""
+
+#: library/osf/library/Osf/Image.php:244
+msgid ""
+"Une erreur est survenue pendant le traitement de votre image. Veuillez vous "
+"assurer qu'elle est lisible et non corrompue."
+msgstr ""
+
+#: library/osf/library/Osf/Pdf/Document/Bean/Addon/Libs.php:61
+msgid "Objet :"
+msgstr ""
+
+#: library/osf/library/Osf/Pdf/Document/Bean/Addon/Libs.php:71
+msgid "A l'attention de :"
+msgstr ""
+
+#: library/osf/library/Osf/Pdf/Document/Bean/Addon/Libs.php:81
+msgid "V./réf."
+msgstr ""
+
+#: library/osf/library/Osf/Pdf/Document/Bean/Addon/Libs.php:91
+msgid "N./réf."
+msgstr ""
+
+#: library/osf/library/Osf/Pdf/Document/Bean/ContactBean.php:144
+#: library/osf/library/Osf/Pdf/Document/Bean/ContactBean.php:145
+#: library/osf/library/Osf/Pdf/Document/Bean/ContactBean.php:146
+msgid "Monsieur"
+msgstr ""
+
+#: library/osf/library/Osf/Pdf/Document/Bean/ContactBean.php:147
+msgid "Madame"
+msgstr ""
+
+#: library/osf/library/Osf/Pdf/Document/Bean/ContactBean.php:148
+msgid "Mademoiselle"
+msgstr ""
+
+#: library/osf/library/Osf/Pdf/Document/Bean/ContactBean.php:149
+msgid "Docteur"
+msgstr ""
+
+#: library/osf/library/Osf/Pdf/Document/Bean/InvoiceBean.php:166
+msgid "quote"
+msgstr "devis"
+
+#: library/osf/library/Osf/Pdf/Document/Bean/InvoiceBean.php:167
+msgid "order"
+msgstr "commande"
+
+#: library/osf/library/Osf/Pdf/Document/Bean/InvoiceBean.php:168
+msgid "proforma"
+msgstr "facture proforma"
+
+#: library/osf/library/Osf/Pdf/Document/Bean/InvoiceBean.php:169
+msgid "invoice"
+msgstr "facture"
+
+#: library/osf/library/Osf/Pdf/Document/Bean/InvoiceBean.php:170
+msgid "created"
+msgstr "créé"
+
+#: library/osf/library/Osf/Pdf/Document/Bean/InvoiceBean.php:171
+msgid "sent"
+msgstr "envoyé"
+
+#: library/osf/library/Osf/Pdf/Document/Bean/InvoiceBean.php:172
+msgid "refused"
+msgstr "refusé"
+
+#: library/osf/library/Osf/Pdf/Document/Bean/InvoiceBean.php:173
+msgid "cancelled"
+msgstr "annulé"
+
+#: library/osf/library/Osf/Pdf/Document/Bean/InvoiceBean.php:174
+msgid "signed"
+msgstr "signé"
+
+#: library/osf/library/Osf/Pdf/Document/Bean/InvoiceBean.php:175
+msgid "paid"
+msgstr "payé"
+
+#: library/osf/library/Osf/Pdf/Document/Bean/LetterBean.php:192
+msgid "Madame, Monsieur,"
+msgstr ""
+
+#: library/osf/library/Osf/Pdf/Tcpdf.php:168
+msgid ", le "
+msgstr ""
+
+#: library/osf/library/Osf/Pdf/Tcpdf.php:208
+#: library/osf/library/Osf/Pdf/Tcpdf.php:240
+msgid "tél."
+msgstr ""
+
+#: library/osf/library/Osf/Pdf/Tcpdf.php:214
+#: library/osf/library/Osf/Pdf/Tcpdf.php:241
+msgid "gsm"
+msgstr ""
+
+#: library/osf/library/Osf/Pdf/Tcpdf.php:220
+#: library/osf/library/Osf/Pdf/Tcpdf.php:242
+msgid "fax."
+msgstr ""
+
+#: library/osf/library/Osf/Pdf/Tcpdf.php:265
+msgid "généré par http://www.simplemanager.fr"
+msgstr ""
+
+#: library/osf/library/Osf/Pdf/Tcpdf.php:270
+msgid "document confidentiel"
+msgstr ""
+
+#: library/osf/library/Osf/Pdf/Tcpdf/Letter.php:132
+msgid ""
+"This document contains too much text. Please remove some content and try "
+"again."
+msgstr ""
+
+#: library/osf/library/Osf/Validator/EmailAddress.php:22
+msgid "Votre address e-mail semble incorrecte. Veuillez vérifier sa syntaxe."
+msgstr ""
+
+#: library/osf/library/Osf/View/Component/VueJs.php:99
+msgid "Pour ouvrir ce document, veuillez autoriser les popups."
+msgstr ""
+
+#: library/osf/library/Osf/View/Helper/Bootstrap/Breadcrumb.php:73
+msgid "Home"
+msgstr ""
+
+#: library/osf/library/Osf/View/Helper/Bootstrap/Markdown.php:68
+#: apps/simplemanager.fr/backend/App/Info/View/display.phtml:28
+msgid "Introduction"
+msgstr ""
+
+#: library/osf/library/Osf/View/Helper/Bootstrap/SmallBox.php:44
+msgid "More info"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Account/View/_logo.phtml:15
+msgid "Modifier le logo"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Account/View/_logo.phtml:15
+msgid "Ajouter un logo"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Account/View/_menu_begin.phtml:20
+msgid "Mes paramètres"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Account/View/company.phtml:21
+msgid "Logo"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Account/View/company.phtml:23
+msgid "Slogan"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Account/View/company.phtml:24
+#: apps/simplemanager.fr/backend/App/Account/View/login.phtml:47
+msgid "Adresse"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Account/View/company.phtml:26
+#: apps/simplemanager.fr/backend/App/Account/View/login.phtml:45
+msgid "Tél."
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Account/View/company.phtml:27
+#: apps/simplemanager.fr/backend/App/Account/View/login.phtml:46
+msgid "Fax."
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Account/View/company.phtml:28
+msgid "Url"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Account/View/company.phtml:44
+#: apps/simplemanager.fr/backend/App/Account/View/login.phtml:66
+#: apps/simplemanager.fr/backend/App/Common/View/_crud.phtml:83
+msgid "Modifier"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Account/View/login.phtml:12
+#: apps/simplemanager.fr/backend/App/Account/View/login.phtml:62
+msgid "Mon profil"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Account/View/login.phtml:24
+#: apps/simplemanager.fr/backend/App/Common/View/index.phtml:47
+msgid "Créer un compte"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Account/View/login.phtml:26
+msgid "Mot de passe oublié"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Account/View/login.phtml:36
+msgid "Civilité"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Account/View/login.phtml:40
+msgid "Fonction"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Account/View/login.phtml:41
+#: apps/simplemanager.fr/backend/App/Recipient/View/view.phtml:50
+msgid "Mobile"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Account/View/login.phtml:69
+msgid "Changer d'email"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Account/View/login.phtml:72
+msgid "Changer mon mot de passe"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Account/View/registered.phtml:3
+msgid "Merci pour votre inscription !"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Account/View/registered.phtml:4
+msgid ""
+"Un e-mail vous a été envoyé pour activer votre compte. Attention, cet e-mail "
+"a une validité de 24 heures."
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Account/View/registered.phtml:5
+msgid "Retour à l'accueil"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Account/View/registration.phtml:12
+msgid ""
+"* Répétez le mot de passe dans les deux champs. Sécurisez-le en utilisant "
+"chiffres, lettres et caractères spéciaux."
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Admin/View/index.phtml:6
+msgid "Services en ligne gratuits !"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Admin/View/index.phtml:8
+msgid "Générez votre devis en une minute"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Admin/View/index.phtml:9
+msgid "Générez votre commande en quelques clics"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Admin/View/index.phtml:10
+msgid "Générez votre facture prêt à poster !"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Common/View/_crud.phtml:30
+msgid "Enregistrer"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Common/View/_crud.phtml:41
+msgid "Fermer"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Common/View/_crud.phtml:75
+msgid "Êtes-vous sûr ?"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Common/View/_crud.phtml:77
+msgid "Oui, supprimer définitivement"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Common/View/_crud.phtml:82
+msgid "Détails"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Common/View/_crud.phtml:85
+msgid "Supprimer"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Common/View/index.phtml:6
+#, php-format
+msgid "Bienvenue %s"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Common/View/index.phtml:7
+msgid "Pour commencer"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Common/View/index.phtml:7
+#, php-format
+msgid "Nous vous invitons à %s afin de gagner du temps sur vos démarches."
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Common/View/index.phtml:7
+msgid "compléter votre profil"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Common/View/index.phtml:9
+msgid "Que voulez-vous faire ?"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Common/View/index.phtml:14
+#: apps/simplemanager.fr/backend/App/Common/View/index.phtml:22
+#: apps/simplemanager.fr/backend/App/Invoice/View/_menu_main.phtml:9
+msgid "Devis"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Common/View/index.phtml:15
+#: apps/simplemanager.fr/backend/App/Common/View/index.phtml:23
+msgid "Commande"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Common/View/index.phtml:16
+#: apps/simplemanager.fr/backend/App/Common/View/index.phtml:24
+msgid "Facture"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Common/View/index.phtml:17
+#: apps/simplemanager.fr/backend/App/Common/View/index.phtml:25
+msgid "Courrier"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Common/View/index.phtml:27
+#: apps/simplemanager.fr/backend/App/Invoice/View/_menu_main.phtml:11
+msgid "Factures"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Common/View/index.phtml:33
+msgid "Alertes"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Common/View/index.phtml:34
+msgid "Stats"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Common/View/index.phtml:35
+msgid "Aide"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Common/View/index.phtml:38
+msgid "Paramètres"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Common/View/index.phtml:40
+msgid "Interface"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Common/View/index.phtml:50
+msgid "Débarrassez-vous de la paperasse"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Common/View/index.phtml:54
+msgid "Ne perdez plus de temps"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Common/View/index.phtml:55
+msgid "Ne faites plus d'erreurs"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Common/View/index.phtml:56
+msgid "Préservez votre vie privée"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Document/View/letter.phtml:10
+#: apps/simplemanager.fr/backend/App/Sandbox/View/kitchen.phtml:121
+msgid "Retour"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Event/View/error.phtml:1
+msgid "Oops !"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Event/View/error.phtml:2
+msgid "erreur"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Event/View/error.phtml:7
+msgid "Trace de l'exception"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Info/View/display.phtml:14
+msgid "Foire aux Questions"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Info/View/display.phtml:15
+msgid "Nos garanties"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Info/View/display.phtml:16
+msgid "Données personnelles"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Info/View/display.phtml:17
+msgid "Conditions"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Invoice/View/_menu_edit.phtml:12
+msgid "Accueil facturation"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Invoice/View/_menu_edit.phtml:14
+msgid "Liste des devis"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Invoice/View/_menu_edit.phtml:15
+msgid "Liste des commandes"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Invoice/View/_menu_edit.phtml:16
+msgid "Liste des factures"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Invoice/View/_menu_main.phtml:10
+msgid "Commandes"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Product/View/list.phtml:8
+msgid "Mes produits"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Product/View/list.phtml:9
+msgid "Cliquez sur le bouton \"+\" pour ajouter un produit."
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Product/View/list.phtml:10
+msgid "Ajouter un produit"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Product/View/list.phtml:11
+msgid "Détail produit"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Product/View/list.phtml:12
+#: apps/simplemanager.fr/backend/App/Recipient/View/list.phtml:12
+msgid "Suppression"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Product/View/list.phtml:13
+msgid "Cette action supprimera définitivement un produit."
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Product/View/view.phtml:17
+msgid "Ce produit n'existe pas"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Product/View/view.phtml:30
+msgid "Code"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Product/View/view.phtml:32
+msgid "Prix"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Product/View/view.phtml:33
+msgid "Détail"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Product/View/view.phtml:35
+#: apps/simplemanager.fr/backend/App/Recipient/View/view.phtml:37
+#: apps/simplemanager.fr/backend/App/Recipient/View/view.phtml:53
+msgid "Création"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Product/View/view.phtml:36
+#: apps/simplemanager.fr/backend/App/Recipient/View/view.phtml:38
+#: apps/simplemanager.fr/backend/App/Recipient/View/view.phtml:54
+msgid "Mise à jour"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Product/View/view.phtml:39
+msgid "Produit"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Recipient/View/list.phtml:8
+msgid "Mes contacts"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Recipient/View/list.phtml:9
+msgid "Cliquez sur le bouton \"+\" pour ajouter un contact."
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Recipient/View/list.phtml:10
+msgid "Ajouter un client / contact"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Recipient/View/list.phtml:11
+msgid "Détail client / contact"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Recipient/View/list.phtml:13
+msgid "Cette action supprimera définitivement un contact."
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Recipient/View/view.phtml:16
+msgid "Ce contact n'existe pas"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Recipient/View/view.phtml:31
+msgid "Site web"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Recipient/View/view.phtml:32
+msgid "Téléphone"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Recipient/View/view.phtml:33
+msgid "Fax"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Recipient/View/view.phtml:34
+msgid "Mots clés"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Recipient/View/view.phtml:57
+msgid "Contact"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Sandbox/View/index.phtml:1
+msgid "Tests"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Sandbox/View/index.phtml:3
+msgid "Test de la lib haru"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Sandbox/View/index.phtml:4
+msgid "Régénération des données en base"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Sandbox/View/index.phtml:5
+msgid "Génération aléatoire d'une lettre depuis la DB"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Sandbox/View/index.phtml:6
+msgid "Génération aléatoire d'une lettre depuis le bean"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Sandbox/View/index.phtml:7
+msgid "Affichage d'une lettre sérialisée"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Sandbox/View/index.phtml:8
+msgid "Test des traitements d'images"
+msgstr ""
+
+#: apps/simplemanager.fr/backend/App/Sandbox/View/index.phtml:9
+msgid "Test des accès en base"
+msgstr ""
+
+#: library/osf/library/Osf/Form/Helper/FormSkin/bootstrap.phtml:183
+msgid "plus de champs"
+msgstr ""
+
+#: library/osf/library/Osf/Form/Helper/FormSkin/bootstrap.phtml:185
+msgid "moins de champs"
+msgstr ""
+
+#~ msgid "Welcome"
+#~ msgstr "Bonjour"
+
+#~ msgid "Mon lien"
+#~ msgstr "Mon super lien"

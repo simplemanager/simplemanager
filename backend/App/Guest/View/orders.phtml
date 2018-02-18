@@ -1,0 +1,12 @@
+<?php 
+
+use App\Guest\View\Helper\GuestCrudHelper;
+
+/* @var $guestBean \Sma\Bean\GuestBean */
+$guestBean = H::get('guestBean');
+echo GuestCrudHelper::buildCrud(
+        __("Liste des commandes"), 
+        __("Aucune commande émise pour le moment."), 
+        'file-text-o', 
+        function ($row) { return H::url('document', 'dl', ['k' => $row['hash']]); }, 
+        $guestBean->getOrdersToSign() ? 'warning' : 'success');

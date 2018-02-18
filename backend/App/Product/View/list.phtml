@@ -1,0 +1,35 @@
+<?php 
+
+use Sma\View\Helper\Crud\CrudConfig;
+use Osf\View\Helper\Bootstrap\Addon\DropDownMenu;
+use Sma\Session\Identity;
+use App\Common\Container;
+
+// Mise à jour partielle de la page ?
+$refresh = (bool) Container::getRequest()->getParam('tp');
+
+$config = (new CrudConfig())
+        ->setRefresh($refresh)
+        ->setMsg('title'  , __("Mes produits"))
+        ->setMsg('noitem' , __("Cliquez sur le bouton \"+\" pour ajouter un produit."))
+        ->setMsg('add'    , __("Ajouter un produit"))
+        ->setMsg('view'   , __("Détail produit"))
+        ->setMsg('del'    , __("Suppression"))
+        ->setMsg('deldesc', __("Cette action supprimera définitivement un produit."))
+        ->setIcon('shopping-basket')
+        ->setItemTemplate(__DIR__ . '/list_item.phtml') // Factulatif
+        ->setLinkPattern('/product/view/id/[key]');
+
+// Si pas encore de société
+if (!$refresh && !Identity::getIdCompany()) {
+    echo H::alert(__("Qui êtes-vous ?"), sprintf(__("%s pour que l'interface de %s s'adapte à vos besoins."), H::link(__("Complétez votre profil"), 'account', 'company'), APP_NAME))->disableEscape()->statusWarning();
+}
+
+// Bouton(s) en haut à droite (import/export)
+$config->setButtons(H::exchangeButton(__("mes-produits"), 'product', 'export', 'import'));
+
+// Menu de la page
+// $refresh || include __DIR__ . '/_menu.phtml';
+
+// Affichage du tableau CRUD
+echo H::crud($config);

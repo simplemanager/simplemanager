@@ -1,0 +1,49 @@
+<?php 
+
+use Osf\View\Helper\Bootstrap\Icon;
+use Osf\View\Table; 
+use Osf\View\Helper\Bootstrap\Addon\DropDownMenu;
+use App\Admin\Controller as Ctrl;
+use Sma\Container;
+
+$fields = ['id', 'firstname', 'lastname', 'email', 'status'];
+$tp = (int) Container::getRequest()->getParam('tp') ?: 1;
+
+$actions = (new Icon('bars'))->setMenu((new DropDownMenu())->alignRight()
+        ->addLink(H::iconCached('save') . __("Sauvegarder"), H::url('admin', 'board', ['tp' => $tp, 'touch' => '{{id}}', 'a' => Ctrl::ACTION_SAVE]))
+        ->addSeparator()
+        ->addLink(H::iconCached('info') . __("Informations"), H::url('admin', 'info', ['id' => '{{id}}']))
+        ->addSeparator()
+        ->addLink(H::iconCached('battery-4', null, 'green') . __("Activer"), H::url('admin', 'board', ['tp' => $tp, 'touch' => '{{id}}', 'a' => Ctrl::ACTION_STATUS_ENABLE]))
+        ->addLink(H::iconCached('battery-3', null, 'blue') . __("Brouillon"), H::url('admin', 'board', ['tp' => $tp, 'touch' => '{{id}}', 'a' => Ctrl::ACTION_STATUS_DRAFT]))
+        ->addLink(H::iconCached('battery-2', null, 'orange') . __("Suspendre"), H::url('admin', 'board', ['tp' => $tp, 'touch' => '{{id}}', 'a' => Ctrl::ACTION_STATUS_SUSPEND]))
+        ->addLink(H::iconCached('battery-1', null, 'red') . __("Désactiver"), H::url('admin', 'board', ['tp' => $tp, 'touch' => '{{id}}', 'a' => Ctrl::ACTION_STATUS_DISABLE]))
+        ->addSeparator()
+        ->addLink(H::iconCached('times', null, 'red') . __("Supprimer"), H::url('admin', 'board', ['tp' => $tp, 'touch' => '{{id}}', 'a' => Ctrl::ACTION_DELETE]))
+    );
+
+$table = DB::getAccountTable()->getTable($fields);
+$table->getDbSelect()->order('id DESC');
+$table->mergeFieldParams([
+    'id' => [Table::FP_WIDTH => '50px'],
+    'firstname' => [Table::FP_WIDTH => '20%'],
+    'lastname' => [Table::FP_WIDTH => '20%'],
+    'status' => [Table::FP_CALLBACK => function ($value) {
+        switch ($value) {
+            case 'enabled'  : $status = 'success'; break;
+            case 'draft'    : $status = 'info';    break;
+            case 'disabled' : $status = 'danger';  break;
+            default         : $status = 'warning'; break;
+        }
+        return H::html(Ctrl::STATUS_LABELS[$value])->addCssClasses(['label', 'label-' . $status]);
+    }],
+    'email' => [Table::FP_CALLBACK => function ($value) {
+        return H::html($value, 'a')->setAttribute('href', 'mailto:' . $value);
+    }],
+]);
+$table->setAction((string) $actions);
+$table->setPaginate(true, 10, []);
+$table->execute();
+
+echo H::box('Liste des comptes')->addTable(H::table($table)->setResponsive(false))->icon('user')->render();
+

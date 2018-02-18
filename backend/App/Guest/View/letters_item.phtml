@@ -1,0 +1,32 @@
+<?php
+
+use Osf\Pdf\Document\Bean\BaseDocumentBean as BDB;
+use Osf\Exception\ArchException;
+use Osf\Stream\Text as T;
+use Osf\Helper\DateTime as DT;
+
+switch (true) {
+    case $row['status'] === BDB::STATUS_SENT : 
+        $status = 'primary';
+        $statusLabel = H::html(__("Non lu"))->addCssClasses(['label', 'label-' . $status]);
+        $color = 'navy';
+        $important = true;
+        break;
+    case $row['status'] === BDB::STATUS_READ : 
+    case $row['status'] === BDB::STATUS_PROCESSED : 
+        $status = 'default';
+        $statusLabel = H::html(__("Lu"))->addCssClasses(['label', 'label-' . $status]);
+        $color = 'teal';
+        $important = false;
+        break;
+    default : 
+        throw new ArchException('Unknown status [' . $row['statuts'] . ']');
+}
+
+$icon = H::iconCached('envelope-o', null, $color);
+$lines = [
+    $icon . '&nbsp;&nbsp;' . H::html($row['subject'], $important ? 'strong' : 'span')->mobileCrop(40),
+    H::iconCached('calendar', null, $color) . '&nbsp;&nbsp;' . H::html(T::formatDateTime(DT::buildDate($row['date']))) .
+    H::html($statusLabel)->escape(false)->addCssClass('pull-right')
+];
+return H::grid()->auto($lines);

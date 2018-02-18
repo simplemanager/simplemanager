@@ -1,0 +1,47 @@
+---
+config:
+  priority: 40
+gub: 
+  label: Accueil
+  icon: home
+  params: 
+    controller: guest
+    action: home
+guin: 
+  label: Mes factures
+  icon: file-text
+  params: 
+    controller: guest
+    action: invoices
+guor: 
+  label: Mes commandes
+  icon: file-text-o
+  params: 
+    controller: guest
+    action: orders
+guqu: 
+  label: Mes devis
+  icon: file-o
+  params: 
+    controller: guest
+    action: quotes
+gule: 
+  label: Mon courrier
+  icon: envelope-o
+  params: 
+    controller: guest
+    action: letters
+guc: 
+  label: Mes informations
+  icon: user-o
+  params: 
+    controller: guest
+    action: info
+gud: 
+  label: Déconnexion
+  icon: sign-out
+  color: red
+  params: 
+    controller: guest
+    action: logout
+...

@@ -1,0 +1,22 @@
+##
+## Gestion des produits
+##
+
+app:
+    title: 
+        short: Produits
+        medium: Produits & Services
+        long: Ajouter, modifier, gérer les produits & services
+    description: 
+        hook: Gérez les produits et services que vous vendez.
+        resume: Ajoutez, modifiez, supprimez des produits ou des services 
+                pré-enregistrés. Vous pourrez ainsi les associer à vos 
+                commandes en un seul clic.
+    meta: 
+        category: Gestion
+        icon: shopping-basket
+        color: fuchsia
+        index: 8
+        status: ALPHA
+        required: 0
+        dependencies: []

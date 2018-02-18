@@ -1,0 +1,22 @@
+<?php 
+
+use Sma\Session\Identity;
+use App\Account\Form\FormContact;
+use App\Account\Form\FormSequences;
+
+if (Identity::isLevelBeginner() && H::get('form') instanceof FormContact) {
+    H::layout()->addAlert(__("Personne physique et morale"), __("Ce formulaire contient des informations sur votre personne physique (vous-même) que l'on distingue des informations sur votre personne morale (votre société) disponibles dans le menu [Options] -> [Ma Société]."));
+}
+
+/* @var $form \Osf\Form\AbstractForm */
+$form = H::get('form');
+$form->setHtmlAfter(H::html(H::link(__("annuler"), 'account', 'login')->setIsAjaxLink(true), 'div')->escape(false)->addCssClass('text-center'));
+$htmlForm = H::form($form);
+if (H::get('form') instanceof FormSequences) {
+    $htmlForm->setHorizontal();
+}
+echo $htmlForm;
+
+//if (H::get('menu')) {
+//    echo H::html(H::link(__("annuler"), 'account', 'login')->setIsAjaxLink(true), 'div')->escape(false)->addCssClass('text-center');
+//}

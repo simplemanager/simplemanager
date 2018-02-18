@@ -1,0 +1,20 @@
+##
+## document
+##
+
+app:
+    title: 
+        short: Espace invité
+        medium: Espace invité
+        long: Gestion des paiements et consultation des factures
+    description: 
+        hook: 
+        resume: ""
+    meta: 
+        category: Core
+        icon: user-o
+        color: orange
+        index: 4000
+        status: ALPHA
+        required: 0
+        dependencies: []

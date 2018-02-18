@@ -1,0 +1,516 @@
+## Paramètres généraux
+## TODO : artisan, ajouter numéro au Répertoire des métiers pour un artisan (n° Siren + RM + n° du département d'immatriculation)
+## Retard de paiement "#  Le règlement avant l’échéance donnera lieu à un escompte au taux de … (0% ou autre taux accordé au client)."
+---
+profile:
+  name: general
+  title: Général
+  comment: Profil générique
+forms:
+  company:
+    title: Entreprise
+    options:
+      creation:
+        label: Création
+        element: input
+        type: date
+        mask: "99/99/9999"
+        maskopt:
+          placeholder: dd/mm/yyyy
+        validators:
+          Date: "d/m/Y"
+        size: 4
+        conditions:
+          isnot:
+            company|legal_status: ei
+      capital:
+        label: Capital social
+        element: input
+        type: number
+        validators:
+          GreaterThan: 0
+          LessThan: 1000000000
+          Digits:
+        left:
+          label: €
+        size: 4
+        conditions:
+          isnot:
+            company|legal_status: [a,ei]
+      rna:
+        label: Immatriculation (RNA)
+        element: input
+        mask: "W999999999"
+        filters:
+          RemoveSpaces:
+        validators: 
+          Rna:
+        size: 4
+        help: rna
+        conditions:
+          is:
+            company|legal_status: a
+      rcs:
+        label: RCS de ...
+        help: rcs
+        element: input
+        size: 4
+        conditions:
+          isnot:
+            company|legal_status: [a,ei]
+      prefecture:
+        label: Préfecture de ...
+        help: prefecture
+        element: input
+        size: 4
+        conditions:
+          is:
+            company|legal_status: a
+      siret:
+        label: N° de SIRET
+        element: input
+        mask: "999 999 999 99999"
+        filters:
+          RemoveSpaces:
+        validators:
+          Siret:
+        size: 4
+        conditions:
+          isnot:
+            company|legal_status: ei
+      tva_intra:
+        label: TVA intra
+        placeholder: TVA intracommunautaire
+        element: input
+        help: tva-intra
+        mask: "AA 99 999 999 999"
+        filters:
+          RemoveSpaces:
+        size: 4
+        conditions:
+          isnot:
+            company|legal_status: ei
+      ape:
+        label: Code APE (NAF)
+        element: input
+        mask: "9999A"
+        filters:
+          RemoveSpaces:
+        size: 4
+        conditions:
+          isnot:
+            company|legal_status: ei
+      rib_owner: 
+        label: "IBAN : Titulaire"
+        placeholder: Prénom et Nom du titulaire IBAN
+        element: input
+        filters:
+          StringTrim:
+        validators:
+          StringLength: 
+            min: 4
+            max: 36
+        size: 31
+        help: rib
+      rib_domicil: 
+        label: "IBAN : Domiciliation"
+        placeholder: Agence & Ville
+        element: input
+        filters:
+          StringTrim:
+        validators:
+          StringLength: 
+            min: 3
+            max: 36
+        size: 31
+      rib_iban: 
+        label: "N° IBAN"
+        element: input
+        mask: "FR99 99999 99999 *********** 99"
+        filters:
+          RemoveSpaces:
+          StringToUpper:
+        validators:
+          IbanFr:
+        size: 31
+      rib_bic: 
+        label: "BIC (SWIFT)"
+        element: input
+        mask: "**** ** ** ***"
+        filters:
+          MaskTrim:
+          RemoveSpaces:
+          StringToUpper:
+        validators:
+          Bic:
+        size: 31
+      sspref:
+        label: Association enregistrée en sous-préfecture
+        element: checkbox
+        default: 0
+        desc: Permet d'afficher "sous-préfecture" plutôt que "préfecture" dans vos documents.
+        conditions:
+          is:
+            company|legal_status: a
+      taxfranch:
+        label: Facturation avec franchise en base de TVA
+        desc: Si vous cochez cette case, la TVA n'apparaîtra pas dans les factures. Ce régime 
+              vous dispense de déclarer et payer la TVA. Soit il est obligatoire (auto-entrepreneur), 
+              soit vous devez en faire la demande pour l'obtenir. Laissez la valeur par défaut en cas 
+              de doute. [Plus d'infos...](https://www.service-public.fr/professionnels-entreprises/vosdroits/F21746|blank)
+        element: checkbox
+        help: franchise-tva
+        default: 0
+  product:
+    title: Produits
+    options:
+      withTax:
+        label: Je fixe mes tarifs
+        element: select
+        options: 
+          0: Hors Taxe
+          1: TTC
+        default: 0
+        required: 1
+        size: 6
+      defaultTax:
+        label: TVA par défaut
+        element: select
+        options:
+          20: "20% (normal)"
+          10: "10% (réduit)"
+          5.5: "5.5% (réduit)"
+          2.1: "2.1% (réduit)"
+          0: "Aucune"
+        left:
+          icon: institution
+        default: 20
+        required: 1
+        tooltip: TVA par défaut de mes produits
+        size: 6
+  document:
+    title: Documents
+    options:
+      color:
+        label: Couleur des documents
+        element: select
+        options:
+          nb: Noir et blanc uniquement
+          logo: Couleur dominante du logo
+          alt: Couleur alternative
+        default: logo
+        required : 1
+        size: 6
+      coloralt:
+        label: Couleur alternative
+        default: "#000000"
+        type: color
+        size: 6
+      madesma:
+        label: Afficher la mention "Généré par"
+        element: checkbox
+        default: 1
+      confidential:
+        label: Mentionner "document confidentiel" par défaut
+        element: checkbox
+        default: 0
+      header:
+        label: Haut de page
+        element: select
+        multiple: 1
+        options:
+          logo: Logo
+          title: Nom Société
+          user: Prénom Nom
+          desc: Slogan
+          siret: Siret
+          siren: Siren
+          address: Adresse
+          email: E-mail
+          url: Site Internet
+          tel: Téléphone
+          gsm: Mobile
+          fax: Fax
+        default: [logo,title,user,desc,address,email,url,tel,gsm,fax]
+        desc: Pour le haut de page l'ordre des éléments n'est pas pris en compte.
+      footer1:
+        label: Pied de page, ligne 1
+        element: select
+        multiple: 1
+        options:
+          title: Nom Société
+          user: Prénom Nom
+          desc: Slogan
+          intro: Statut & Infos
+          rcs: RCS
+          tvai: TVA Intra
+          address: Adresse
+          email: E-mail
+          url: Site Internet
+          tel: Téléphone
+          gsm: Mobile
+          fax: Fax
+          siret: Siret
+          siren: Siren
+          ape: Code APE
+        default: [title,intro,address]
+        desc: Ces éléments seront affichés dans l'ordre spécifié.
+      footer2:
+        label: Pied de page, ligne 2
+        element: select
+        multiple: 1
+        options:
+          title: Nom Société
+          user: Prénom Nom
+          desc: Slogan
+          capital: Statut & Capital
+          rcs: RCS
+          tvai: TVA intracommunautaire
+          address: Adresse
+          email: E-mail
+          url: Site Internet
+          tel: Téléphone
+          gsm: Mobile
+          fax: Fax
+          siret: Siret
+          siren: Siren
+          ape: Code APE
+        default: [siren,rcs,tvai]
+        desc: Ces éléments seront affichés dans l'ordre spécifié.
+      footer3:
+        label: Pied de page, ligne 3
+        element: select
+        multiple: 1
+        options:
+          title: Nom Société
+          user: Prénom Nom
+          desc: Slogan
+          capital: Statut & Capital
+          rcs: RCS
+          tvai: TVA intracommunautaire
+          address: Adresse
+          email: E-mail
+          url: Site Internet
+          tel: Téléphone
+          gsm: Mobile
+          fax: Fax
+          siret: Siret
+          siren: Siren
+          ape: Code APE
+        default: [tel,gsm,fax]
+        desc: Ces éléments seront affichés dans l'ordre spécifié.
+      font:
+        label: Police des documents
+        element: select
+        required: 1
+        options:
+          times: Times (performant, optimal pour le papier)
+          latolight: Lato (clean, optimal pour les écrans)
+          helvetica_light: Helvetica Light (clean)
+          helvetica: Helvetica (bonne visibilité)
+          helvetica_condensed: Helvetica Condensé (clean, gain de place)
+#          freeserif: Serif (unicode avancé)
+        default: latolight
+  invoice:
+    title: Factures
+    options:
+      delay_type:
+        label: Délai de paiement
+        help: delai-paiement
+        required: 1
+        element: select
+        options:
+          no: Ne pas mentionner
+          cash: Comptant (sans délai)
+          delivery: À réception (1 sem.)
+          delay: Jours calendaires
+          fm45: Fin de mois + 45 jours
+          45fm: 45 jours + fin de mois
+          periodic: Périodique (45j après émission)
+        default: delay
+        desc: Choisissez le délai légal qui vous convient.
+        size: 31
+      delay:
+        label: Délai négocié
+        placeholder: Vide = valeur légale, 60j
+        element: input
+        type: number
+        validators: 
+          IsInt:
+          GreaterThan: 
+            min: 0
+            inclusive: 1
+          LessThan: 
+            max: 365
+            inclusive: 1
+        desc: En jours calendaires, fixé avec le client ou dans les CGV. 
+        size: 31
+      delay_other:
+        label: Délai de validité
+        element: input
+        type: number
+        required: 1
+        validators: 
+          IsInt:
+          GreaterThan: 
+            min: 0
+            inclusive: 1
+          LessThan: 
+            max: 365
+            inclusive: 1
+        default: 30
+        desc: En jours, pour les devis & commandes uniquement. 
+        size: 31
+      penal:
+        label: Taux de pénalités
+        element: select
+        required: 1
+        options:
+          3bce: 3x le taux légal (peu efficace)
+          bce10: Taux légal + 10% (défaut)
+          5: 'Fixe : 5%'
+          8: 'Fixe : 8%'
+          10: 'Fixe : 10% (recommandé)'
+          12: 'Fixe : 12% (recommandé)'
+          15: 'Fixe : 15%'
+        default: bce10
+        help: penalites-taux
+        desc: Taux de pénaliltés légal pour les retards de paiement. 
+        size: 31
+      penal_phrase:
+        label: 'Pénalités : mention légale'
+        element: textarea
+        validators: 
+          StringLength:
+            min: 0
+            max: 2000
+        default: "Taux de pénalités exigibles de plein droit et sans rappel préalable en cas de paiement à une date ultérieure à celle figurant sur la facture : [rate]. Une indemnité forfaitaire fixe de 40 € pour frais de recouvrement sera appliquée en cas de paiement à une date ultérieure à celle figurant sur la facture. Si les frais de recouvrement sont supérieurs à ce montant, une indemnisation complémentaire sera due sur présentation des justificatifs."
+      qrcode:
+        label: Afficher le QRCode dans la facture
+        help: qrcode
+        element: checkbox
+        default: 1
+        desc: Ce symbole inséré dans la facture permet d'assurer son authenticité. Scannez une copie pour vérifier l'original dans {C:APP_NAME}.
+      code_quote:
+        label: Code des devis
+        element: input
+        filters: 
+          StringTrim:
+        validators: 
+          StringLength:
+            min: 6
+            max: 30
+        default: 'D[nnnn]'
+        size: 4
+        help: doc-code-format
+        desc: Format de vos codes de devis
+      code_order:
+        label: Code des commandes
+        element: input
+        filters: 
+          StringTrim:
+        validators: 
+          StringLength:
+            min: 6
+            max: 30
+        default: 'C[nnnn]'
+        size: 4
+        help: doc-code-format
+        desc: Format de vos codes de commandes
+      code_invoice:
+        label: Code des factures
+        element: input
+        filters: 
+          StringTrim:
+        validators: 
+          StringLength:
+            min: 6
+            max: 30
+        default: 'F[nnnn]'
+        size: 4
+        help: doc-code-format
+        desc: Format de vos codes de factures
+      object:
+        label: Objet par défaut
+        element: input
+        placeholder: Objet pour toutes les factures. Laissez vide pour ne pas encombrer.
+        validators: 
+          StringLength:
+            min: 0
+            max: 100
+      intro:
+        label: Introduction par défaut
+        placeholder: Ce texte apparaît dans vos factures avant la liste des produits.
+        element: textarea
+        validators: 
+          StringLength:
+            min: 0
+            max: 1000
+      conclu:
+        label: Conclusion par défaut
+        placeholder: Ce texte apparaît en fin de facture.
+        element: textarea
+        validators: 
+          StringLength:
+            min: 0
+            max: 1000
+  interface:
+    title: Interface
+    options:
+      level:
+        label: Niveau de difficulté
+        element: select
+        help: interface-level
+        options:
+          easy: Facile (conseillez-moi souvent)
+          normal: Normal (moins de messages)
+          expert: Expert (plus de performance)
+        default: easy
+        required : 1
+        tooltip: "Adapter l'interface à mon niveau de connaissance. Commencez par 'facile' si vous hésitez."
+        size: 6
+      lform:
+        label: Filtrages et tris
+        element: select
+        options:
+          'no': Aucun
+          rt: Recherche et tri uniquement
+          normal: Recherche, tri et options essentielles
+          all: Toutes les options (plus chargé)
+        default: 'normal'
+        required : 1
+        tooltip: Souhaitez-vous filtrer et trier les produits, documents, contacts, etc. ?
+        size: 6
+  features:
+    title: Fonctionnalités optionnelles
+    options:
+      document: 
+        label: <strong>Lettres</strong> - Rédigez des documents
+        element: checkbox
+        default: 1
+        desc: Rédigez des courriers propres, gagnez du temps grâce aux modèles de lettres.
+        size: 12
+      board: 
+        label: <strong>Résultats</strong> - Tableau de bord
+        element: checkbox
+        default: 0
+        desc: Consultez les statistiques de vos ventes par mois et par année.
+        size: 12
+      ticket: 
+        label: <strong>Un besoin ?</strong> - Tickets &amp; Bugs
+        element: checkbox
+        default: 0
+        desc: Signalez des disfonctionnements, demandez de nouvelles fonctionnalités et consultez la progression du développement de {C:APP_NAME}.
+        size: 12
+      info: 
+        label: <strong>Documentation</strong> - Guide &amp; Informations
+        element: checkbox
+        default: 0
+        desc: Accédez à la documentation de {C:APP_NAME} depuis votre menu principal.
+        size: 12
+      tpl: 
+        label: <strong>Modèles de lettre</strong> - Automatisez vos courriers
+        element: checkbox
+        default: 0
+        desc: Créez vos propres modèles et modifiez les modèles existants. Attention, cette fonctionnalité est un peu technique. Elle n'apparaît pas si vous n'avez pas coché la fonctionnalité "Lettres".
+        size: 12

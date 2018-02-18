@@ -1,0 +1,63 @@
+<?php use Osf\View\Helper\Bootstrap\AbstractViewHelper as AVH; $h = \App\Common\Container::getViewHelper(); ?>
+<h3>Widgets</h3>
+<h4>infoBox</h4>
+<div class="row">
+    <div class="col-md-3 col-sm-6 col-xs-12"><?php echo $h->infoBox('Titre', '67,789'); ?></div>
+    <div class="col-md-3 col-sm-6 col-xs-12"><?php echo $h->infoBox('Autre titre', '6789', AVH::ICON_DANGER, AVH::COLOR_RED); ?></div>
+    <div class="col-md-3 col-sm-6 col-xs-12"><?php echo $h->infoBox('Likes', '678', AVH::ICON_LIKE, AVH::COLOR_GREEN); ?></div>
+    <div class="col-md-3 col-sm-6 col-xs-12"><?php echo $h->infoBox('Croissance', '567 -> 789', AVH::ICON_CHART, AVH::COLOR_PURPLE); ?></div>
+</div>
+<div class="row">
+    <div class="col-md-3 col-sm-6 col-xs-12"><?php echo $h->infoBox('Hommes', '6789', AVH::ICON_MALE, AVH::COLOR_BLUE, 67, 'Oui, 67% d\'hommes'); ?></div>
+    <div class="col-md-3 col-sm-6 col-xs-12"><?php echo $h->infoBox('Femmes', '2783', AVH::ICON_FEMALE, AVH::COLOR_FUCHSIA, 100 - 67, 'Oui, 33% de femmes'); ?></div>
+    <div class="col-md-3 col-sm-6 col-xs-12"><?php echo $h->infoBox('Français', '23,67%', AVH::ICON_USER, AVH::COLOR_ORANGE, 23, 'Que dire...'); ?></div>
+    <div class="col-md-3 col-sm-6 col-xs-12"><?php echo $h->infoBox('Etrangers', '77%', AVH::ICON_USER, AVH::COLOR_TEAL, 77, 'Encore un texte'); ?></div>
+</div>
+<h4>smallBox</h4>
+<div class="row">
+    <div class="col-md-3 col-sm-6 col-xs-12"><?php echo $h->smallBox("567", "Nombre de visiteurs actuels", null, AVH::COLOR_GREEN, APP_NAME, '/'); ?></div>
+    <div class="col-md-3 col-sm-6 col-xs-12"><?php echo $h->smallBox("Google", 'Un moteur de recherche', 'fa-google', AVH::COLOR_YELLOW, 'Y aller', 'http://www.google.fr'); ?></div>
+    <div class="col-md-3 col-sm-6 col-xs-12"><?php echo $h->smallBox("Facebook", 'Un réseau social', 'fa-facebook', null, 'Y aller', 'http://www.facebook.com'); ?></div>
+    <div class="col-md-3 col-sm-6 col-xs-12"><?php echo $h->smallBox("LinkedIn", 'Un réseau pro', 'fa-linkedin', AVH::COLOR_GRAY, 'Y aller', 'http://www.linkedin.com'); ?></div>
+</div>
+<h4>box</h4>
+<div class="row">
+    <div class="col-md-3 col-sm-6 col-xs-12"><?php echo $h->box('Par défaut', 'Un box par défaut'); ?></div>
+    <div class="col-md-3 col-sm-6 col-xs-12"><?php echo $h->box('Type Warning', 'Expandable')->expandable()->statusWarning(); ?></div>
+    <div class="col-md-3 col-sm-6 col-xs-12"><?php echo $h->box('Type Success', 'Collapsable, removable, avec un badge')->collapsable()->removable()->addBadge('67', null, 'Ceci est une description du badge')->statusSuccess(); ?></div>
+    <div class="col-md-3 col-sm-6 col-xs-12"><?php echo $h->box('Type Error', 'Collapsable, removable, avec badges')->collapsable()->removable()->addBadge('45')->addBadge('new', AVH::COLOR_BLACK, 'A new item')->statusDanger(); ?></div>
+</div>
+<div class="row">
+    <div class="col-md-3 col-sm-6 col-xs-12"><?php echo $h->box('Administratif', '<ul><li>Un document</li><li>Deux documents</li></ul>')->coloredTitleBox()->collapsable()->statusDefault(); ?></div>
+    <div class="col-md-3 col-sm-6 col-xs-12"><?php echo $h->box('Vie Courante', '<ul><li>Un document</li><li>Deux documents</li></ul>')->coloredTitleBox()->collapsable()->statusInfo(); ?></div>
+    <div class="col-md-3 col-sm-6 col-xs-12"><?php echo $h->box('Loisirs', '<ul><li>Un document</li><li>Deux documents</li></ul>')->coloredTitleBox()->collapsable()->statusSuccess(); ?></div>
+    <div class="col-md-3 col-sm-6 col-xs-12"><?php echo $h->box('Rappels')->addNav(H::nav() 
+            ->addLink('Un document', H::url())
+            ->addLink('Deux documents', H::url())
+            )->coloredTitleBox()->collapsable(); ?></div>
+</div>
+<div class="row">
+    <div class="col-md-6 col-sm-6 col-xs-12">
+        <?php $panel = $h->box('Un contenu bufferisé')->collapsable()->icon(AVH::ICON_COMMENT)->start(); ?>
+        <div class="row">
+            <div class="col-md-6 col-sm-12 col-xs-12"><?php echo $h->box('Un test 1', 'Contenu n°1')->statusDanger(); ?></div>
+            <div class="col-md-6 col-sm-12 col-xs-12"><?php echo $h->box('Un test 2', 'Contenu n°2')->statusDanger(); ?></div>
+        </div>
+        <?php echo $panel; ?>
+    </div>
+    <div class="col-md-6 col-sm-6 col-xs-12">
+        <?php $panel = $h->box('Un autre contenu bufferisé')->collapsable()->icon(AVH::ICON_DATABASE)->statusDanger()->start(); ?>
+        <div class="row">
+            <div class="col-md-6 col-sm-12 col-xs-12"><?php echo $h->box('Un test 3', 'Contenu n°3')->statusInfo(); ?></div>
+            <div class="col-md-6 col-sm-12 col-xs-12"><?php echo $h->box('Un test 4', 'Contenu n°4')->statusWarning(); ?></div>
+        </div>
+        <?php echo $panel; ?>
+    </div>
+</div>
+
+<?php 
+
+// Menu badges
+L::getMenu()->getItem('usr')->addBadge('80%', L::COLOR_GREEN);
+L::getMenu()->getItem('prd')->addBadge('48%', L::COLOR_YELLOW);
+L::getMenu()->getItem('ld')->addBadge('12%', L::COLOR_RED);

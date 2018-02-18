@@ -1,0 +1,11 @@
+<?php
+
+use Sma\Session\Identity as I;
+
+if (I::getParam('features', 'tpl')) {
+    $params   = CT::getRequest()->getParams(true);
+    $nav = H::nav(false, false, true)
+            ->addLink(H::html(__("Lettres"))->mobileExclude(), H::url('document'), $params['action'] === 'index', false, 'envelope-o', 'aqua')
+            ->addLink(H::html(__("Modèles"))->mobileExclude(), H::url('document', 'templates'), $params['action'] === 'templates', false, 'envelope', 'fuchsia');
+    echo $nav;
+}

@@ -1,0 +1,10 @@
+<?php 
+
+if (H::has('form')) {
+    echo H::form(H::get('form'));
+}
+
+if (!H::get('refresh')) {
+    $bean = H::get('bean');
+    echo H::html(H::link(__("Revenir à la liste"), 'invoice', 'list', ['type' => $bean->getType()]), 'div')->escape(false)->addCssClass('text-center');
+}

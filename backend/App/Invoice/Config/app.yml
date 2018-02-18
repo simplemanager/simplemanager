@@ -1,0 +1,49 @@
+##
+## document
+##
+
+app:
+  title: 
+    short: Factures
+    medium: Facturation
+    long: Devis, commandes & factures
+  description: 
+    hook: Créez et gérez vos factures, devis et commandes.
+    resume: Créez des devis, commandes ou factures en quelques secondes, 
+            passez d'un document à l'autre, effectuez des recherches.
+  meta: 
+    category: Gestion
+    icon: usd
+    color: red
+    index: 5
+    status: ALPHA
+    required: 0
+    dependencies: []
+  pages:
+    - title: Facture (créer)
+      params:
+        action: edit
+        type: invoice
+      level: 15
+    - title: Commande (créer)
+      params:
+        action: edit
+        type: order
+      level: 15
+    - title: Devis (créer)
+      params:
+        action: edit
+        type: quote
+      level: 15
+    - title: Factures (gérer)
+      params:
+        action: list
+        type: invoice
+    - title: Commandes (gérer)
+      params:
+        action: list
+        type: order
+    - title: Devis (gérer)
+      params:
+        action: list
+        type: quote

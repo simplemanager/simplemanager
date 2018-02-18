@@ -1,0 +1,109 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: OSF 2.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-09-24 15:12+0100\n"
+"PO-Revision-Date: 2013-09-24 15:23+0100\n"
+"Last-Translator: Guillaume Ponçon <guillaume.poncon@openstates.com>\n"
+"Language-Team:  <contact@openstates.com>\n"
+"Language: FR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.5.4\n"
+"X-Poedit-KeywordsList: __\n"
+"X-Poedit-Basepath: /web/apps/simplemanager.fr/modules\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-Language: English\n"
+"X-Poedit-Country: UNITED STATES\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: Common/View/layouts/main.phtml:18
+msgid "PME"
+msgstr "Co"
+
+#: Common/View/layouts/main.phtml:19
+msgid "Gestion d'entreprise rapide et simple"
+msgstr "Fast & Furious Company Management"
+
+#: Common/View/layouts/main.phtml:26
+msgid "S'identifier"
+msgstr "Log in"
+
+#: Common/View/layouts/main.phtml:29
+msgid "Bienvenue"
+msgstr "Welcome"
+
+#: Common/View/layouts/main.phtml:30
+msgid "déconnexion"
+msgstr "logout"
+
+#: Common/View/layouts/main.phtml:40
+msgid "S'inscrire"
+msgstr "Register"
+
+#: Common/View/layouts/main.phtml:42
+msgid "Mon compte"
+msgstr "My account"
+
+#: Common/View/layouts/main.phtml:44
+msgid "Contact"
+msgstr "Contact"
+
+#: Common/View/layouts/main.phtml:45
+msgid "Actualités"
+msgstr "News"
+
+#: Common/View/layouts/main.phtml:58
+msgid "Accueil"
+msgstr "Home"
+
+#: Common/View/layouts/main.phtml:64
+msgid "Parcourir"
+msgstr "Look over"
+
+#: Common/View/layouts/main.phtml:65
+msgid "Nouveau devis"
+msgstr "New quotation"
+
+#: Common/View/layouts/main.phtml:66
+msgid "Nouvelle commande"
+msgstr "New command"
+
+#: Common/View/layouts/main.phtml:67
+msgid "Nouvelle facture"
+msgstr "New invoice"
+
+#: Common/View/layouts/main.phtml:73
+msgid "Mon entreprise"
+msgstr "My company"
+
+#: Common/View/layouts/main.phtml:87
+msgid "Procédures"
+msgstr "Procedures"
+
+#: Common/View/layouts/main.phtml:98
+msgid "Configuration"
+msgstr ""
+
+#: Common/View/layouts/main.phtml:147
+msgid "Actions en cours"
+msgstr "Ongoing actions"
+
+#: Common/View/layouts/main.phtml:168
+msgid "protection des données"
+msgstr "data protection"
+
+#: Common/View/layouts/main.phtml:169
+msgid "crédits & infos"
+msgstr "credits & info"
+
+#: Common/View/layouts/main.phtml:170
+msgid "mentions légales"
+msgstr "imprint"
+
+#~ msgid "Welcome"
+#~ msgstr "Bonjour"
+
+#~ msgid "Mon lien"
+#~ msgstr "Mon super lien"

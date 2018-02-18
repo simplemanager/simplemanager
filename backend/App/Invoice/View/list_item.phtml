@@ -1,0 +1,57 @@
+<?php
+
+use Osf\View\Helper\Bootstrap\AbstractViewHelper as AVH;
+use Osf\Helper\DateTime as DTH;
+use Osf\Stream\Text;
+use Sma\Bean\InvoiceBean as IB;
+use Sma\Session\Identity as I;
+use Sma\Cache as SC;
+
+$data = C::getItem(SC::C_DOCUMENT, SC::T_LIST_ITEM, $row['id']);
+if ($data) {
+    return $data;
+}
+
+/* @var $bean \Sma\Bean\InvoiceBean */
+$bean = unserialize($row['bean']);
+$bean->update($row);
+
+$icons = [
+    IB::TYPE_QUOTE => 'file-o',
+    IB::TYPE_ORDER => 'file-text-o',
+    IB::TYPE_INVOICE => 'file-text'
+];
+
+$icon = H::iconCached($icons[$row['type']], null, $bean->isCredit() ? 'purple' : 'aqua', true) . '&nbsp;';
+$iconClient = (string) H::iconCached($bean->getRecipient()->getCompanyName() ? 'industry' : ($bean->getRecipient()->getId() ? 'user' : ''), null, null, true); // 'question-circle'));
+$iconDate   = (string) H::iconCached('calendar-o', null, null, true) . '&nbsp;';
+$client = $bean->getRecipient()->getComputedTitle();
+$client = $client ? H::html($client)->mobileCrop(25) : ''; //H::html('Indéfini')->addCssClass('text-orange')->escape(false);
+$products = '&nbsp;'; // '&nbsp;' . H::html('(' . (int) $row['product_count'] /* . ' ' . ($row['product_count'] > 1 ? __("produits") : __("produit"))*/ . ')' )->mobileExclude();
+$total = H::html(Text::currencyFormat($row['total_ht']))->addCssClass('text-' . ($bean->isCredit() ? 'purple' : 'aqua'));
+$warnInfo = $bean->getWarnings(true);
+$warning = $warnInfo 
+    ? '&nbsp;' . H::icon($warnInfo['icon'], null, AVH::STATUS_COLOR_LIST[$warnInfo['status']])
+        ->setTooltip($warnInfo['title'])
+        ->setAttribute('id', 'sti' . $row['id'])
+    : '';
+
+$desc = $row['description'];
+$dateSending  = H::html(Text::formatDateTime($bean->getDateSending(), null, 'd/m/y'))->addCssClass('text-' . DTH::getDateColor($bean->getDateSending()));
+$dateValidity = H::html(Text::formatDateTime($bean->getDateValidity(), null, 'd/m/y'))->addCssClass('text-' . DTH::getDateColor($bean->getDateValidity()));
+
+$htmlRow = [
+    $icon . '&nbsp;' . H::html($total)->escape(false)->appendStyle('float: right') . H::html($bean->getCode()) . $products . $warning, 
+    H::html($iconDate . '&nbsp;' . $dateSending . ' ► ' . $dateValidity)->escape(false),
+    $iconClient . '&nbsp;&nbsp;' . $client
+];
+
+$retVal = H::grid()->auto($htmlRow);
+$labUrl = $bean->isInvoice() && !I::isLevelExpert() ? H::url('event', 'msg', ['k' => 'is']) : null;
+
+$data = $retVal 
+     . '</td><td nowrap style="width: 10px" class="text-right">'
+     . H::statusLabel((int) $row['id'], $row['status'], $row['type'], H::url('invoice', 'chst'), true, $labUrl);
+
+C::setItem(SC::C_DOCUMENT, SC::T_LIST_ITEM, $row['id'], $data);
+return $data;

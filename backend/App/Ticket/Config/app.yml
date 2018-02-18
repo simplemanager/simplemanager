@@ -1,0 +1,23 @@
+##
+## document
+##
+
+app:
+    title: 
+        short: Tickets
+        medium: Tickets, bugs et développement
+        long: Consulter les tickets, signaler un bug, proposer une idée
+    description: 
+        hook: Participez au développement de {C:APP_NAME}, signalez un bug (disfonctionnement ou anomalie). 
+        resume: "{C:APP_NAME} est en constante amélioration. Grâce à ce module, 
+                participez au développement de votre outil de gestion en 
+                proposant de nouvelles fonctionnalités ou en signalant un bug grâce 
+                à notre système de tickets."
+    meta: 
+        category: Core
+        icon: cube
+        color: orange
+        index: 2000
+        status: ALPHA
+        required: 0
+        dependencies: []

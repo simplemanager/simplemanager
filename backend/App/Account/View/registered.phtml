@@ -1,0 +1,9 @@
+<?php 
+
+echo H::alert(__("Merci pour votre inscription !"),
+            H::htmlList()
+                ->addItem(__("<strong>Confirmez votre compte</strong>, un e-mail vous a été envoyé."))
+                ->addItem(__("<strong>E-mail introuvable ?</strong> Vérifiez s'il n'est pas dans les SPAMs.")))
+        ->statusSuccess()
+        ->disableEscape();
+echo H::html(H::link(__("Retour à l'accueil")), 'div', ['class' => 'text-center'])->escape(false);

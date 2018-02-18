@@ -1,0 +1,74 @@
+<?php
+
+use Sma\Session\Identity;
+use Osf\View\Table;
+use Osf\Stream\Text;
+use Osf\Helper\Mysql;
+//use App\Invoice\Controller as IC;
+
+$id = (int) H::get('id');
+if ($id) {
+    $p = DB::getProductTable()->find($id);
+    if (!$p || $p->getIdAccount() !== Identity::getIdAccount()) {
+        $id = null;
+    } else {
+        /* @var $bp \Osf\Pdf\Document\Bean\ProductBean */
+        $bean = $p->getProductBean();
+    }
+} else {
+    $id = null;
+}
+
+// Boutons
+if (H::get('decorations') && $id) {
+    
+    echo H::modal(
+        'mform',
+        'Modifier',
+        H::html('', 'div', ['id' => 'medit']),
+        clone H::button(__("Fermer"))->statusDefault()->setAttribute('data-dismiss', 'modal') . 
+        clone H::button(__("Enregistrer"))
+                ->setAttribute('type', 'submit')
+                ->setAttribute('onclick', "\$.ajaxCall(\$('#fedit'),'#medit');")
+                ->statusPrimary());
+    $jsEdit = "$('#mform').modal('show');$.ajaxCall('" . H::url('product', 'edit', ['id' => $id]) . "', '#medit');";
+    
+    echo H::linkApp(__("Modifier"))->url('#')->icon('edit')->setAttribute('onclick', $jsEdit);
+    echo H::linkApp(__("Produits"))->url(H::url('product', 'list'))->icon('list-ul');
+//    echo H::linkApp('Facture',  'invoice', 'edit', ['type' => IC::INVOICE, 'recipient' => $id])->icon('file-text');
+//    echo H::linkApp('Commande', 'invoice', 'edit', ['type' => IC::ORDER, 'recipient' => $id])->icon('file-text-o');
+//    echo H::linkApp('Devis',    'invoice', 'edit', ['type' => IC::QUOTE, 'recipient' => $id])->icon('file-o');
+}
+
+if (!$id) {
+    echo H::msg(__("Ce produit n'existe pas"))->statusDanger();
+} else {
+
+    $fieldParams = [
+        0 => [
+            Table::FP_CSS     => 'text-right',
+            Table::FP_STYLE   => 'font-weight: 600;',
+            Table::FP_PATTERN => '%s&nbsp;:',
+            Table::FP_WIDTH   => '30%'
+        ]
+    ];
+    
+    $data = [];
+    $p->getCode() && $data[] = [__("Id"), (string) H::html($p->getUid())];
+    $p->getCode() && $data[] = [__("Code"), (string) H::html($p->getCode())];
+    $p->getTitle() && $data[] = [__("Nom"), (string) H::html($p->getTitle())];
+    $p->getPrice() && $data[] = [__("Prix fixé"), (string) H::html(Text::currencyFormat($p->getPrice()) . ' ' . H::html(__(Text::toUpper($p->getPriceType())))->escape(false)->addCssClass('text-gray') . ($p->getUnit() ? ' / ' . H::html($p->getUnitStr()) : ''))->escape(false)];
+    $p->getPrice() && ($p->getDiscount() || $p->getTax()) && $data[] = [__("Prix affiché"), Text::currencyFormat($bean->getPriceWithDiscountTTC()) . ' ' . __("TTC")];
+    $data[] = [__("Remise"), $p->getDiscount() ? Text::percentageFormat($p->getDiscount()) : __("Aucune")];
+    $data[] = [__("Taxe (TVA)"), (int) $p->getTax() ? Text::percentageFormat($p->getTax(), true, 2) : __("Aucune (prix TTC)")];
+    $p->getStatus() && $data[] = [__("Actif"), $p->getStatus() ? __("Oui") : __("Non")];
+    $p->getDescription() && $data[] = [__("Détail"), $bean->getDescription(true)];
+    
+    $data[] = [__("Création"), (string) H::html(Mysql::formatDateTime($p->getDateInsert()))];
+    $data[] = [__("Mise à jour"), (string) H::html(Mysql::formatDateTime($p->getDateUpdate()))];
+    $dataTable = new Table($data);
+    $dataTable
+            ->setFieldParams($fieldParams)
+            ->setPaginate(false);
+    echo H::box(__("Produit"))->addTable(H::table($dataTable))->collapsable()->icon('shopping-basket');
+}

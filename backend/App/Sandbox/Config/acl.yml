@@ -1,0 +1,20 @@
+## ADMIN : only admins
+## PUBLIC : everyone
+## LOGGED : logged in users
+## XXX : users in group XXX
+## name@host.com : a user
+
+controller: ADMIN
+action:
+    index:
+    testimage:
+    testharu:
+    letterdb:
+    serialized:
+    lettersimple:
+    initdb:
+    models:
+    dbtest:
+    ui:
+    forms:
+    kitchen:

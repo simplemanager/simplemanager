@@ -1,0 +1,10 @@
+<?php 
+
+$check = H::get('check');
+if (isset($check['error']) && $check['error']) {
+    echo H::alert(null, H::html($check['error']))->statusDanger()->removable();
+} else if (isset($check['warning']) && $check['warning']) {
+    echo H::alert(null, H::html($check['warning']))->statusWarning()->removable();
+}
+
+echo include __DIR__ . '/_logo.phtml';

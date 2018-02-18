@@ -1,0 +1,32 @@
+<?php
+
+use Osf\Form\Element\ElementFile;
+use Sma\Session\Identity;
+use Sma\Image;
+use Sma\Log;
+
+$c = DB::getCompanyTable()->find(Identity::getIdCompany());
+$lid = $c ? $c->getIdLogo() : null;
+try {
+    $logoUrl = $lid ? Image::getImageUrl($lid) : null;
+} catch (Exception $e) {
+    Log::error('Impossible de charger une image: ' . $e->getMessage(), 'IMAGE', $e);
+    $logoUrl = null;
+}
+
+$inputFile = (string) H::formFile(
+               (new ElementFile('logo'))
+                    ->acceptImage()
+                    ->setAutoUploadUrl(H::url('account', 'logo')))
+                ->setPickLabel($logoUrl ? __("Cliquez pour modifier") : __("Cliquez pour ajouter un logo"))
+                ->setImageUrl($logoUrl);
+
+$color = Identity::get('color');
+if ($color) {
+    $inputFile .= '<script>$("#icolor").css("background-color", "' . $color . '").show();$("#tcolor").css("color", "' . $color . '").text("' . __("extraite du logo") . '");</script>';
+} else {
+    $msg = Identity::get('company', 'id_logo') ? __("Logo sans couleur notable") : __("Pas encore de logo");
+    $inputFile .= '<script>$("#icolor").hide();$("#tcolor").css("color", "#888888").text("' . $msg . '");</script>';
+}
+
+return $inputFile;

@@ -1,0 +1,12 @@
+<?php 
+
+use App\Guest\View\Helper\GuestCrudHelper;
+
+/* @var $guestBean \Sma\Bean\GuestBean */
+$guestBean = H::get('guestBean');
+echo GuestCrudHelper::buildCrud(
+        __("Lettres reçues"), 
+        __("Aucun courrier émis pour le moment."), 
+        'envelope-o', 
+        function ($row) { return H::url('document', 'dl', ['k' => DB::getDocumentHistoryTable()->find($row['idh'])->getHash()]); }, 
+        $guestBean->getLetterToRead() ? 'primary' : null);

@@ -1,0 +1,14 @@
+<?php 
+
+if (H::has('form')) {
+    echo H::form(H::get('form'));
+}
+
+if (H::get('preview')) {
+    $docUrl = '/document/letter/render/letter.pdf';
+    include __DIR__ . '/_doc_preview.phtml';
+}
+
+if (!H::get('posted') && !H::get('preview')) {
+    echo H::html(H::link(__("Annuler et afficher la liste"), 'document'), 'div')->escape(false)->addCssClass('text-center');
+}

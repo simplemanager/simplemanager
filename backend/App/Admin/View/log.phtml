@@ -1,0 +1,43 @@
+<?php 
+
+$logStatus = [
+    'error' => 'danger',
+    'warning' => 'warning',
+    'info' => 'info'
+];
+
+/* @var $log \Sma\Db\LogRow */
+$log = H::get('log');
+$resumeTxt = (string) H::htmlList()
+        ->addItem('Catégorie : ' . $log->getCategory())
+        ->addItem('Message : ' . H::html($log->getMessage())->addCssClass('text-' . $logStatus[$log->getLevel()]))
+        ->addItem('Page : ' . $log->getPage())
+        ->addItem('Date : ' . $log->getDateInsert())
+        ;
+
+$ctxTxt = H::html($log->getPageInfo(), 'pre');
+$dumpTxt = H::html($log->getDump(), 'pre');
+
+/* @var $account \Sma\Db\AccountRow */
+$account = H::get('account');
+if ($account) {
+    $accountTxt = (string) H::htmlList()
+        ->addItem(__("Nom : ") . $account->getFirstname() . ' ' . $account->getLastname())
+        ->addItem(__("Email : ") . $account->getEmail())
+        ->addItem(__("Id : ") . $account->getId())
+        ->addItem(__("IP : ") . $log->getIp());
+} else {
+    $accountTxt = __("Non connecté ou supprimé");
+}
+
+$accordion = H::accordion()
+        ->addPanel(H::panel(__("Résumé"), $resumeTxt))
+        ->addPanel(H::panel(__("Contexte"), $ctxTxt))
+        ->addPanel(H::panel(__("Compte utilisateur"), $accountTxt))
+        ->setOpenedItem(0);
+
+if ($log->getDump()) {
+    $accordion->addPanel(H::panel(__("Dump"), $dumpTxt));
+}
+
+echo $accordion;

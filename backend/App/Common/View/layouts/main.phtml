@@ -1,0 +1,35 @@
+<?php 
+
+use App\Common\Container;
+
+// Récupération du helper du layout, qui est pour l'instant le même que 
+// celui de la vue courante
+$h = Container::getViewHelperLayout();
+
+// On récupère les scripts des composants afin de les envoyer dans la page courante
+$h->script->registerComponentsScripts($h);
+
+// On récupère les scripts enregistrés dans le header et le footer, ainsi que le body
+$headScripts = trim($h->script->buildHeadScripts());
+$body = Container::getResponse()->getBody();
+$footScripts = trim($h->script->buildFootScripts());
+
+// On construit ajout au body les scripts
+$body = $body === null && !$headScripts && !$footScripts 
+      ? false 
+      : $headScripts . $body . $footScripts;
+
+// Si la requête est json, on la génère et on enregistre les scripts des 
+// composants dans le state vuex (section [page][scripts]). 
+if (Container::getResponse()->getType() === 'json') {
+    Container::getJsonRequest()->appendScripts($h->footTags->buildScripts(false));
+    echo Container::getJsonRequest()
+            ->setMenu(Container::getNavigationMenu())
+            ->setPageContent($body)
+            ->render();
+}
+
+// Si la requête n'est pas JSON, on ajoute les scripts à la page et on affiche le tout
+else {
+    echo $body . $h->footTags->buildScripts();
+}

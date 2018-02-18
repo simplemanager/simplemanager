@@ -1,0 +1,22 @@
+## ADMIN : only admins
+## PUBLIC : everyone
+## LOGGED : logged in users
+## GUEST : clients des clients
+## XXX : users in group XXX
+## name@host.com : a user
+
+controller: GUEST
+action:
+  index: 
+  home: 
+  invoices: 
+  invoice:
+  orders:
+  order:
+  quotes:
+  quote:
+  letters:
+  letter:
+  login: PUBLIC
+  logout: 
+  info:

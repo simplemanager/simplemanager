@@ -1,0 +1,21 @@
+##
+## document
+##
+
+app:
+    title: 
+        short: Contacts
+        medium: Clients & Contacts
+        long: Ajouter, modifier, gérer les clients et les contacts
+    description: 
+        hook: Gérez les clients et les contacts de vos courriers.
+        resume: Gérez vos clients et contacts pour les factures et les courriers. 
+                Recherchez, listez, ajoutez, modifiez, supprimez des contacts.
+    meta: 
+        category: Gestion
+        icon: fa-address-book-o
+        color: blue
+        index: 10
+        status: ALPHA
+        required: 0
+        dependencies: []

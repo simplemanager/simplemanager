@@ -1,0 +1,10 @@
+<?php 
+
+if (H::has('form')) {
+    echo H::form(H::get('form'));
+}
+
+if (H::get('preview')) {
+    $docUrl = '/document/letter/render/letter.pdf';
+    include __DIR__ . '/_doc_preview.phtml';
+}

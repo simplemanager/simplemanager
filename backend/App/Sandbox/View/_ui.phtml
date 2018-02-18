@@ -1,0 +1,243 @@
+<?php use Osf\View\Helper\Bootstrap\AbstractViewHelper as AVH; $h = \App\Common\Container::getViewHelper(); ?>
+<h3>UI Components</h3>
+<div class="row">
+    <div class="col-md-6 col-sm-6 col-xs-12">
+        <?php $panel = $h->box('Alerts')->collapsable()->icon(AVH::ICON_ALERT)->statusDefault()->start(); ?>
+        <?php echo $h->alert('Fatal error !', 'Une erreur problématique...')->statusDanger(); ?>
+        <?php echo $h->alert('Information', "Un message d'information")->statusInfo(); ?>
+        <?php echo $h->alert('Attention', 'Un petit warning pour prévenir')->statusWarning(); ?>
+        <?php echo $h->alert('Bravo !', "Nous vous informons du succès de l'opération")->statusSuccess(); ?>
+        <?php echo $panel; ?>
+    </div>
+    <div class="col-md-6 col-sm-6 col-xs-12">
+        <?php $panel = $h->box('Callouts')->collapsable()->icon(AVH::ICON_CALLOUT)->statusDefault()->start(); ?>
+        <?php echo $h->callout('Erreur de saisie', 'Veuillez corriger les erreurs suivantes...')->statusDanger(); ?>
+        <?php echo $h->callout('Gagnez du temps !', 'Inscrivez vous pour éviter de réécrire votre adresse')->statusInfo(); ?>
+        <?php echo $h->callout('Attention', "Vous n'avez pas mentionné votre adresse qui devrait apparaître dans ce courrier")->statusWarning(); ?>
+        <?php echo $h->callout('Bravo', 'Vous venez de générer un super courrier')->statusSuccess(); ?>
+        <?php echo $panel; ?>
+    </div>
+</div>
+
+<h4>msg</h4>
+<?php $panel = $h->box("Messages d'information")->collapsable()->start(); ?>
+<div class="row">
+    <div class="col-md-3 col-sm-6 col-xs-12"><?php echo $h->msg("Un message d'erreur simple")->statusDanger(); ?></div>
+    <div class="col-md-3 col-sm-6 col-xs-12"><?php echo $h->msg("Un message d'information simple")->statusInfo(); ?></div>
+    <div class="col-md-3 col-sm-6 col-xs-12"><?php echo $h->msg("Une alerte simple")->statusWarning(); ?></div>
+    <div class="col-md-3 col-sm-6 col-xs-12"><?php echo $h->msg("Un message de succès simple")->statusSuccess(); ?></div>
+</div>
+<?php echo $panel; ?>
+
+<h4>button</h4>
+<?php $panel = $h->box('Boutons')->collapsable()->start(); ?>
+<div class="row">
+    <div class="col-md-1 col-sm-2 col-xs-4"><?php echo $h->button('default'); ?></div>
+    <div class="col-md-1 col-sm-2 col-xs-4"><?php echo $h->button('block')->block(); ?></div>
+    <div class="col-md-1 col-sm-2 col-xs-4"><?php echo $h->button('danger')->block()->statusDanger(); ?></div>
+    <div class="col-md-1 col-sm-2 col-xs-4"><?php echo $h->button('warning')->statusWarning()->block(); ?></div>
+    <div class="col-md-1 col-sm-2 col-xs-4"><?php echo $h->button('success')->statusSuccess()->block(); ?></div>
+    <div class="col-md-1 col-sm-2 col-xs-4"><?php echo $h->button('disabled')->disable()->block(); ?></div>
+    <div class="col-md-1 col-sm-2 col-xs-4"><?php echo $h->button('primary')->block()->statusPrimary(); ?></div>
+    <div class="col-md-1 col-sm-2 col-xs-4"><?php echo $h->button('flat info')->block()->flat()->statusInfo(); ?></div>
+    <div class="col-md-1 col-sm-2 col-xs-4"><?php echo $h->button()->block()->icon('circle-o-notch', null, true)->disable(); ?></div>
+    <div class="col-md-1 col-sm-2 col-xs-4"><?php echo $h->button('modal')->block()->icon(AVH::ICON_COFFEE)->statusDefault()->launchModal('minfo'); ?></div>
+    <div class="col-md-1 col-sm-2 col-xs-4"><?php echo $h->button('small')->sizeSmall()->block(); ?></div>
+    <div class="col-md-1 col-sm-2 col-xs-4"><?php echo $h->button('large')->block()->sizeLarge(); ?></div>
+</div>
+<?php echo $h->modal('minfo', 'Bienvenue sur ' . APP_NAME, 'Des infos viendront bientôt...', $h->button('OK'), AVH::STATUS_INFO)->setSizeSmall(); ?>
+<div class="row">
+    <div class="col-md-6 col-sm-12 col-xs-12">
+        <?php echo $h->buttonGroup()
+                ->addButton((new \Osf\View\Helper\Bootstrap\Button)->icon(AVH::ICON_EURO)->statusInfo())
+                ->addButton((new \Osf\View\Helper\Bootstrap\Button)->icon(AVH::ICON_CHART)->statusWarning())
+                ->addButton((new \Osf\View\Helper\Bootstrap\Button)->icon(AVH::ICON_FLAG)->statusSuccess())
+                ->addButton((new \Osf\View\Helper\Bootstrap\Button)->icon(AVH::ICON_CALENDAR)->statusDanger())
+                ->addButton((new \Osf\View\Helper\Bootstrap\Button)->icon(AVH::ICON_CHART_UP)->statusDanger())
+                ->addButton((new \Osf\View\Helper\Bootstrap\Button)->icon(AVH::ICON_DISK)->statusPrimary())
+                ; ?>
+    </div>
+    <div class="col-md-5 col-sm-10 col-xs-12">
+        <?php echo $h->buttonGroup()
+                ->addButton((new \Osf\View\Helper\Bootstrap\Button)->icon('fa-facebook'))
+                ->addButton((new \Osf\View\Helper\Bootstrap\Button)->icon('fa-google'))
+                ->addButton((new \Osf\View\Helper\Bootstrap\Button)->icon('fa-instagram'))
+                ->addButton((new \Osf\View\Helper\Bootstrap\Button)->icon('fa-twitter'))
+                ->addButton((new \Osf\View\Helper\Bootstrap\Button)->icon('fa-linkedin'))
+                ->addButton((new \Osf\View\Helper\Bootstrap\Button)->setMenu((new Osf\View\Helper\Bootstrap\Addon\DropDownMenu())
+                    //->orientationUp()
+                    ->addHeader('Menu complémentaire')
+                    ->addSeparator()
+                    ->addLink('Un lien', '#')
+                    ->addLink('Un autre lien', '#')
+                    ->addSeparator()
+                    ->addLink('Un lien en bas', '#'))); ?>
+    </div>
+    <div class="col-md-1 col-sm-2 col-xs-12">
+        <?php echo $h->button('menu')->setMenu((new Osf\View\Helper\Bootstrap\Addon\DropDownMenu())
+                ->addLink('Un lien', '#')
+                ->addLink('Un autre lien', '#')
+                ->addSeparator()
+                ->addLink('Un lien en bas', '#')); ?>
+    </div>
+</div>
+<?php echo $panel; ?>
+
+<h4>panel</h4>
+<?php $panel = $h->panel("<strong>Panel par défaut contenant d'autres panels</strong>")->start(); ?>
+<div class="row">
+    <div class="col-md-3 col-sm-6 col-xs-12"><?php echo $h->panel('Un panel Info', 'Contenu du panel...')->statusInfo(); ?></div>
+    <div class="col-md-3 col-sm-6 col-xs-12"><?php echo $h->panel('Un panel Warning', 'Contenu du panel...')->statusWarning(); ?></div>
+    <div class="col-md-3 col-sm-6 col-xs-12"><?php echo $h->panel('Un panel Danger', 'Contenu du panel...')->statusDanger(); ?></div>
+    <div class="col-md-3 col-sm-6 col-xs-12"><?php echo $h->panel('Un panel Success', 'Contenu du panel...')->statusSuccess(); ?></div>
+</div>
+<?php echo $panel;
+
+echo H::html('nav', 'h2');
+
+$panel = $h->panel("Essais de navigations")->start();
+echo H::grid()->beginRow()->beginCell2();
+echo $h->nav()->setContainer(false)
+            ->addLink('Tab 1', '#')
+            ->addLink('Tab 2', '#', true)
+            ->addLink('Tab 3', '#', false, true)
+            ->addLink('Tab 4', '#')
+            ->addMenu('Menu', (new Osf\View\Helper\Bootstrap\Addon\DropDownMenu())->addLink('Un lien', '#')->addLink('Un autre lien', '#'))
+            ;
+echo H::grid()->endCell()->beginCell2();
+echo $h->nav(false, true)->typePills()
+            ->addLink('Tab 1', '#')
+            ->addLink('Tab 2', '#', true)
+            ->addLink('Tab 3', '#', false, true)
+            ->addLink('Tab 4', '#')
+            ->addMenu('Menu', (new Osf\View\Helper\Bootstrap\Addon\DropDownMenu())->addLink('Un lien', '#')->addLink('Un autre lien', '#'))
+            ;
+echo H::grid()->endCell()->endRow();
+echo $panel; ?>
+
+<?php echo $h->grid()->beginRow()->beginCell4(); ?>
+<?php echo $h->listGroup()
+        ->addItem('LinkedIn', 'http://www.linkedin.fr')->badge(12)
+        ->addContentItem('Un titre de paragraphe', 'Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.')
+        ->addContentItem('Un autre paragraphe', 'Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.', 'http://www.openstates.com', AVH::STATUS_DANGER)
+            ->badge('new', AVH::COLOR_RED, "Allez-y !")->badge(2, null)
+        ->addButton(new Osf\View\Helper\Bootstrap\Button('Autre label', 'http://www.google.fr')); ?>
+<?php echo $h->grid()->endCell()->beginCell4(); ?>
+<?php echo $h->listGroup()
+        ->addItem('Element n°1')->badge(1)
+        ->addItem('Element n°2')->badge(2)
+        ->addItem('Element n°3')->badge(3)
+        ->addItem('Element n°4')->badge(4)
+        ->addItem('Element n°5')->badge(5)
+        ->addItem('Element n°6')->badge(6)
+        ->addItem('Element n°7')->badge(7)
+        ; ?>
+<?php echo $h->grid()->endCell()->beginCell4(); ?>
+<?php echo $h->listGroup()
+        ->addItem('Element n°1')->badge('new', AVH::COLOR_RED)
+        ->addItem('Element n°2', null, AVH::STATUS_INFO)->badge(2)
+        ->addItem('Element n°3', null, AVH::STATUS_SUCCESS)->badge(3)
+        ->addItem('Element n°4', null, AVH::STATUS_WARNING)->badge(4)
+        ->addItem('Element n°5', null, AVH::STATUS_DANGER)->badge(5)
+        ->addItem('Element n°6')->badge('old', AVH::COLOR_AQUA)
+        ; ?>
+<?php echo $h->grid()->endCell()->beginCell4(); ?>
+<?php $content = 'Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.';
+ echo $h->listGroup()
+        ->addContentItem('Element n°1', $content)
+        ->addContentItem('Element n°2', $content)
+        ->addContentItem('Element n°3', $content)
+        ; ?>
+<?php echo $h->grid()->endCell()->endRow(); ?>
+
+<?php $panel = $h->box('Divers boutons (linkApp, icon)')->collapsable()->start(); ?>
+<div class="col-md-3">
+<?php echo $h->linkApp('Play')->icon('play'); ?>
+<?php echo $h->linkApp('Pause')->icon('pause'); ?>
+<?php echo $h->linkApp('Help', 'faq', 'info')->icon(AVH::ICON_HELP)->addBadge(4, AVH::STATUS_DANGER, "4 pages d'aide"); ?></div>
+<div class="col-md-5">Bienvenue <?php echo $h->icon(AVH::ICON_ALERT, AVH::STATUS_DANGER) . ' ' .
+                        $h->icon(AVH::ICON_CALLOUT, AVH::STATUS_WARNING) . ' ' . 
+                        $h->icon(AVH::ICON_DISK, AVH::STATUS_DEFAULT) . ' ' . 
+                        $h->icon(AVH::ICON_CLOSE, AVH::STATUS_INFO) . ' ' . 
+                        $h->icon(AVH::ICON_CHART_UP, AVH::STATUS_PRIMARY) . ' '; ?></div>
+<?php echo $panel; ?>
+<a href="/test/cuicui" onclick="event.preventDefault();$.router.push('/test/cuicui')">Lien vers une autre page</a>
+
+<?php echo H::box('Accordion', H::accordion('default')
+        ->addPanel(H::panel('Titre 1', 'Contenu 1'))
+        ->addPanel(H::panel('Titre 2', 'Contenu 2'))
+        ->addPanel(H::panel('Titre 3', 'Contenu 3'))); 
+
+echo H::html('Couleurs', 'h2');
+
+echo H::grid()->beginRow()->beginCell4();
+echo H::listGroup()
+        ->addItem(H::html('text-red'       )->addCssClass('text-red'       ))
+        ->addItem(H::html('text-yellow'    )->addCssClass('text-yellow'    ))
+        ->addItem(H::html('text-aqua'      )->addCssClass('text-aqua'      ))
+        ->addItem(H::html('text-blue'      )->addCssClass('text-blue'      ))
+        ->addItem(H::html('text-light-blue')->addCssClass('text-light-blue'))
+        ->addItem(H::html('text-green'     )->addCssClass('text-green'     ))
+        ->addItem(H::html('text-navy'      )->addCssClass('text-navy'      ))
+        ->addItem(H::html('text-teal'      )->addCssClass('text-teal'      ))
+        ->addItem(H::html('text-olive'     )->addCssClass('text-olive'     ))
+        ->addItem(H::html('text-lime'      )->addCssClass('text-lime'      ))
+        ->addItem(H::html('text-orange'    )->addCssClass('text-orange'    ))
+        ->addItem(H::html('text-fuchsia'   )->addCssClass('text-fuchsia'   ))
+        ->addItem(H::html('text-purple'    )->addCssClass('text-purple'    ))
+        ->addItem(H::html('text-maroon'    )->addCssClass('text-maroon'    ))
+        ->addItem(H::html('text-black'     )->addCssClass('text-black'     ))
+        ;
+echo H::grid()->endCell()->beginCell4();
+echo H::listGroup()
+        ->addItem(H::html('bg-red'       ), null, null, false, ['bg-red'       ])
+        ->addItem(H::html('bg-yellow'    ), null, null, false, ['bg-yellow'    ])
+        ->addItem(H::html('bg-aqua'      ), null, null, false, ['bg-aqua'      ])
+        ->addItem(H::html('bg-blue'      ), null, null, false, ['bg-blue'      ])
+        ->addItem(H::html('bg-light-blue'), null, null, false, ['bg-light-blue'])
+        ->addItem(H::html('bg-green'     ), null, null, false, ['bg-green'     ])
+        ->addItem(H::html('bg-navy'      ), null, null, false, ['bg-navy'      ])
+        ->addItem(H::html('bg-teal'      ), null, null, false, ['bg-teal'      ])
+        ->addItem(H::html('bg-olive'     ), null, null, false, ['bg-olive'     ])
+        ->addItem(H::html('bg-lime'      ), null, null, false, ['bg-lime'      ])
+        ->addItem(H::html('bg-orange'    ), null, null, false, ['bg-orange'    ])
+        ->addItem(H::html('bg-fuchsia'   ), null, null, false, ['bg-fuchsia'   ])
+        ->addItem(H::html('bg-purple'    ), null, null, false, ['bg-purple'    ])
+        ->addItem(H::html('bg-maroon'    ), null, null, false, ['bg-maroon'    ])
+        ->addItem(H::html('bg-black'     ), null, null, false, ['bg-black'     ]);
+echo H::grid()->endCell()->beginCell4();
+echo H::listGroup()
+        ->addItem(H::html('bg-red-gradient'       ), null, null, false, ['bg-red-gradient'       ])
+        ->addItem(H::html('bg-yellow-gradient'    ), null, null, false, ['bg-yellow-gradient'    ])
+        ->addItem(H::html('bg-aqua-gradient'      ), null, null, false, ['bg-aqua-gradient'      ])
+        ->addItem(H::html('bg-blue-gradient'      ), null, null, false, ['bg-blue-gradient'      ])
+        ->addItem(H::html('bg-light-blue-gradient'), null, null, false, ['bg-light-blue-gradient'])
+        ->addItem(H::html('bg-green-gradient'     ), null, null, false, ['bg-green-gradient'     ])
+        ->addItem(H::html('bg-navy-gradient'      ), null, null, false, ['bg-navy-gradient'      ])
+        ->addItem(H::html('bg-teal-gradient'      ), null, null, false, ['bg-teal-gradient'      ])
+        ->addItem(H::html('bg-olive-gradient'     ), null, null, false, ['bg-olive-gradient'     ])
+        ->addItem(H::html('bg-lime-gradient'      ), null, null, false, ['bg-lime-gradient'      ])
+        ->addItem(H::html('bg-orange-gradient'    ), null, null, false, ['bg-orange-gradient'    ])
+        ->addItem(H::html('bg-fuchsia-gradient'   ), null, null, false, ['bg-fuchsia-gradient'   ])
+        ->addItem(H::html('bg-purple-gradient'    ), null, null, false, ['bg-purple-gradient'    ])
+        ->addItem(H::html('bg-maroon-gradient'    ), null, null, false, ['bg-maroon-gradient'    ])
+        ->addItem(H::html('bg-black-gradient'     ), null, null, false, ['bg-black-gradient'     ]);
+echo H::grid()->endCell()->beginCell4();
+echo H::listGroup()
+        ->addItem(H::html('bg-red-active'       ), null, null, false, ['bg-red-active'       ])
+        ->addItem(H::html('bg-yellow-active'    ), null, null, false, ['bg-yellow-active'    ])
+        ->addItem(H::html('bg-aqua-active'      ), null, null, false, ['bg-aqua-active'      ])
+        ->addItem(H::html('bg-blue-active'      ), null, null, false, ['bg-blue-active'      ])
+        ->addItem(H::html('bg-light-blue-active'), null, null, false, ['bg-light-blue-active'])
+        ->addItem(H::html('bg-green-active'     ), null, null, false, ['bg-green-active'     ])
+        ->addItem(H::html('bg-navy-active'      ), null, null, false, ['bg-navy-active'      ])
+        ->addItem(H::html('bg-teal-active'      ), null, null, false, ['bg-teal-active'      ])
+        ->addItem(H::html('bg-olive-active'     ), null, null, false, ['bg-olive-active'     ])
+        ->addItem(H::html('bg-lime-active'      ), null, null, false, ['bg-lime-active'      ])
+        ->addItem(H::html('bg-orange-active'    ), null, null, false, ['bg-orange-active'    ])
+        ->addItem(H::html('bg-fuchsia-active'   ), null, null, false, ['bg-fuchsia-active'   ])
+        ->addItem(H::html('bg-purple-active'    ), null, null, false, ['bg-purple-active'    ])
+        ->addItem(H::html('bg-maroon-active'    ), null, null, false, ['bg-maroon-active'    ])
+        ->addItem(H::html('bg-black-active'     ), null, null, false, ['bg-black-active'     ]);
+echo H::grid()->endCell()->endRow();
+echo H::html('link-muted')->addCssClass('link-muted') . ' ' . H::html('link-black')->addCssClass('link-black');

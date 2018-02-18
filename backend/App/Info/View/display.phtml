@@ -1,0 +1,61 @@
+<?php 
+
+use App\Common\Container;
+
+$modalId = H::get('modalId');
+
+$menu1 = Container::getRequest()->getParam('no') !== 'layout' &&  in_array(Container::getRequest()->getParams()['document'], [
+    'credits', 'assurance', 'faq', 'protection-des-donnees', 'conditions'
+]);
+$menus = $menu1;
+
+echo $menus ? H::grid()->beginRow()->beginCell(null, 3, 4, 12) : '';
+
+echo $menu1 ? H::nav(true, false)
+        ->addLink(__("Foire aux Questions"), H::url('info', 'faq'))
+        ->addLink(__("Nos garanties"), H::url('info', 'assurance'))
+        ->addLink(__("Données personnelles"), H::url('info', 'protection-des-donnees'))
+        ->addLink(__("Conditions"), H::url('info', 'conditions'))
+        ->addLink(__("A propos"), H::url('info', 'credits'))
+        ->typePills() : '';
+
+echo $menus ? H::grid()->endCell()->beginCell(null, 9, 8, 12) : '';
+
+$data = H::get('content');
+
+!$modalId && isset($data['title']) && H::layout()->setPageTitle($data['title']);
+
+$itemCount = 0;
+
+// Accordéon
+if (is_array($data) && array_key_exists('items', $data)) {
+    $accordion = H::accordion()->closeAllItems();
+    foreach ($data['items'] as $item) {
+        if (!trim($item['body'])) { continue; }
+        $title = explode('|', (isset($item['title']) ? $item['title'] : __("Introduction")));
+        $accordion->addPanel(H::panel($title[0], $item['body'], null, isset($title[1]) ? $title[1] : null)->icon('hand-o-right'));
+        $itemCount++;
+    }
+    $page = (int) Container::getRequest()->getParam('page');
+    if ($page > 0 && $page <= $itemCount + 1) {
+        $accordion->setOpenedItem($page - 1);
+    }
+    echo $accordion;
+}
+
+// Contenu Html
+else if (is_array($data) && array_key_exists('content', $data)) {
+    echo $data['content'];
+}
+
+else {
+    throw new \Exception('Unkown data type');
+}
+
+echo $menus ? H::grid()->endCell()->endRow() : '';
+
+if ($modalId && isset($data['title'])) {
+    $js = '$("#' . $modalId . ' .modal-title")'
+        . '.html("' . $data['title'] . '");';
+    echo H::html($js, 'script', [], false);
+}

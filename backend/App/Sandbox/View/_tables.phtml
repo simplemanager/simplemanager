@@ -1,0 +1,83 @@
+<?php 
+
+use Osf\View\Table;
+
+if (!H::isAjax()) {
+    echo H::html('Tables', 'h2');
+
+    $fieldParams = [
+      'id'      => ['label' => 'ID'],
+      'name'    => ['label' => 'User'],
+      'date'    => ['label' => 'Date'],
+      'status'  => ['label' => 'Status'],
+      'comment' => ['label' => 'Reason'],
+        ];
+    $data = [
+        [
+       'id' => '183',
+       'name' => 'John Doe',
+       'date' => '11-7-2014',
+       'status' => '<span class="label label-success">Approved</span>',
+       'comment' => 'Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.',
+    ], [
+       'id' => '219',
+       'name' => 'Alexander Pierce',
+       'date' => '11-7-2014',
+       'status' => '<span class="label label-warning">Pending</span>',
+       'comment' => 'Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.',
+    ], [
+       'id' => '657',
+       'name' => 'Bob Doe',
+       'date' => '11-7-2014',
+       'status' => '<span class="label label-primary">Approved</span>',
+       'comment' => 'Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.',
+    ], [
+       'id' => '175',
+       'name' => 'Mike Doe',
+       'date' => '11-7-2014',
+       'status' => '<span class="label label-danger">Denied</span>',
+       'comment' => 'Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.',
+    ]];
+    $dataTable = (new Osf\View\Table($data))->setFieldParams($fieldParams)->setDisplayLabels();
+    echo H::box(H::html('Tableau simple')->escape(false))->addTable(H::table($dataTable))->coloredTitleBox()->collapsable()->icon('table');
+}
+
+// Désactive la génération du layout si c'est une requête AJAX
+H::layout()->setDisabled(H::isAjax());
+
+$data = C::get('t0_ex_data');
+if (!is_array($data)) {
+    $data = [];
+    for ($i = 0; $i < 100; $i++) {
+        $data[] = [
+            $i,
+            md5($i),
+            rand(100000, 999999)
+        ];
+    }
+    C::set('t0_ex_data', $data);
+}
+
+$fieldParams = [
+    0 => [Table::FP_LABEL => 'Id'],
+    1 => [Table::FP_LABEL => 'Md5', Table::FP_STYLE => 'font-family: monospace;'],
+    2 => [Table::FP_LABEL => 'Rand'],
+    Table::FIELD_CONDITION => [
+        Table::FPC_FIELD => 2,
+        Table::FPC_PATTERN => '/^[8-9][0-9]{5}$/',
+        Table::FPC_STYLE => 'color: red;'
+    ]
+];
+
+$dataTable = (new Osf\View\Table($data))
+        ->setFieldParams($fieldParams)
+        ->setDisplayLabels()
+        ->setPaginate(true, 10);
+//        ->setDisplaySelectors(true);
+echo H::box(H::html('Tableau long, pagination ajax')->escape(false))
+        ->addTable(H::table($dataTable))
+        ->coloredTitleBox()
+        ->collapsable()
+        ->icon('table');
+
+

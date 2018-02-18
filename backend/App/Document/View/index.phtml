@@ -1,0 +1,125 @@
+<?php 
+
+use Osf\Pdf\Document\Bean\BaseDocumentBean as BDB;
+use Sma\View\Helper\Crud\CrudConfig;
+use App\Common\Container as C;
+use Sma\Session\Identity as I;
+
+// =====================================================================
+// TODO : callback mode
+// =====================================================================
+
+// Mise à jour partielle de la page ?
+$refresh = C::getRequest()->getParam('tp') !== null && !C::getRequest()->getParam('nr');
+
+// Si pas encore de société
+if (!$refresh && !I::getIdCompany()) {
+    echo H::alert(__("Qui êtes-vous ?"), sprintf(__("%s pour que vos lettres soient complètes."), H::link(__("Complétez votre profil"), 'account', 'company')))->disableEscape()->statusWarning();
+}
+
+$msg = [
+    'title'   => __("Mes lettres"),
+    'noitem'  => __("Aucune lettre pour le moment."),
+    'add'     => __("Rédiger une lettre"),
+    'del'     => __("Supprimer"),
+    'deldesc' => __("Cette action supprimera définitivement une lettre."),
+];
+$links = [
+    [
+        'label' => __("Aperçu"),
+        'icon' => 'eye',
+        'url' => '#',
+        'attrs' => ['onclick' => "$.ajaxCall('" . H::url('document', 'letter', ['view' => '{{id}}']) . "','#mview');"]
+    ],
+    [
+        'label' => __("Télécharger"),
+        'icon' => 'download',
+        'url' => H::url('document', 'letter', ['dl' => '{{id}}', 'file' => 'lettre-{{uid}}.pdf']),
+        'attrs' => ['class' => 'extlink', 'target' => '_blank'],
+    ],
+    [
+        'label' => __("Détail"),
+        'icon' => 'binoculars',
+        'url' => H::url('document', 'view') . '/id/{{id}}',
+        'attrs' => []
+    ],
+    '',
+    [
+        'label' => __("Envoyer par email"),
+        'icon' => 'send-o',
+        'color' => 'blue',
+        'url' => '',
+        'attrs' => ['onclick' => '$.ajaxCall(\'' . H::url('document', 'send', [
+            'id' => '{{id}}',
+            'tp' => C::getRequest()->getParam('tp'),
+            'ai' => C::getRequest()->getParam('ai'),
+        ]) . '\',\'#clist\');'],
+        'css' => ['clickable'],
+        'filter' => function ($row) { return $row['status'] === BDB::STATUS_CREATED; }
+    ],
+    '',
+    [
+        'label' => __("Modifier"),
+        'icon' => 'pencil',
+        'url' => H::url('document', 'letter') . '/id/{{id}}',
+        'attrs' => []
+    ],
+    [
+        'label' => __("Dupliquer"),
+        'icon' => 'clone',
+        'url' => H::url('document', 'letter') . '/from/{{id}}',
+        'attrs' => []
+    ],
+];
+
+if (I::getParam('features', 'tpl')) {
+    $links[] = [
+        'label' => __("Créer Modèle"),
+        'icon' => 'files-o',
+        'color' => 'fuchsia',
+        'url' => H::url('document', 'template') . '/fromletter/{{id}}',
+        'attrs' => []
+    ];
+}
+
+$config = (new CrudConfig())
+        ->setLinks($links)
+        ->setMsgs($msg)
+        ->setIcon('envelope-o', 'aqua')
+        ->setItemTemplate(__DIR__ . '/list_item.phtml')
+        ->setLinkPattern('/document/view/id/[key]')
+        ->setLinkAdd(H::url('document', 'letter'))
+        ->setRefresh($refresh)
+//        ->setCallbackMode()
+        ;
+
+// Affichage des boutons si on est pas dans une requête AJAX
+if (!$refresh) {
+//    echo H::button(null, H::url('document', 'letter'))
+//        ->icon('plus')
+//        ->marginBottom()
+//        ->setTooltip(__("Nouvelle Lettre"))
+//        ->statusPrimary();
+    echo H::html('', 'div')->setAttribute('id', 'mview');
+
+    // Menu
+    include __DIR__ . '/_menu_main.phtml';
+}
+
+// Affichage de messages envoyés par les actions
+foreach (C::getFlashMessenger()->getActions()['alert'] as $alert) {
+    [$msg, $title, $status] = $alert;
+    echo H::alert($title, $msg, $status)->removable();
+}
+C::getFlashMessenger()->cleanAlerts();
+
+// Affichage du tableau CRUD
+echo H::crud($config)
+        ->setBox(clone H::box('')->setAppend((string) H::html(H::link(H::button(__("Actualiser"))->sizeLarge()->status('default'), 
+            C::getRequest()->getController(), 
+            C::getRequest()->getAction(), 
+            ['ai' => C::getRequest()->getParam('ai'), 
+             'tp' => C::getRequest()->getParam('tp'), 
+             'nr' => 1])->setIsAjaxLink(), 'div')
+                ->escape(false)
+                ->addCssClass('text-center')));

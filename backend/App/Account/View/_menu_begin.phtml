@@ -1,0 +1,36 @@
+<?php
+
+/*
+use Sma\Session\Identity as I;
+use Osf\View\Helper\Bootstrap\AbstractViewHelper as AVH;
+use App\Common\Container;
+
+// Scroll vers acczone
+//H::layout()->appendScripts('location.hash="#acczone";');
+if (Container::getDevice()->isMobile()) {
+    H::layout()->appendScripts('$("html,body").animate({scrollTop: $("#acczone").offset().top},"slow");');
+}
+
+echo H::grid()->beginRow()->beginCell3();
+
+$action = \App\Common\Container::getRequest()->getAction();
+$completionCompany = I::getCompletion(I::SECTION_COMPANY);
+$completionContact = I::getCompletion(I::SECTION_CONTACT);
+echo H::box(H::html(__("Options"), 'h3')->addCssClass('box-title')->escape('false'))->coloredTitleBox()->collapsable()->addNav(
+        H::nav(true)
+//            ->addLink('Résumé', H::url('account'), $action == 'index', false, 'home')
+            ->addLink(__("Ma société"), H::url('account', 'company'), $action == 'company', false, 'industry', '', $completionCompany . '%', AVH::getPercentageColor($completionCompany))
+            ->addLink(__("Mon compte"), H::url('account', 'login'), $action == 'login', false, 'user', '', $completionContact . '%', AVH::getPercentageColor($completionContact))
+            ->addLink(__("Mes paramètres"), H::url('account', 'features'), $action == 'features', false, 'th')
+        );
+
+//echo H::box(H::html(__("Ma société"), 'h3')->addCssClass('box-title')->escape('false'))->coloredTitleBox()->collapsable()->addNav(
+//        H::nav(true)
+//            ->addLink('Informations', H::url('account', 'company'), $action == 'company', false, 'info')
+//        );
+
+echo H::grid()->endCell()->beginCellRest();
+
+?>
+<div id="acczone">
+ */
