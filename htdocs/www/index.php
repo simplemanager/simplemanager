@@ -18,10 +18,10 @@ if (MAINTENANCE_MODE) {
 defined('APPLICATION_ENV') || define('APPLICATION_ENV', getenv('APPLICATION_ENV') ?: 'production');
 
 // Vérification SSL en production
-if (APPLICATION_ENV === 'production' && !filter_input(INPUT_SERVER, 'HTTPS')) {
-    header('Location: https://' . filter_input(INPUT_SERVER, 'HTTP_HOST') . filter_input(INPUT_SERVER, 'REQUEST_URI'));
-    exit;
-}
+#if (APPLICATION_ENV === 'production' && !filter_input(INPUT_SERVER, 'HTTPS')) {
+#    header('Location: https://' . filter_input(INPUT_SERVER, 'HTTP_HOST') . filter_input(INPUT_SERVER, 'REQUEST_URI'));
+#    exit;
+#}
 
 // Filtre des fichiers statiques
 define('STATIC_URL_REGEX', '#^(.*document/dl/k/.+|.*(\.(pdf|png|jpg|html|ico|csv|xls|xlsx|ods)|/nl))$#');
