@@ -10,6 +10,7 @@ use Sma\Db\DbRegistry;
 use Sma\Cache as SC;
 use Sma\Container;
 use Sma\Generator;
+use Sma\Install;
 use Sma\Acl;
 use Sma\Log;
 use App\Recipient\Model\RecipientDbManager as RDM;
@@ -50,35 +51,6 @@ class Cli extends OsfControllerCli
         // Lance les actions
         parent::run();
     }
-    
-//    /**
-//     * Generate CSS stylesheet from less files
-//     */
-//    protected static function lessAction()
-//    {
-//        echo self::beginActionMessage('Common CSS generation');
-//        $lessc = '/usr/bin/lessc';
-//        if (!file_exists($lessc) || !is_executable($lessc)) {
-//            echo self::endActionFail();
-//            self::displayError('lessc executable not found, please install it');
-//            return;
-//        }
-//        $file = APPLICATION_PATH . '/App/Common/Config/less/styles.less';
-//        $cssFile = APP_PATH . '/htdocs/www/styles/styles.css';
-//        $cmd = escapeshellcmd($lessc) . ' -x ' . escapeshellarg($file)
-//                . ' > ' . escapeshellarg($cssFile)
-//                . ' 2> /tmp/lessc-errors.log';
-//        $retVal = null;
-//        passthru($cmd, $retVal);
-//        if ($retVal == 0) {
-//            echo self::endActionOK();
-//        } else {
-//            echo self::endActionFail();
-//            self::displayError('See /tmp/lessc-errors.log to view errors');
-//        }
-//    }
-
-    // @task mettre en place les tests unitaires applicatifs
 
     /**
      * Application unit tests
@@ -193,27 +165,6 @@ class Cli extends OsfControllerCli
             echo self::endActionFail();
             self::displayError($e->getMessage());
         }
-        
-        // VERSION 
-//        echo self::beginActionMessage(APP_SNAM . ' version builder -> Version.php');
-//        try {
-//            Generator::generateVersion();
-//            echo self::endActionOK();
-//        } catch (\Exception $e) {
-//            echo self::endActionFail();
-//            self::displayError($e->getMessage());
-//        }
-//
-        // GENERAL CONFIGURATION
-        // Conditions sur general.yml / mise en cache pour l'instant
-//        echo self::beginActionMessage('General config YAML -> general.php');
-//        try {
-//            Generator::generateGeneralConfig();
-//            echo self::endActionOK();
-//        } catch (\Exception $e) {
-//            echo self::endActionFail();
-//            self::displayError($e->getMessage());
-//        }
         
         // VIEW HELPERS
         echo self::beginActionMessage('SMA View Helpers');
@@ -438,6 +389,14 @@ class Cli extends OsfControllerCli
             echo self::endActionFail();
             self::displayError($e->getMessage());
         }
+    }
+    
+    /**
+     * SimpleManager installation process
+     */
+    protected static function installAction()
+    {
+        (new Install())->install();
     }
     
     // FONCTIONS UTILITAIRES

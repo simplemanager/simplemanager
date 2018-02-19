@@ -18,6 +18,7 @@
     "require": {
         "php": "^7.1.0",
         "osflab/osf": "~3.0.0",
+        "ulrichsg/getopt-php": "3.1.0",
         "ext-mbstring": "*",
         "ext-mcrypt": "*",
         "ext-redis": "*"
