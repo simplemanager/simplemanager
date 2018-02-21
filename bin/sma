@@ -2,14 +2,10 @@
 <?php
 
 // Environnement d'exécution en mode ligne de commandes
-define('APPLICATION_ENV', isset($_SERVER['USER']) && $_SERVER['USER'] === 'guillaume' ? 'development' : 'production');
+define('APPLICATION_ENV', getenv('APPLICATION_ENV') ?? 'production');
 
 // Chargement de l'environnement
 require_once __DIR__ . '/../htdocs/www/env.php';
-
-// Affichage des erreurs éventuelles
-ini_set('display_errors', 1);
-ini_set('error_reporting', E_ALL);
 
 // Run the application, that's all !
 Sma\Controller\Cli::run();

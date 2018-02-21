@@ -17,6 +17,8 @@ use Zend\Validator\EmailAddress;
  */
 class Install extends Cli
 {
+    const ACL_YML_FILE = APP_PATH . '/backend/App/Common/Config/.acl.yml';
+    
     const REQUIRED_EXT = [
         'date',
         'dom',
@@ -31,7 +33,6 @@ class Install extends Cli
         'json',
         'libxml',
         'mbstring',
-        'mcrypt',
         'mysqli',
         'mysqlnd',
         'openssl',
@@ -100,6 +101,15 @@ class Install extends Cli
             if (!extension_loaded($ext)) {
                 $errors[] = 'PHP extension [' . $ext . '] is required';
             }
+        }
+        
+        // Already installed ?
+        if (file_exists(self::ACL_YML_FILE)) {
+            echo self::endActionSkip();
+            self::displayError('This application is already installed.', false, false);
+            self::display('Remove ' . self::ACL_YML_FILE . ' to reinstall.');
+            echo "\n";
+            exit(0);
         }
         
         // File system
@@ -190,8 +200,10 @@ class Install extends Cli
         
         echo self::beginActionMessage('Application general configuration');
         $configFile = APP_PATH . '/backend/App/Common/Config/.application.php';
-        if (!file_exists($configFile)) {
-            $conf = "<?php\n// Local SMA config file\n\nreturn [
+        if (file_exists($configFile)) {
+            copy($configFile, $configFile . '.bak');
+        }
+        $conf = "<?php\n// Local SMA config file\n\nreturn [
     'db' => [
         'admin' => [
             'database' => '" . $this->config->getMaindbname() . "',
@@ -207,28 +219,21 @@ class Install extends Cli
         ]
     ],
     'redis' => [
-        'auth' => 'masterflow',
+        'host' => '" . $this->config->getRedishostname() . "',
+        'auth' => '" . $this->config->getRedisauth() . "',
     ],
     'mail' => [
         'debug' => ['mail' => '" . $this->config->getAdminemail() . "', 'name' => 'SimpleManager tester'],
         'admin' => ['mail' => '" . $this->config->getAdminemail() . "', 'name' => sprintf('Contact %s (dev)', APP_NAME)]
     ]
 ];\n";
-            file_put_contents($configFile, $conf);
-            echo self::endActionOK();
-        } else {
-            echo self::endActionSkip();
-        }
-        
+        file_put_contents($configFile, $conf);
+        echo self::endActionOK();
+            
         echo self::beginActionMessage('Application acl configuration');
-        $aclFile = APP_PATH . '/backend/App/Common/Config/.acl.yml';
-        if (!file_exists($aclFile)) {
-            $conf = "# ACL local configuration\n\nadmin:\n  - " . $this->config->getAdminemail() . "\n";
-            file_put_contents($aclFile, $conf);
-            echo self::endActionOK();
-        } else {
-            echo self::endActionSkip();
-        }
+        $conf = "# ACL local configuration\n\nadmin:\n  - " . $this->config->getAdminemail() . "\n";
+        file_put_contents(self::ACL_YML_FILE, $conf);
+        echo self::endActionOK();
     }
     
     protected function generate(): void
