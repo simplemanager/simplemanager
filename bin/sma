@@ -7,5 +7,9 @@ define('APPLICATION_ENV', isset($_SERVER['USER']) && $_SERVER['USER'] === 'guill
 // Chargement de l'environnement
 require_once __DIR__ . '/../htdocs/www/env.php';
 
+// Affichage des erreurs éventuelles
+ini_set('display_errors', 1);
+ini_set('error_reporting', E_ALL);
+
 // Run the application, that's all !
 Sma\Controller\Cli::run();
