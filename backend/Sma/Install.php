@@ -255,6 +255,7 @@ class Install extends Cli
 
         $tmpAdmFile = sys_get_temp_dir() . '/sma_admin.sql';
         $tmpComFile = sys_get_temp_dir() . '/sma_common.sql';
+        $tmpDatFile = sys_get_temp_dir() . '/data.sql';
         
         $from = [
             'sma_admin',
@@ -267,12 +268,15 @@ class Install extends Cli
         
         file_put_contents($tmpAdmFile, str_replace($from, $to, file_get_contents(__DIR__ . '/Install/files/sma_admin.sql')));
         file_put_contents($tmpComFile, str_replace($from, $to, file_get_contents(__DIR__ . '/Install/files/sma_common.sql')));
+        file_put_contents($tmpDatFile, str_replace($from, $to, file_get_contents(__DIR__ . '/Install/files/data.sql')));
         
         $this->exec($cmdPrefix . ' < ' . escapeshellarg($tmpAdmFile));
         $this->exec($cmdPrefix . ' < ' . escapeshellarg($tmpComFile));
+        $this->exec($cmdPrefix . ' < ' . escapeshellarg($tmpDatFile));
         
         unlink($tmpAdmFile);
         unlink($tmpComFile);
+        unlink($tmpDatFile);
         
         return true;
     }
