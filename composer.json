@@ -20,7 +20,7 @@
         "osflab/osf": "~3.0.0",
         "ulrichsg/getopt-php": "3.1.0",
         "ext-mbstring": "*",
-        "ext-mcrypt": "*",
+        "ext-openssl": "*",
         "ext-redis": "*"
     },
     "require-dev": {
