@@ -19,7 +19,7 @@ $config = [
             'password' => '',
             'charset'  => 'utf8mb4',
             'driver_options' => [
-                PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES UTF8MB4",
+                MYSQLI_INIT_COMMAND => "SET NAMES UTF8MB4",
             ],
 //            'dbcollation' => 'utf8mb4_unicode_ci',
         ],
@@ -31,7 +31,7 @@ $config = [
             'password' => '',
             'charset'  => 'utf8mb4',
             'driver_options' => [
-                PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES UTF8MB4"
+                MYSQLI_INIT_COMMAND => "SET NAMES UTF8MB4"
             ],
 //            'dbcollation' => 'utf8mb4_unicode_ci',
         ]
