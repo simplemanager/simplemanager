@@ -16,23 +16,4 @@ use Sma\Db\Generated\AbstractAccountRow;
  */
 class AccountRow extends AbstractAccountRow
 {
-//    protected $extraData = [
-//        'skin' => null
-//    ];
-
-    /**
-     * Put filters, validators and data cleaners here
-     */
-    public function set($field, $value)
-    {
-        return parent::set($field, $value);
-    }
-
-    /**
-     * Put filters here
-     */
-    public function get($field)
-    {
-        return parent::get($field);
-    }
 }
