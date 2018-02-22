@@ -425,7 +425,10 @@ class Cli extends OsfControllerCli
         
         // Nettoyage des liens symboliques cassés 
         $rootDir = escapeshellarg($backupRootDir);
-        $cmd = 'find ' . $rootDir . ' -xtype l -exec rm {} \;';
+        
+        // Modifié pour compatibilité avec le find d'alpine
+        // $cmd = 'find ' . $rootDir . ' -xtype l -exec rm {} \;';
+        $cmd = 'find ' . $rootDir . ' -type l -exec sh -c \'for x; do [ -e "$x" ] || rm "$x"; done\' _ {} +';
         passthru($cmd);
     }
     
