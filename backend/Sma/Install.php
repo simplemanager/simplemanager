@@ -63,7 +63,7 @@ class Install extends Cli
     
     public function __construct(?Config $config = null)
     {
-        defined('SMA_INSTALL') || define('SMA_INSTALL', true);
+        defined('OSF_INSTALL') || define('OSF_INSTALL', true);
         $this->config = $config ?? new Config();
         $this->logFile = sys_get_temp_dir() . DIRECTORY_SEPARATOR . date('Ymd-His-') . 'sma-install.log';
     }
