@@ -29,6 +29,8 @@ class Acl extends OsfAcl
         self::ROLE_ACCOUNTANT => self::ROLE_PUBLIC
     ];
     
+    const LOCAL_ACL_FILE = APP_PATH . '/etc/acl.yml';
+    
     /**
      * @return $this
      */
@@ -159,10 +161,19 @@ class Acl extends OsfAcl
     {
         $apps = glob(APPLICATION_PATH . '/App/*');
         $acl = ['admin' => []];
+        
+        // Apps acl.yml
         foreach ($apps as $dir) {
             $app = strtolower(basename($dir));
-            self::appendAcl($acl, $dir . '/Config/acl.yml', $dir . '/Config/.acl.yml', $app);
+            self::appendAcl($acl, $dir . '/Config/acl.yml', $app);
         }
+        
+        // Local etc/acl.yml
+        if (file_exists(self::LOCAL_ACL_FILE)) {
+            $localAcl = Yaml::parseFile(self::LOCAL_ACL_FILE);
+            $acl = array_merge_recursive($acl, $localAcl);
+        }
+        
         return $acl;
     }
     
@@ -172,14 +183,10 @@ class Acl extends OsfAcl
      * @return void
      * @throws AE
      */
-    protected static function appendAcl(array &$acl, string $file, string $localFile, string $app): void
+    protected static function appendAcl(array &$acl, string $file, string $app): void
     {
         if (file_exists($file)) {
             $appAcl = Yaml::parseFile($file);
-            if (file_exists($localFile)) {
-                $localAcl = Yaml::parseFile($localFile);
-                $appAcl = array_merge_recursive($appAcl, $localAcl);
-            }
             if (!isset($appAcl['controller'])) { throw new AE('controller section required in ' . $file); }
             if (!isset($appAcl['action']))     { throw new AE('action section required in ' . $file); }
             $acl['controller'][$app] = $appAcl['controller'];

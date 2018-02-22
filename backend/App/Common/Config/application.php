@@ -59,11 +59,11 @@ $config = [
     ]
 ];
 
-$localConfig = __DIR__ . '/.application.php';
+$localConfig = APP_PATH . '/etc/application.php';
 if (file_exists($localConfig)) {
     $config = array_replace_recursive($config, include($localConfig));
 }
-$envConfig = __DIR__ . '/.application.' . APPLICATION_ENV . '.php';
+$envConfig = APP_PATH . '/etc/application.' . APPLICATION_ENV . '.php';
 if (file_exists($envConfig)) {
     $config = array_replace_recursive($config, include($envConfig));
 }

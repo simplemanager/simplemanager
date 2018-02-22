@@ -49,7 +49,7 @@ class Mail
     
     const MIMETYPE_PDF = 'application/pdf';
     
-    const DEBUG_PATH = '/tmp/sma_mails';
+    const DEBUG_PATH = APP_PATH . '/var/debug/mails';
     
     protected $subject;
     protected $footer;

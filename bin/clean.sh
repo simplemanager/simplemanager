@@ -83,9 +83,10 @@ rm -f $WORK_DIR'/htdocs/www/img/'*
 
 echo '-> Check des fichiers de configuration locaux'
 CONF_DATA="<?php\n\n// "$HOSTNAME" ("$ENV_TYPE") specific configuration\n\nreturn [];\n\n// vim: encoding=utf-8\n"
-if [ ! -f $WORK_DIR'/backend/App/Common/Config/.application.php' ] ;then
-  echo -e $CONF_DATA > $WORK_DIR'/backend/App/Common/Config/.application.php'
-  echo "-> Création de "$WORK_DIR'/backend/App/Common/Config/.application.php'
+CONF_FILE=$WORK_DIR'/etc/application.php'
+if [ ! -f $CONF_FILE ] ;then
+  echo -e $CONF_DATA > $CONF_FILE
+  echo "-> Création de "$CONF_FILE
   echo -e "-> ${WRN}Ce fichier de configuration doit être rempli.${NC}"
 fi
 

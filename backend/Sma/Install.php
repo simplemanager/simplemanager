@@ -17,7 +17,8 @@ use Zend\Validator\EmailAddress;
  */
 class Install extends Cli
 {
-    const ACL_YML_FILE = APP_PATH . '/backend/App/Common/Config/.acl.yml';
+    const ACL_YML_FILE = APP_PATH . '/etc/acl.yml';
+    const APP_PHP_FILE = APP_PATH . '/backend/App/Common/Config/.application.php';
     
     const REQUIRED_EXT = [
         'date',
@@ -199,9 +200,8 @@ class Install extends Cli
         }
         
         echo self::beginActionMessage('Application general configuration');
-        $configFile = APP_PATH . '/backend/App/Common/Config/.application.php';
-        if (file_exists($configFile)) {
-            copy($configFile, $configFile . '.bak');
+        if (file_exists(self::APP_PHP_FILE)) {
+            copy(self::APP_PHP_FILE, self::APP_PHP_FILE . '.bak');
         }
         $conf = "<?php\n// Local SMA config file\n\nreturn [
     'db' => [
