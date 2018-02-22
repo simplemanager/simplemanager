@@ -1,12 +1,12 @@
 USE `sma_admin`;
 
 INSERT INTO `account` (`email`, `password`, `firstname`, `lastname`, `status`) VALUES
-('gponcon@gmail.com', '$2y$10$iKbbKC6.DuViU7Snz6Bn4uf1y8cXBx6pCXbJfJLxk77kKNQXw5tc.', 'Admin', 'Admin', 'enabled');
+('{{EMAIL}}', '$2y$10$iKbbKC6.DuViU7Snz6Bn4uf1y8cXBx6pCXbJfJLxk77kKNQXw5tc.', 'Admin', 'Admin', 'enabled');
 
 USE `sma_common`;
 
 INSERT INTO `contact` (`firstname`, `lastname`, `email`, `id_account`, `is_account`) VALUES
-('Admin', 'Admin', 'gponcon@gmail.com', 1, 1);
+('Admin', 'Admin', '{{EMAIL}}', 1, 1);
 
 INSERT INTO `letter_template` (`id_account`, `category`, `title`, `description`, `data_type`, `data_type_filters`, `target_type`, `search_data`, `bean`) VALUES
 (1, 'common', 'Relance de facture impayée', '', 'invoice', 'overdue', 'both', 'relance de facture impayee ', 'O:19:"Sma\\Bean\\LetterBean":20:{s:7:"\0*\0dear";s:0:"";s:7:"\0*\0body";s:302:"Nous vous informons que votre facture {{ doc.code }} devait être payée depuis le {{ doc.date_validite }}. Nous vous serions gré de bien vouloir solder la somme de {{ doc.total_ttc }} correspondant à cette facture. \r\n\r\nVeuillez agréer, {{ dest.cher }}, l\'expression de nos sentiments les meilleurs.";s:12:"\0*\0signature";s:0:"";s:11:"\0*\0markdown";b:1;s:15:"\0*\0attachLetter";b:0;s:38:"\0Osf\\Bean\\AbstractBean\0lastBuildedHash";N;s:7:"\0*\0libs";a:3:{s:7:"Objet :";s:37:"Votre facture impayée {{ doc.code }}";s:6:"Attn :";s:22:"{{ dest.nom_complet }}";s:2:" :";s:0:"";}s:8:"\0*\0title";s:37:"Votre facture impayée {{ doc.code }}";s:10:"\0*\0subject";N;s:19:"\0*\0displayCreatedBy";b:1;s:15:"\0*\0confidential";b:1;s:7:"\0*\0date";N;s:8:"\0*\0place";N;s:9:"\0*\0config";N;s:9:"\0*\0status";s:7:"created";s:11:"\0*\0provider";N;s:12:"\0*\0recipient";N;s:5:"\0*\0id";N;s:11:"\0*\0template";N;s:15:"\0*\0attachmentId";N;}'),

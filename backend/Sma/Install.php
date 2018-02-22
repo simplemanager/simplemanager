@@ -18,7 +18,7 @@ use Zend\Validator\EmailAddress;
 class Install extends Cli
 {
     const ACL_YML_FILE = APP_PATH . '/etc/acl.yml';
-    const APP_PHP_FILE = APP_PATH . '/backend/App/Common/Config/.application.php';
+    const APP_PHP_FILE = APP_PATH . '/etc/application.php';
     
     const REQUIRED_EXT = [
         'date',
@@ -63,6 +63,7 @@ class Install extends Cli
     
     public function __construct(?Config $config = null)
     {
+        defined('SMA_INSTALL') || define('SMA_INSTALL', true);
         $this->config = $config ?? new Config();
         $this->logFile = sys_get_temp_dir() . DIRECTORY_SEPARATOR . date('Ymd-His-') . 'sma-install.log';
     }
@@ -76,7 +77,8 @@ class Install extends Cli
         $this->configuration();
         $this->generate();
         $this->clean();
-        $this->end();
+        // $this->test();
+        $this->by(0);
     }
     
     protected function welcome()
@@ -227,7 +229,7 @@ class Install extends Cli
         'admin' => ['mail' => '" . $this->config->getAdminemail() . "', 'name' => sprintf('Contact %s (dev)', APP_NAME)]
     ]
 ];\n";
-        file_put_contents($configFile, $conf);
+        file_put_contents(self::APP_PHP_FILE, $conf);
         echo self::endActionOK();
             
         echo self::beginActionMessage('Application acl configuration');
@@ -248,7 +250,11 @@ class Install extends Cli
         self::cleanAction('cache');
         self::cleanAction('smacache');
         self::cleanAction('backups');
-//        self::testAction();
+    }
+
+    protected function test(): void
+    {
+        self::testAction();
     }
     
     protected function mysqlInstall(): bool
@@ -273,7 +279,9 @@ class Install extends Cli
         
         file_put_contents($tmpAdmFile, str_replace($from, $to, file_get_contents(__DIR__ . '/Install/files/sma_admin.sql')));
         file_put_contents($tmpComFile, str_replace($from, $to, file_get_contents(__DIR__ . '/Install/files/sma_common.sql')));
-        file_put_contents($tmpDatFile, str_replace($from, $to, file_get_contents(__DIR__ . '/Install/files/data.sql')));
+        
+        $data = str_replace('{{EMAIL}}', $this->config->getAdminemail(), file_get_contents(__DIR__ . '/Install/files/data.sql'));
+        file_put_contents($tmpDatFile, str_replace($from, $to, $data));
         
         $this->exec($cmdPrefix . ' < ' . escapeshellarg($tmpAdmFile));
         $this->exec($cmdPrefix . ' < ' . escapeshellarg($tmpComFile));
@@ -302,9 +310,15 @@ class Install extends Cli
         file_put_contents($this->logFile, $data . "\n", FILE_APPEND);
     }
     
-    protected function end(): void
+    protected function by(int $returnValue = 1): void
     {
         echo "\n";
-        exit(1);
+        echo "  " . self::green() . "SimpleManager is installed ;)" . self::resetColor() . "\n\n";
+        echo "  -> Go to http://localhost:8080\n"; 
+        echo "  -> Login: " . self::yellow() . $this->config->getAdminemail() . self::resetColor() . "\n";
+        echo "  -> Password: " . self::yellow() . "password42" . self::resetColor() . "\n";
+        echo "  -> Complete your profile, " . self::red() . "change the password" . self::resetColor() . " and have fun!\n";
+        echo "\n";
+        exit($returnValue);
     }
 }
