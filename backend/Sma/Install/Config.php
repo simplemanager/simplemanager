@@ -26,7 +26,8 @@ class Config extends AbstractBean
         'commondbname',
         'sgdbhostname',
         'redishostname',
-        'redisauth'
+        'redisauth',
+        'ignoredb'
     ];
     
     protected $adminemail    = null;
@@ -38,19 +39,65 @@ class Config extends AbstractBean
     protected $sgdbhostname  = 'localhost';
     protected $redishostname = 'localhost';
     protected $redisauth     = '';
+    protected $ignoredb      = false; // Ignore database installation
     
     /**
      * @var GetOpt
      */
     protected $opt;
     
+    /**
+     * Build default config with default keys or current keys detected in app config
+     */
     public function __construct()
     {
         $values = [];
+        $this->pushCurrentConfig($values);
         foreach (self::OPTIONS as $key) {
-            $values[$key] = (string) ($this->getOpt()->getOption($key) ?? $this->$key);
+            $value = $this->getOpt()->getOption($key);
+            if ($value !== null) {
+                $values[$key] = (string) $value;
+            }
         }
         $this->populate($values);
+    }
+    
+    /**
+     * @param array $values
+     * @return void
+     */
+    protected function pushCurrentConfig(array &$values): void
+    {
+        $currentConfig = include __DIR__ . '/../../App/Common/Config/application.php';
+        $this->pushKey($values, $currentConfig, 'adminemail', 'mail', 'admin', 'mail');
+        $this->pushKey($values, $currentConfig, 'adminname', 'mail', 'admin', 'name');
+        $this->pushKey($values, $currentConfig, 'dbuser', 'db', 'admin', 'username');
+        $this->pushKey($values, $currentConfig, 'dbpass', 'db', 'admin', 'password');
+        $this->pushKey($values, $currentConfig, 'maindbname', 'db', 'admin', 'database');
+        $this->pushKey($values, $currentConfig, 'commondbname', 'db', 'common', 'database');
+        $this->pushKey($values, $currentConfig, 'sgdbhostname', 'db', 'admin', 'hostname');
+        $this->pushKey($values, $currentConfig, 'redishostname', 'redis', 'host');
+        $this->pushKey($values, $currentConfig, 'redisauth', 'redis', 'auth');
+    }
+    
+    /**
+     * @param array $values
+     * @param array $currentConfig
+     * @param string $localKey
+     * @param string $key
+     * @param string $subkey
+     * @param string $subsubkey
+     * @return void
+     */
+    protected function pushKey(array &$values, array $currentConfig, string $localKey, string $key, string $subkey, string $subsubkey = null): void
+    {
+        if ($subsubkey !== null && isset($currentConfig[$key][$subkey][$subsubkey]) && !is_array($currentConfig[$key][$subkey][$subsubkey])) {
+            $values[$localKey] = $currentConfig[$key][$subkey][$subsubkey];
+        } else if (isset($currentConfig[$key][$subkey]) && !is_array($currentConfig[$key][$subkey])) {
+            $values[$localKey] = $currentConfig[$key][$subkey];
+        } else {
+            $values[$localKey] = $this->$localKey;
+        }
     }
     
     /**
@@ -68,6 +115,7 @@ class Config extends AbstractBean
             Option::create(null, 'commondbname',  GetOpt::OPTIONAL_ARGUMENT)->setDescription('Common database name (default: ' . $this->commondbname . ')'),
             Option::create(null, 'redishostname', GetOpt::OPTIONAL_ARGUMENT)->setDescription('Redis hostname (default: ' . $this->redishostname . ')'),
             Option::create(null, 'redisauth',     GetOpt::OPTIONAL_ARGUMENT)->setDescription('Redis auth (default: ' . $this->redisauth . ')'),
+            Option::create(null, 'ignoredb',      GetOpt::NO_ARGUMENT)->setDescription('Ignore database installation'),
         ]);
         $getOpt->process();
         return $getOpt;
@@ -238,5 +286,23 @@ class Config extends AbstractBean
     public function getRedisauth(): string
     {
         return $this->redisauth;
+    }
+    
+    /**
+     * @param bool $ignoredb
+     * @return $this
+     */
+    public function setIgnoredb($ignoredb = true)
+    {
+        $this->ignoredb = (bool) $ignoredb;
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getIgnoredb(): bool
+    {
+        return $this->ignoredb;
     }
 }

@@ -125,7 +125,7 @@ class Install extends Cli
             foreach ($errors as $str) {
                 self::displayError($str, false, false);
             }
-            $this->end();
+            $this->by();
         }
         echo self::endActionOK();
     }
@@ -139,7 +139,7 @@ class Install extends Cli
             echo self::endActionSkip();
             self::displayError('admin e-mail required, help yourself with the following options:', false, false);
             echo $this->config->getOptUsage(); 
-            $this->end();
+            $this->by();
         }
         if (!(new EmailAddress())->isValid($this->config->getAdminemail())) {
             echo self::endActionFail();
@@ -259,6 +259,10 @@ class Install extends Cli
     
     protected function mysqlInstall(): bool
     {
+        if ($this->config->getIgnoredb()) {
+            return false;
+        }
+        
         $cmdPrefix = 'mysql'
             . ' --host=' . escapeshellarg($this->config->getSgdbhostname())
             . ' --user=' . escapeshellarg($this->config->getDbuser())
@@ -312,13 +316,15 @@ class Install extends Cli
     
     protected function by(int $returnValue = 1): void
     {
-        echo "\n";
-        echo "  " . self::green() . "SimpleManager is installed ;)" . self::resetColor() . "\n\n";
-        echo "  -> Go to http://localhost:8080\n"; 
-        echo "  -> Login: " . self::yellow() . $this->config->getAdminemail() . self::resetColor() . "\n";
-        echo "  -> Password: " . self::yellow() . "password42" . self::resetColor() . "\n";
-        echo "  -> Complete your profile, " . self::red() . "change the password" . self::resetColor() . " and have fun!\n";
-        echo "\n";
+        if ($returnValue === 0) {
+            echo "\n";
+            echo "  " . self::green() . "SimpleManager is installed ;)" . self::resetColor() . "\n\n";
+            echo "  -> Go to http://localhost:8080\n"; 
+            echo "  -> Login: " . self::yellow() . $this->config->getAdminemail() . self::resetColor() . "\n";
+            echo "  -> Password: " . self::yellow() . "password42" . self::resetColor() . "\n";
+            echo "  -> Complete your profile, " . self::red() . "change the password" . self::resetColor() . " and have fun!\n";
+            echo "\n";
+        }
         exit($returnValue);
     }
 }
