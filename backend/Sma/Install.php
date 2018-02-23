@@ -71,14 +71,15 @@ class Install extends Cli
     public function install()
     {
         $this->welcome();
-        $this->checkEnv();
-        $this->checkArgs();
-        $this->databases();
-        $this->configuration();
-        $this->generate();
-        $this->clean();
-        // $this->test();
-        $this->by(0);
+//        $this->checkEnv();
+//        $this->checkArgs();
+//        $this->databases();
+        $this->fonts();
+//        $this->configuration();
+//        $this->generate();
+//        $this->clean();
+//        // $this->test();
+//        $this->by(0);
     }
     
     protected function welcome()
@@ -182,6 +183,19 @@ class Install extends Cli
     {
         echo self::beginActionMessage('Databases installation');
         echo $this->mysqlInstall() ? self::endActionOK() : self::endActionSkip();
+    }
+    
+    protected function fonts(): void
+    {
+        echo self::beginActionMessage('TCPDF fonts update');
+        $updateFontsCmd = realpath(APP_PATH . '/vendor/osflab/osf/src/Pdf/update-fonts');
+        if (!$updateFontsCmd) {
+            echo self::endActionFail();
+            self::displayError('Update fonts executable not found');
+        }
+        $cmd = 'sh ' . escapeshellarg($updateFontsCmd);
+        $this->exec($cmd);
+        echo self::endActionOK();
     }
     
     protected function configuration(): void
@@ -317,6 +331,9 @@ class Install extends Cli
     protected function by(int $returnValue = 1): void
     {
         if ($returnValue === 0) {
+            if (file_exists($this->logFile)) {
+                unlink($this->logFile);
+            }
             echo "\n";
             echo "  " . self::green() . "SimpleManager is installed ;)" . self::resetColor() . "\n\n";
             echo "  -> Go to http://localhost:8080\n"; 
