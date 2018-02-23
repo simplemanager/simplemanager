@@ -19,23 +19,6 @@ use Sma\Db\Generated\AbstractImageRow;
  */
 class ImageRow extends AbstractImageRow
 {
-
-    /**
-     * Put filters, validators and data cleaners here
-     */
-    public function set($field, $value)
-    {
-        return parent::set($field, $value);
-    }
-
-    /**
-     * Put filters here
-     */
-    public function get($field)
-    {
-        return parent::get($field);
-    }
-
     /**
      * Ajoute une image en la réduisant / recadrant et en construisant le bean avec les couleurs dominantes
      * 

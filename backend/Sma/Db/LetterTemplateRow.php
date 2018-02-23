@@ -21,22 +21,6 @@ use Sma\Bean\InvoiceBean;
 class LetterTemplateRow extends AbstractLetterTemplateRow
 {
     /**
-     * Put filters, validators and data cleaners here
-     */
-    public function set($field, $value)
-    {
-        return parent::set($field, $value);
-    }
-
-    /**
-     * Put filters here
-     */
-    public function get($field)
-    {
-        return parent::get($field);
-    }
-    
-    /**
      * Rendu en allant chercher les informations du bean dans la base
      * @param int $id identifiant de l'enregistrement correspondant au type de données lié au template
      * @param bool $persistant Rendre le rendu persistant (mise en cache)

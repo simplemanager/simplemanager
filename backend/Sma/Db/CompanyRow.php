@@ -17,23 +17,6 @@ use H;
  */
 class CompanyRow extends AbstractCompanyRow
 {
-
-    /**
-     * Put filters, validators and data cleaners here
-     */
-    public function set($field, $value)
-    {
-        return parent::set($field, $value);
-    }
-
-    /**
-     * Put filters here
-     */
-    public function get($field)
-    {
-        return parent::get($field);
-    }
-    
     /**
      * Construit l'url pour se connecter à l'espace guest de l'entreprise
      * @return string

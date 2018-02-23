@@ -19,22 +19,10 @@ use Osf\Helper\Tab;
 class ProductRow extends AbstractProductRow
 {
     /**
-     * Put filters, validators and data cleaners here
+     * Unité litérale
+     * @return string
      */
-    public function set($field, $value)
-    {
-        return parent::set($field, $value);
-    }
-
-    /**
-     * Put filters here
-     */
-    public function get($field)
-    {
-        return parent::get($field);
-    }
-    
-    public function getUnitStr()
+    public function getUnitStr(): string
     {
         $units = [
             'd' => __("jour"),

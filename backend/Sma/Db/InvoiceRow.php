@@ -17,23 +17,6 @@ use Sma\Bean\InvoiceBean;
  */
 class InvoiceRow extends AbstractInvoiceRow
 {
-
-    /**
-     * Put filters, validators and data cleaners here
-     */
-    public function set($field, $value)
-    {
-        return parent::set($field, $value);
-    }
-
-    /**
-     * Put filters here
-     */
-    public function get($field)
-    {
-        return parent::get($field);
-    }
-    
     /**
      * Complète le bean avec des informations qui ont potentiellement changées
      * @return InvoiceBean

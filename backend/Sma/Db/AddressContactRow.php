@@ -16,20 +16,4 @@ use Sma\Db\Generated\AbstractAddressContactRow;
  */
 class AddressContactRow extends AbstractAddressContactRow
 {
-
-    /**
-     * Put filters, validators and data cleaners here
-     */
-    public function set($field, $value)
-    {
-        return parent::set($field, $value);
-    }
-
-    /**
-     * Put filters here
-     */
-    public function get($field)
-    {
-        return parent::get($field);
-    }
 }
