@@ -138,22 +138,28 @@ class Install extends Cli
         // Args
         if (!$this->config->getAdminemail()) {
             echo self::endActionSkip();
-            self::displayError('admin e-mail required, help yourself with the following options:', false, false);
+            self::displayError('admin email required, help yourself with the following options:', false, false);
             echo $this->config->getOptUsage(); 
             $this->by();
         }
         if (!(new EmailAddress())->isValid($this->config->getAdminemail())) {
             echo self::endActionFail();
-            self::displayError('bad e-mail address syntax [' . $this->config->getAdminemail() . ']');
+            self::displayError('bad email address [' . $this->config->getAdminemail() . ']', false, false);
+            echo $this->config->getOptUsage(); 
+            $this->by();
         }
         $pattern = '/^[a-zA-Z0-9_-]{1,30}$/';
         if (!preg_match($pattern, $this->config->getMaindbname())) {
             echo self::endActionFail();
-            self::displayError('bad main db name syntax, must match ' . $pattern);
+            self::displayError('bad main db name syntax, must match ' . $pattern, false, false);
+            echo $this->config->getOptUsage(); 
+            $this->by();
         }
         if (!preg_match($pattern, $this->config->getCommondbname())) {
             echo self::endActionFail();
-            self::displayError('bad common db name syntax, must match ' . $pattern);
+            self::displayError('bad common db name syntax, must match ' . $pattern, false, false);
+            echo $this->config->getOptUsage(); 
+            $this->by();
         }
         
         // Redis

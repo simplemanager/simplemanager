@@ -36,7 +36,6 @@ class FormLetter extends Form
     use FocusRecipient;
     
     protected $bean;
-    protected $focusRecipient = null;
     
     public function __construct(bool $focusRecipient = false)
     {

@@ -1,7 +1,5 @@
 #!/bin/bash
 
-ISROOT=`expr $USER = 'root'`
-
 echo
 
 # ==============================================================================
@@ -11,7 +9,6 @@ echo
 HOSTNAME=`hostname`
 THIS_FILE=$(readlink -f $0)
 WORK_DIR=$(dirname $(dirname $THIS_FILE))
-# LIB_DIR=$WORK_DIR/vendor/osflab
 
 WRN='\033[1;31m'
 INF='\033[1;32m'
@@ -19,12 +16,10 @@ EXT='\033[0;37m'
 GR='\033[1;37m'
 NC='\033[0m'
 
-if [ $ISROOT -eq 0 ] ;then
+if [[ $EUID -eq 0 ]] ;then
   HTTP_USER='www-data'
   HTTP_GROUP='www-data'
 fi
-# WORK_USER=`stat -c %U $0`
-# WORK_GROUP=`stat -c %G $0`
 
 # ==============================================================================
 # Détection de l'environnement et des utilisateurs locaux
@@ -48,7 +43,7 @@ else
   echo -e "-> Environnement détecté : [${GR}production${NC}] (hôte non répertorié ${WRN}"$HOSTNAME"${NC})"
 fi
 
-if [ $ISROOT -eq 0 ] ;then
+if [[ $EUID -ne 0 ]] ;then
   echo -e "-> Niveau d'exécution du script de nettoyage : [${WRN}non root${NC}]"
 else 
   echo -e "-> Niveau d'exécution du script de nettoyage : [${INF}root${NC}]"
@@ -94,7 +89,7 @@ fi
 # Fix des droits
 # ==============================================================================
 
-if [ $ISROOT -eq 0 ] ;then
+if [[ $EUID -ne 0 ]] ;then
   echo -e "-> Mise à jour des utilisateurs/groupes : ${WRN}impossible${NC}"
 else 
   echo -e "-> Tous les fichiers appartiennent à l'utilisateur [${GR}"$WORK_USER"${NC}]"
@@ -124,32 +119,8 @@ if [ -d $WORK_DIR'/frontend' ] ;then
   find $WORK_DIR'/frontend' -type d -print0 | xargs -0 chmod 770
 fi
 
-# echo "-> Droits sur les fichiers et dossiers des librairies"
-# find $LIB_DIR'/' -type f -print0 | xargs -0 chmod 644
-# find $LIB_DIR'/' -type d -print0 | xargs -0 chmod 755
-
-# ==============================================================================
-# Définition des ACLs afin d'éviter les problèmes d'accès après déploiements
-# ==============================================================================
-
-#if [ $ENV_TYPE != 'dev' ] ;then
-#  echo "-> Remise en place des ACLs sur les libs et l'espace de travail"
-#  setfacl -Rb $WORK_DIR
-#  setfacl -Rm u:www-data:rwx $WORK_DIR
-#  setfacl -Rdm u:www-data:rwx $WORK_DIR
-#  setfacl -Rb $LIB_DIR
-#  setfacl -Rm u:www-data:rwx $LIB_DIR
-#  setfacl -Rdm u:www-data:rwx $LIB_DIR
-#fi
-
 # ==============================================================================
 # Fin de process
 # ==============================================================================
-
-if [ $ISROOT = 1 ] ;then
-  if [ 'xupdate' != "x$@" ] ;then
-    echo -e "-> Pour mettre à jour depuis SVN, executer ${INF}./"$(basename $THIS_FILE)" update${NC}"
-  fi
-fi
 
 echo 

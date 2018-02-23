@@ -4,7 +4,7 @@ namespace Sma\Log;
 use Osf\Log\AdapterInterface;
 use Osf\Stream\Text as T;
 use Sma\Session\Identity;
-use DB, C;
+use C;
 
 /**
  * Envoi des logs dans le cache Redis pour enregistrement différé
