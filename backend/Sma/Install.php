@@ -71,15 +71,15 @@ class Install extends Cli
     public function install()
     {
         $this->welcome();
-//        $this->checkEnv();
-//        $this->checkArgs();
-//        $this->databases();
-        $this->fonts();
-//        $this->configuration();
-//        $this->generate();
-//        $this->clean();
-//        // $this->test();
-//        $this->by(0);
+        $this->checkEnv();
+        $this->checkArgs();
+        $this->databases();
+        $this->configuration();
+        $this->generate();
+//        $this->fonts();
+//        $this->test();
+        $this->clean();
+        $this->by(0);
     }
     
     protected function welcome()
