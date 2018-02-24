@@ -1,8 +1,8 @@
 Conditions d'utilisation
 
-# GNU Affero General Public License
+# GNU Affero General Public License (AGPL)
 
-_Version 3, 19 November 2007_
+_Version 3, 19 November 2007_  
 _Copyright © 2007 Free Software Foundation, Inc. &lt;<http://fsf.org/>&gt;_
 
 Everyone is permitted to copy and distribute verbatim copies
@@ -59,7 +59,7 @@ this license.
 The precise terms and conditions for copying, distribution and
 modification follow.
 
-# TERMS AND CONDITIONS
+# Terms and conditions
 
 ## 0. Definitions
 
@@ -607,7 +607,7 @@ an absolute waiver of all civil liability in connection with the
 Program, unless a warranty or assumption of liability accompanies a
 copy of the Program in return for a fee.
 
-# How to Apply These Terms to Your New Programs
+# How to apply these terms to your new programs
 
 If you develop a new program, and you want it to be of the greatest
 possible use to the public, the best way to achieve this is to make it

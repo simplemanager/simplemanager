@@ -7,10 +7,9 @@ Création d'un compte
 
 # Mes informations personnelles|info|user
 
-Sur {C:APP_NAME}, les informations privées des clients sont protégées. 
-Elles ne seront [jamais vendues ou transmises à un tiers](/info/protection-des-donnees).
-La politique {C:APP_NAME} respecte les règles de la CNIL sur la protection des 
-données privées.
+Sur {C:APP_NAME}, les informations privées sont protégées. Que vous hébergiez
+chez vous ou dans le cloud, la politique de gestion des données est étudiée 
+pour respecter les règles du [RGPD](https://fr.wikipedia.org/wiki/R%C3%A8glement_g%C3%A9n%C3%A9ral_sur_la_protection_des_donn%C3%A9es|blank).
 
 # La plateforme {C:APP_NAME}|info|home
 
@@ -24,6 +23,7 @@ données privées.
 
 En tant qu'utilisateur {C:APP_NAME}, je peux à tout moment : 
 
-* Suggérer des évolutions
-* Signaler un disfonctionnement
-* Profiter des nouveautés
+* [Participer aux évolutions](https://github.com/simplemanager/simplemanager/pulls|blank)
+* [Signaler un disfonctionnement](https://github.com/simplemanager/simplemanager/issues|blank)
+* [Profiter des nouveautés](https://github.com/simplemanager/simplemanager/releases|blank)
+
