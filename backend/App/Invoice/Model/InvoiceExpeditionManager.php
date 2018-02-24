@@ -2,7 +2,6 @@
 namespace App\Invoice\Model;
 
 use Osf\Pdf\Document\Bean\BaseDocumentBean as BDB;
-use Sma\Session\Identity;
 use Sma\Bean\InvoiceBean;
 use Sma\Cache as SC;
 use Sma\Mail;

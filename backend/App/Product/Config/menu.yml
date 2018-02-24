@@ -4,8 +4,6 @@ config:
 prd:
   label: "Produits"
   icon: shopping-basket
-#  color: blue
-#  badges: [["127", blue]]
   params:
     controller: product
     action: list

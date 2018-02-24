@@ -7,14 +7,6 @@
 controller: ADMIN
 action:
     index:
-    testimage:
-    testharu:
-    letterdb:
-    serialized:
-    lettersimple:
-    initdb:
-    models:
-    dbtest:
     ui:
     forms:
     kitchen:

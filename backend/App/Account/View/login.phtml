@@ -29,7 +29,6 @@ if (!H::get('redirect')) {
                     ->sizeLarge()->block()->statusSuccess()->addCssClass('margin-bottom');
             $content .= H::button(H::html(__("Mot de passe oublié"), 'small'), H::url('account', 'password'))
                     ->block()->sizeLarge()->addCssClass('margin-bottom');
-//            $content .= H::html(H::link(__("Créer un compte"), 'account', 'registration'), 'p')->escape(false)->addCssClass('text-center');
         }
         echo H::html($content, 'div', ['class' => 'center-block', 'style' => 'max-width: 500px'], false);
     } 

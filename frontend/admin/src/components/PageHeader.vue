@@ -48,7 +48,7 @@
         return htitle
       },
       isDebug () {
-        return window.location.hostname === 'dev-www.simplemanager.fr' || window.location.hostname === 'localhost'
+        return window.location.hostname === 'localhost'
       },
       isLogged () {
         return this.headerUser && this.headerUser.username

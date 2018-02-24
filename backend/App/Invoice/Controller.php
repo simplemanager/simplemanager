@@ -6,7 +6,6 @@ use Osf\Exception\ArchException;
 use Osf\Stream\Text;
 use Sma\Controller\Json as JsonAction;
 use Sma\Bean\InvoiceBean as IB;
-use Sma\Bean\ContactBean;
 use Sma\Session\Identity;
 use Sma\Pdf\Invoice;
 use Sma\Log;

@@ -9,7 +9,6 @@ use Osf\Stream\Text as T;
 use Osf\Helper\Mysql;
 use Osf\Helper\Tab;
 use Sma\Form\AbstractAutocompleteAdapter as AAA;
-use Sma\Db\Addon\ExchangeActions;
 use Sma\Bean\InvoiceBean as IB;
 use Sma\Session\Identity as I;
 use Sma\Db\DbRegistry as DBR;
@@ -32,8 +31,6 @@ use DB;
  */
 class RecipientDbManager extends AAA
 {
-//     use ExchangeActions;
-    
     const CATEGORY = 'recipient'; // Pour les items de recherche / autocomplétion
     const SEARCH_FIELDS = ['id', 'code', 'title', 'price', 'price_type', 'tax', 'unit', 'discount'];
     
@@ -68,12 +65,10 @@ class RecipientDbManager extends AAA
             // Company contact
             $data = isset($values['u']) ? $values['u']: [];
             $idContact = null;
-            //if (!Tab::allValuesEmpty($data)) {
-                $data['id_account'] = $idAccount;
-                $data = array_merge($data, Tab::reduce($values['c'], ['email', 'tel', 'fax']));
-                DB::getContactTable()->insert($data);
-                $idContact = DB::getContactTable()->lastInsertValue;
-            //}
+            $data['id_account'] = $idAccount;
+            $data = array_merge($data, Tab::reduce($values['c'], ['email', 'tel', 'fax']));
+            DB::getContactTable()->insert($data);
+            $idContact = DB::getContactTable()->lastInsertValue;
             $data['id_account'] = $idAccount;
 
             // Company
@@ -106,7 +101,6 @@ class RecipientDbManager extends AAA
             
             // Enregistrement du bean
             DB::getContactTable()->find($idContact)->setBean($bean)->save();
-//            self::updateBean($bean, $values);
             self::updateSearchIndex($idCompany);
             return $idCompany;
             
@@ -204,7 +198,6 @@ class RecipientDbManager extends AAA
             // Reconstruction du bean
             $safe = !GuestController::isLogged();
             $bean = ContactBean::buildContactBeanFromContactId($company->getIdContact(), false, $safe);
-//            self::updateBean($bean, $values);
             DB::getContactTable()->find($company->getIdContact())->setBean($bean)->save();
 
             self::updateSearchIndex($idCompany, true, $company->getIdAccount());
@@ -232,19 +225,6 @@ class RecipientDbManager extends AAA
     }
     
     /**
-     * Complète le bean avec des données complémentaires
-     * @param ContactBean $bean
-     * @param array $values
-     * @return void
-     */
-//    protected static function updateBean(ContactBean $bean, array $values): void
-//    {
-//        if (isset($values['b']['ht'])) {
-//            $bean->setChargeWithTax(!$values['b']['ht']);
-//        }
-//    }
-    
-    /**
      * @return \Zend\Db\Adapter\Driver\ResultInterface
      */
     public static function getContactsForTable(array $settings, array $columns = null)
@@ -262,16 +242,7 @@ class RecipientDbManager extends AAA
             'dud' => 'company.date_update DESC',
         ];
         
-       // var_dump($settings);
-        
         $sortBy = isset($settings['s']) && isset($sorts[$settings['s']]) ? $sorts[$settings['s']] : 'company.id DESC';
-//        $items = [
-//            '<div><strong>|{IF(company.url > "",' . Mysql::concat('<a href="|{company.url}|" target="_blank">') . ',"")}|{company.title}|{IF(company.url > "","</a>","")}|</strong></div>|{IF(contact.firstname > "",' . Mysql::concat('<div>|{contact.firstname}| |{contact.lastname}|</div>') . ',"")}|',
-//            '|{IF(company.email > "",' . Mysql::concat('<a href="mailto:|{company.email}|">|{company.email}|</a>') . ',"<span class=\"hidden-xs\">&nbsp;</span>")}|',
-//            '|{IF(address.address > "",' . Mysql::concat('<span class="hidden-xs">|{replace(address.address,"\n","<br />")}|<br />|{address.postal_code}| |{address.city}|</span>') . ',"")}|',
-//            '|{IF(company.tel > "",' . Mysql::concat('<a href="tel:|{company.tel}|">|{company.tel}|</a>') . ',"")}|{IF(company.tel > "",IF(contact.gsm > "","<br />","<span class=\"hidden-xs\">&nbsp;</span>"),"")}|{IF(ISNULL(contact.gsm),"",IF(contact.gsm > "",' . Mysql::concat('<a href="tel:|{contact.gsm}|">|{contact.gsm}|</a>') . ',""))}|',
-//        ];
-//        $grid = (string) H::grid()->auto($items, count($items), true);
         
         if (is_array($columns)) {
             $cols = implode(', ', $columns);
@@ -473,8 +444,6 @@ class RecipientDbManager extends AAA
         $initialItems = $this->appendInitialOptions($limit ?? $this->autocompleteLimit, $items, self::CATEGORY);
         
         // Enregistrement de l'autocomplétion
-        // $template = "'<div>' + '<strong>' + escape(item.title) + '</strong> '"
-        // $template = "'<div>' + item.uid + '. ' + '<strong>' + escape(item.title) + '</strong> '"
         $template = "'<div>' + '<strong>' + escape(item.title) + '</strong> '"
                 . " + '<span class=\"pull-right\">' + escape(item.tel) + '</span>'"
                 . " + '</div>'";
@@ -592,12 +561,6 @@ class RecipientDbManager extends AAA
         $sql = 'SELECT id, id_account FROM company WHERE id_contact IS NULL';
         $rows = DB::getCompanyTable()->prepare($sql)->execute();
         foreach ($rows as $row) {
-//            DB::buildContactRow()
-//                    ->setIdCompany($row['id'])
-//                    ->setFirstname('')
-//                    ->setLastname('')
-//                    ->setIdAccount($row['id_account'])
-//                    ->save();
             DB::getContactTable()->insert(['id_company' => $row['id'], 'firstname' => '', 'lastname' => '', 'id_account' => $row['id_account']]);
             $idContact = DB::getContactTable()->lastInsertValue;
             DB::getCompanyTable()->find($row['id'])->setIdContact($idContact)->save();

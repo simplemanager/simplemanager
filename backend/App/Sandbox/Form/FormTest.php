@@ -7,10 +7,10 @@ use Osf\Form\Element\ElementInput;
 use Osf\Form\Element\ElementCheckbox;
 use Osf\Form\Element\ElementSelect;
 use Osf\Form\Element\ElementRadios;
-//use Osf\Form\Element\ElementFile;
 use Osf\Form\Element\ElementTags;
 use Osf\Form\Element\ElementTextarea;
 use Osf\Form\Element\ElementSubmit;
+use Osf\Form\Element\ElementFile;
 use Osf\View\Component\Inputmask;
 use Osf\Filter\Filter as F;
 use Osf\Validator\Validator as V;
@@ -43,17 +43,10 @@ class FormTest extends Form
                 ->setLabel('Votre mot de passe')
                 ->setRequired());
         
-//              = new ElementCheckboxes('conditions2');
-//             ->setOptions(array('conditions' => "J'ai lu les conditions de vente", 
-//                                'memory' => "Garder ces informations en mémoire"));
-//         //    ->setLabel('Options');
-//         $this->add(    );
-        
         $this->add((new ElementCheckbox('like'))
                 ->setLabel("J'aime bien les pâtes au beurre avec de la confiture")
                 ->setRequired()
-                ->setDescription('une description')
-                );
+                ->setDescription('une description'));
 
         $this->add((new ElementSelect('selectest'))
                 ->setLabel('Je suis')
@@ -77,8 +70,7 @@ class FormTest extends Form
 
         $this->add((new ElementTags('keywords'))
                 ->setPlaceholder('ex: vacances, enfants, voilier')
-                ->setLabel('Mots clés')
-            );
+                ->setLabel('Mots clés'));
         
         $this->add((new ElementRadios('radiotest'))
                 ->setLabel("Je suis")
@@ -90,22 +82,13 @@ class FormTest extends Form
                 ->setType(ElementInput::TYPE_EMAIL)
                 ->setLabel('Mon e-mail')
                 ->setPlaceholder('saisissez un e-mail valide')
-                ->setRequired()
-                );
+                ->setRequired());
         
         $this->add((new ElementInput('gsm'))
                 ->setLabel('Mobile')
                 ->setType(ElementInput::TYPE_TEL)
                 ->setAddonLeft(null, 'fa-phone')
-                //->setAddonRight(null, 'fa-phone')
                 ->setDataMask(Inputmask::MASK_PHONE_FR));
-
-//        $this->add((new ElementInput('born'))
-//                ->setLabel('Date de naissance')
-//                ->setType(ElementInput::TYPE_DATE)
-//                ->setDataMask(Inputmask::MASK_DATE)
-//                ->setPickerDate()
-//                );
         
         $this->add((new ElementInput('born'))
                 ->setTypeDate()
@@ -118,36 +101,27 @@ class FormTest extends Form
         $this->add((new ElementInput('borntime'))
                 ->setTypeTime()
                 ->setValue('11:20')
-                ->setLabel('Heure de naissance')
-                );
+                ->setLabel('Heure de naissance'));
 
         $this->add((new ElementInput('color'))
                 ->setTypeColor()
                 ->setValue('#aa0000')
-                ->setLabel('Couleur préférée')
-//                ->setAddonLeft(null, 'fa-user')
-                );
+                ->setLabel('Couleur préférée'));
         
         $this->add((new ElementInput('howmany'))
                 ->setLabel('Combien ?')
                 ->setAddonLeft('€')
                 ->setAddonRight('.00')
-                ->setTypeNumber()
-                );
+                ->setTypeNumber());
         
         $this->add((new ElementTextarea('comment'))
                 ->setLabel('Mes commentaires')
-                ->setPlaceholder('Ecrivez ce que vous voulez')
-                );
+                ->setPlaceholder('Ecrivez ce que vous voulez'));
         
-        $this->add((new Form\Element\ElementFile('file'))
+        $this->add((new ElementFile('file'))
                 ->setAutoUpload()
                 ->setAccept(''));
         
-        //$this->add((new ElementFile('logo'))->setLabel('Logo'));
-        
         $this->add((new ElementSubmit('submit'))->setValue("S'identifier"));
-//              = $this->buildText('text')->setLabel('label');
-//         $this->add(    );
     }
 }

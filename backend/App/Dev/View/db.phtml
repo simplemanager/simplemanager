@@ -21,8 +21,6 @@ if (H::get('table')) {
     echo H::box('Documentation', H::get('doc'))->expandable()->removable();
     
     $dataTable = H::get('table');
-//    $table = new \Sma\Db\ProductTable();
-//    var_dump($table->getFields());
     $accordion = H::accordion()->closeAllItems();
     $cpt = 0;
     foreach ($dataTable->getFields() as $field => $params) {

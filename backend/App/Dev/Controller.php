@@ -4,7 +4,6 @@ namespace App\Dev;
 use Zend\Db\Metadata\Metadata;
 use Osf\Exception\DisplayedException;
 use Osf\Container\ZendContainer;
-//use Osf\View\Table;
 use Osf\Stream\Text;
 use Osf\Stream\Yaml;
 use Sma\Controller\Json as JsonAction;

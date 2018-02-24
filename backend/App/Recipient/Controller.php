@@ -6,7 +6,6 @@ use Sma\Controller\Json as JsonAction;
 use Sma\Session\Identity as I;
 use Sma\Log;
 use App\Recipient\Model\RecipientDbManager as DM;
-// use App\Guest\Controller as GuestController;
 use App\Recipient\Form\FormRecipient;
 use App\Common\Container;
 use H, L, DB;
@@ -55,7 +54,6 @@ class Controller extends JsonAction
         $form = (new FormRecipient(false, $this->getParam('f') ?? 'firstname'));
         if ($id = $this->getParam('id')) {
             $form->hydrate(DM::getContactForForm($id), null, true, true);
-//            $form->loadBean(DB::getCompanyTable()->getContactBean($id, !GuestController::isLogged()));
         }
         if ($form->isPostedAndValid()) {
             $formValues = $form->getValues();

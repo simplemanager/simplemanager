@@ -180,48 +180,48 @@ class Cli extends OsfControllerCli
     /**
      * Fix hashes, search engine content, etc.
      */
-//    protected static function fixesAction()
-//    {
-//        // HASHS
-//        echo self::beginActionMessage('Company hashes');
-//        try {
-//            DB::getCompanyTable()->fixAllHashes();
-//            echo self::endActionOK();
-//        } catch (\Exception $e) {
-//            echo self::endActionFail();
-//            self::displayError($e->getMessage());
-//        }
-//        
-//        // Document recipients
-//        echo self::beginActionMessage('Document recipients');
-//        try {
-//            DB::getDocumentTable()->fixDocumentRecipients();
-//            echo self::endActionOK();
-//        } catch (\Exception $e) {
-//            echo self::endActionFail();
-//            self::displayError($e->getMessage());
-//        }
-//        
-//        // Document subjects
-//        echo self::beginActionMessage('Document subjects');
-//        try {
-//            DB::getDocumentTable()->fixDocumentSubjects();
-//            echo self::endActionOK();
-//        } catch (\Exception $e) {
-//            echo self::endActionFail();
-//            self::displayError($e->getMessage());
-//        }
-//        
-//        // Document subjects
-//        echo self::beginActionMessage('Contacts without bean');
-//        try {
-//            RDM::fixContactBeans();
-//            echo self::endActionOK();
-//        } catch (\Exception $e) {
-//            echo self::endActionFail();
-//            self::displayError($e->getMessage());
-//        }
-//    }
+    protected static function fixesAction()
+    {
+        // HASHS
+        echo self::beginActionMessage('Company hashes');
+        try {
+            DB::getCompanyTable()->fixAllHashes();
+            echo self::endActionOK();
+        } catch (\Exception $e) {
+            echo self::endActionFail();
+            self::displayError($e->getMessage());
+        }
+        
+        // Document recipients
+        echo self::beginActionMessage('Document recipients');
+        try {
+            DB::getDocumentTable()->fixDocumentRecipients();
+            echo self::endActionOK();
+        } catch (\Exception $e) {
+            echo self::endActionFail();
+            self::displayError($e->getMessage());
+        }
+        
+        // Document subjects
+        echo self::beginActionMessage('Document subjects');
+        try {
+            DB::getDocumentTable()->fixDocumentSubjects();
+            echo self::endActionOK();
+        } catch (\Exception $e) {
+            echo self::endActionFail();
+            self::displayError($e->getMessage());
+        }
+        
+        // Document subjects
+        echo self::beginActionMessage('Contacts without bean');
+        try {
+            RDM::fixContactBeans();
+            echo self::endActionOK();
+        } catch (\Exception $e) {
+            echo self::endActionFail();
+            self::displayError($e->getMessage());
+        }
+    }
 
     /**
      * Execute deferred actions (log register, cache generation...)

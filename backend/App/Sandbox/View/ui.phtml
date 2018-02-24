@@ -1,3 +1,4 @@
+<?php echo H::alert(__("UI components test page"), __("This page is only used to test and control UI components display."))->statusWarning(); ?>
 <?php H::isAjax() || L::setPageTitle("Elements graphiques")->addBreadcrumbLink('UI', H::url('sandbox', 'ui')); ?>
 <?php H::isAjax() || include __DIR__ . '/_widgets.phtml'; ?>
 <?php H::isAjax() || include __DIR__ . '/_ui.phtml'; ?>

@@ -67,18 +67,16 @@ class LayoutPlugin extends Plugin
         // Mise à jour du menu
         if (I::isLogged()) {
             $iCompletion = I::getCompletion();
-            //L::getMenu()->getItem('prf')->addBadge($iCompletion . '%', AVH::getPercentageColor($iCompletion));
+            L::getMenu()->getItem('prf')->addBadge($iCompletion . '%', AVH::getPercentageColor($iCompletion));
             $request->addFooterLink('Guide', H::url('info', 'book'));
         }
         
         // Mise à jour du layout
-        // $accountUrl = H::url('account', 'login');
         if (I::isLogged()) {
             $values = I::getAll();
             $idLogo = I::get('company', 'id_logo');
             $url = $idLogo ? Image::getImageUrl($idLogo, 800) : null;
             
-            //$headUser = $fullName;
             $links = [
                 (string) H::link(__("Société"),    'account', 'company') ->setTooltip(__("Options de mon entreprise")),
                 (string) H::link(__("Compte"),     'account', 'login')   ->setTooltip(__("Modifier mes infos")),
@@ -111,16 +109,6 @@ class LayoutPlugin extends Plugin
         // Affichage des messages flash et les notifications
         // Puis sauvegarde de l'état du FlashMessenger avant l'envoi des données
         Container::getFlashMessenger()->sendMessages()->save();
-        
-//        $controller = ucfirst(Container::getRequest()->getController());
-//        if ($controller !== Router::getDefaultControllerName(true)) {
-//            $menuFile = APPLICATION_PATH . '/App/' . $controller . '/Config/menu.php';
-//            if (file_exists($menuFile)) {
-//                $acl = Container::getAcl();
-//                Container::getNavigationMenu()->importChilds(include $menuFile, $acl);
-//            }
-//        }
-
     }
     
     protected static function isTickRequest(): bool
