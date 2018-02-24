@@ -21,7 +21,6 @@ $config = [
             'driver_options' => [
                 MYSQLI_INIT_COMMAND => "SET NAMES UTF8MB4",
             ],
-//            'dbcollation' => 'utf8mb4_unicode_ci',
         ],
         'common' => [
             'driver' => 'Mysqli',
@@ -33,7 +32,6 @@ $config = [
             'driver_options' => [
                 MYSQLI_INIT_COMMAND => "SET NAMES UTF8MB4"
             ],
-//            'dbcollation' => 'utf8mb4_unicode_ci',
         ]
     ],
     'layout' => APPLICATION_PATH . '/App/Common/View/layouts/main.phtml',
@@ -56,6 +54,11 @@ $config = [
         
         // SMTP to use to send emails
         'smtp'    => ['name' => '', 'host' => '', 'port' => 25]
+    ],
+    
+    // Log levels: info, warning, error
+    'log' => [
+        'level' => 'warning'
     ],
     
     // Direct link to executable if found /usr/bin/inkscape

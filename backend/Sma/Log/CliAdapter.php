@@ -2,6 +2,7 @@
 namespace Sma\Log;
 
 use Osf\Log\AdapterInterface;
+use Sma\Log;
 
 /**
  * Adaptateur pour la ligne de commande
@@ -19,6 +20,10 @@ class CliAdapter implements AdapterInterface
     
     public function log(string $message, string $level = Log::LEVEL_INFO, string $category = null, $dump = null) 
     {
+        if (!Log::isLevelEnabled($level, $category)) {
+            return false;
+        }
+        
         if ($dump) {
             $file = tempnam(sys_get_temp_dir(), 'log');
             file_put_contents($file, print_r($dump, true));

@@ -4,6 +4,7 @@ namespace Sma\Log;
 use Osf\Log\AdapterInterface;
 use Osf\Stream\Text as T;
 use Sma\Session\Identity;
+use Sma\Log;
 use C;
 
 /**
@@ -26,6 +27,10 @@ class DbAdapter implements AdapterInterface
      */
     public function log(string $message, string $level = Log::LEVEL_INFO, string $category = null, $dump = null)
     {
+        if (!Log::isLevelEnabled($level, $category)) {
+            return false;
+        }
+        
         $pageInfo = [
             'get'     => $_GET,
             'post'    => $_POST,
@@ -56,5 +61,6 @@ class DbAdapter implements AdapterInterface
         ];
         
         C::getRedis()->lPush('LOG', serialize($row));
+        return true;
     }
 }
