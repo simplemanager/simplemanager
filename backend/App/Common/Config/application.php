@@ -56,6 +56,11 @@ $config = [
         
         // SMTP to use to send emails
         'smtp'    => ['name' => '', 'host' => '', 'port' => 25]
+    ],
+    
+    // Direct link to executable if found /usr/bin/inkscape
+    'inkscape' => [
+        'server' => 'http://localhost'
     ]
 ];
 
