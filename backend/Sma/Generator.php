@@ -51,7 +51,7 @@ class Generator extends AbstractGenerator
         // Database models
         $classes    = ['\Sma\Db\DbContainer', '\Osf\Container\ZendContainer'];
         $containers = ['DbContainer', 'Zend'];
-        $uses       = ['Sma\Db\DbContainer', 'Osf\Container\Zend'];
+        $uses       = ['Sma\Db\DbContainer', 'Osf\Container\ZendContainer as Zend'];
         $namespace  = '';
         $className  = 'DB';
         $fileName   = __DIR__ . '/../' . $className . '.php';

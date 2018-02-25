@@ -1,7 +1,7 @@
 <?php
 
 use Sma\Db\DbContainer;
-use Osf\Container\Zend;
+use Osf\Container\ZendContainer as Zend;
 use Osf\Container\AbstractStaticContainer;
 
 /**
