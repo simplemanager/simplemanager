@@ -22,7 +22,9 @@
         "ext-redis": "*",
         "osflab/osf": "~3.0.0",
         "ulrichsg/getopt-php": "3.1.0",
-        "zendframework/zend-code": "~3.3.0"
+        "zendframework/zend-code": "3.3.0",
+        "zendframework/zend-uri": "2.5.2",
+        "zendframework/zend-mail": "2.8.0"
     },
     "suggest": {
         "ext-yaml": "For better performances"
