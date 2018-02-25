@@ -19,6 +19,7 @@ class Install extends Cli
 {
     const ACL_YML_FILE = APP_PATH . '/etc/acl.yml';
     const APP_PHP_FILE = APP_PATH . '/etc/application.php';
+    const CLEAN_SH = __DIR__ . '/../../bin/clean.sh';
     
     const REQUIRED_EXT = [
         'date',
@@ -270,6 +271,10 @@ class Install extends Cli
         self::cleanAction('cache');
         self::cleanAction('smacache');
         self::cleanAction('backups');
+        
+        echo self::beginActionMessage('Cleaning filesystem');
+        $this->exec(self::CLEAN_SH);
+        echo self::endActionOK();
     }
 
     protected function test(): void
