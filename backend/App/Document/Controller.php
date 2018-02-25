@@ -282,7 +282,7 @@ class Controller extends JsonAction
                 return null;
             }
             $values = $values->toArray();
-            if ($values['data_type_filters']) {
+            if (isset($values['data_type_filters']) && $values['data_type_filters']) {
                 $values['data_type_filters'] = explode(',', $values['data_type_filters']);
             }
             $fields = $this->hasParam('formletter') 
