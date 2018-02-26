@@ -1,7 +1,7 @@
 {
     "name": "simplemanager/simplemanager",
     "description": "SimpleManager",
-    "version": "0.1.0",
+    "version": "0.1.1-dev",
     "type": "project",
     "homepage": "https://www.simplemanager.org",
     "license": "AGPL-3.0-or-later",
@@ -20,7 +20,7 @@
         "ext-mbstring": "*",
         "ext-openssl": "*",
         "ext-redis": "*",
-        "osflab/osf": "~3.0.0",
+        "osflab/osf": "~3.0.1",
         "ulrichsg/getopt-php": "3.1.0",
         "zendframework/zend-code": "3.3.0",
         "zendframework/zend-uri": "2.5.2",
