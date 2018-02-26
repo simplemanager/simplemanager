@@ -120,7 +120,7 @@ trait AccountManagement
         // Finalisation
         $defaultBackupDir = self::getBackupDir() . '/accounts/' . $idAccount;
         if (!is_dir($defaultBackupDir)) {
-            mkdir($defaultBackupDir);
+            mkdir($defaultBackupDir, 0755, true);
         }
         $backupDir = $backupDir ?? $defaultBackupDir;
         $filePath = $backupDir . '/' . $fileName . '.zip';
@@ -130,7 +130,9 @@ trait AccountManagement
         }
         $zip->addGlob($workDir . '/*', 0, ['remove_all_path' => true, 'add_path' => $fileName . '/']);
         $zip->setArchiveComment($comment);
-        $zip->close();
+        if (!$zip->close()) {
+            throw new DisplayedException(__("Enregistrement du fichier de sauvegarde impossible. Veuillez nous excuser pour la gêne occasionnée."));
+        }
         
         // Lien symbolique dans le répertoire utilisateur si sauvegarde générale
         if ($defaultBackupDir !== $backupDir) {
