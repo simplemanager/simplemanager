@@ -68,7 +68,7 @@ $config = (new CrudConfig())
         ->setLinkPattern('/recipient/view/id/[key]');
 
 // Bouton(s) en haut à droite (import/export)
-$config->setButtons(H::exchangeButton(__("mes-contacts"), 'recipient', 'export', 'import'));
+$config->setButtons(H::exchangeButton(__("mes-contacts"), 'recipient', 'export')); //, 'import'));
 
 // Menu de la page
 $refresh || include __DIR__ . '/_menu.phtml';

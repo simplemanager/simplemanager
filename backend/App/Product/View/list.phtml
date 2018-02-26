@@ -1,7 +1,6 @@
 <?php 
 
 use Sma\View\Helper\Crud\CrudConfig;
-use Osf\View\Helper\Bootstrap\Addon\DropDownMenu;
 use Sma\Session\Identity;
 use App\Common\Container;
 
@@ -26,7 +25,7 @@ if (!$refresh && !Identity::getIdCompany()) {
 }
 
 // Bouton(s) en haut à droite (import/export)
-$config->setButtons(H::exchangeButton(__("mes-produits"), 'product', 'export', 'import'));
+$config->setButtons(H::exchangeButton(__("mes-produits"), 'product', 'export')); //, 'import'));
 
 // Menu de la page
 // $refresh || include __DIR__ . '/_menu.phtml';

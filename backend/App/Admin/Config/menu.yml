@@ -24,8 +24,8 @@ adm:
       label: Actions
       params:
         action: actions
-    sec:
-      label: Sécurité
-      params: 
-        action: security
+#    sec:
+#      label: Sécurité
+#      params: 
+#        action: security
 ...
