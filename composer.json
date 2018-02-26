@@ -1,7 +1,7 @@
 {
     "name": "simplemanager/simplemanager",
     "description": "SimpleManager",
-    "version": "0.1.0-alpha",
+    "version": "0.1.0",
     "type": "project",
     "homepage": "https://www.simplemanager.org",
     "license": "AGPL-3.0-or-later",
