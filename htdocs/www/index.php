@@ -33,8 +33,16 @@ if (filter_input(INPUT_SERVER, 'HTTP_X_REQUESTED_WITH') !== 'XMLHttpRequest' &&
     exit;
 }
 
+// Please install message
+if (!file_exists(__DIR__ . '/../../etc/acl.yml')) {
+    header('Content-type: application/json');
+    echo '{"u":{"page":{"alerts":[{"title":"Application not installed","message":"Please install SimpleManager using the command line tool.","status":"warning","closable":false}]}}}';
+    die();
+}
+
 // Load environment
 require_once __DIR__ . '/env.php';
 
 // Run the application
 Osf\Container\OsfContainer::getApplication()->run();
+
