@@ -23,7 +23,7 @@ use App\Guest\Controller as GuestController;
 use App\Document\Form\FormTemplate;
 use App\Document\Form\FormLetter;
 use App\Common\Container;
-use Exception, H, DB;
+use Exception, H, DB, ACL;
 
 /**
  * Espace administration
@@ -277,7 +277,7 @@ class Controller extends JsonAction
                     : ($this->hasParam('from')
                             ? DB::getLetterTemplateTable()->find($id)
                             : DB::getDocumentTable()->findSafe($id));
-            if (!$values || ($this->hasParam('from') && $values['category'] == 'mine')) {
+            if (!$values || !($this->hasParam('from') || $values['category'] === 'mine' || ACL::isAdmin())) {
                 $this->alertWarning(__("Vous ne pouvez pas modifier ce modèle"));
                 return null;
             }

@@ -120,7 +120,7 @@ class FormTest extends Form
         
         $this->add((new ElementFile('file'))
                 ->setAutoUpload()
-                ->setAccept(''));
+                ->setAccept(null));
         
         $this->add((new ElementSubmit('submit'))->setValue("S'identifier"));
     }

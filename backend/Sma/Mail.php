@@ -470,19 +470,15 @@ class Mail
     {
         $mail->setSender($config['sender']['mail'], $config['sender']['name']);
         
-//        if (Container::getApplication()->isDevelopment()) {
-//            $mail->addTo($config['debug']['mail'], $config['debug']['name']);
-//            $mail->addFrom($config['from']['mail'], $config['from']['name']);
-//            return $this;
-//        }
-        
         foreach ($this->recipients as $recipient) {
             $method = 'add' . ucfirst($recipient['type']);
             $mail->$method($recipient['mail'], $recipient['name']);
         }
         
         if (!$mail->getFrom()->count()) {
-            $mail->addFrom($config['noreply']['mail'], $config['noreply']['name']);
+            $mail->addFrom(
+                    Identity::getContactBean()->getEmail(), 
+                    Identity::getContactBean()->getTitle());
         }
         
         return $this;
