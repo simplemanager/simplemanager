@@ -551,7 +551,6 @@ class Admin extends Layout
     protected function registerLayout()
     {
         $layout = $this->layout;
-        //echo "OK";
         $layout[self::PAGE][self::PAGE_ALERTS] = '';
         $layout[self::PAGE][self::PAGE_LINKS]  = '';
         $this->getSession()->layout = $layout;
@@ -613,8 +612,8 @@ class Admin extends Layout
             $data[self::DO_UPDATE][self::PAGE][self::PAGE_SCRIPTS] = $this->layout[self::PAGE][self::PAGE_SCRIPTS];
         }
         
-        // L'update du state des notifications pose problème sur le front, on est obligé de renvoyer toutes les notifs
-        // pour l'instant :( :( :(
+        // L'update du state des notifications pose problème sur le front, 
+        // on est obligé de renvoyer toutes les notifs pour l'instant
         if (isset($data[self::DO_UPDATE][self::HEADER][self::HEADER_BUTTONS])) {
             $data[self::DO_UPDATE][self::HEADER][self::HEADER_BUTTONS] = $this->layout[self::HEADER][self::HEADER_BUTTONS];
         }

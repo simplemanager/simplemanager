@@ -118,7 +118,7 @@ class LetterTemplateManager
         if (in_array($templateRow->getTargetType(), [LTB::TARGET_TYPE_EMAIL, LTB::TARGET_TYPE_BOTH])) {
             $mail = $templateRow->render($bean->getId())->buildEmail();
         } else {
-            $mail = $this->buildMailForLetterDocument($bean);
+            $mail = self::buildMailForLetterDocument($bean);
         }
         
         // Envoi de l'email

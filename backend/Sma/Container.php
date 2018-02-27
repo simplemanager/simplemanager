@@ -3,6 +3,7 @@ namespace Sma;
 
 use Osf\Container\OsfContainer as OsfContainer;
 use Osf\Controller\Router;
+use Sma\Cache;
 use Sma\Acl;
 
 /**
@@ -116,7 +117,7 @@ abstract class Container extends OsfContainer
      * @param string $namespace
      * @return \Sma\Cache
      */
-    public static function getCacheSma(string $namespace = \Sma\Cache::DEFAULT_NAMESPACE): \Sma\Cache
+    public static function getCacheSma(string $namespace = Cache::DEFAULT_NAMESPACE): \Sma\Cache
     {
         return self::buildObject('\Sma\Cache', [$namespace], $namespace);
     }
