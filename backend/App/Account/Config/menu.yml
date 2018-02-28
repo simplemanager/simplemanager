@@ -38,4 +38,13 @@ cco:
   params:
     controller: account
     action: registration
+pay:
+  label: Soutenir le projet
+  icon: thumbs-up
+  color: orange
+  acl:
+    role: NOTLOGGED
+  params:
+    controller: info
+    action: encourage
 ...

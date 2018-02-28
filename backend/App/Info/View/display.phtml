@@ -5,7 +5,7 @@ use App\Common\Container;
 $modalId = H::get('modalId');
 
 $menu1 = Container::getRequest()->getParam('no') !== 'layout' &&  in_array(Container::getRequest()->getParams()['document'], [
-    'credits', 'assurance', 'faq', 'protection-des-donnees', 'conditions'
+    'credits', 'assurance', 'faq', 'protection-des-donnees', 'encourage', 'conditions'
 ]);
 $menus = $menu1;
 
@@ -16,6 +16,7 @@ echo $menu1 ? H::nav(true, false)
         ->addLink(__("Nos garanties"), H::url('info', 'assurance'))
         ->addLink(__("Données personnelles"), H::url('info', 'protection-des-donnees'))
         ->addLink(__("Licence AGPL 3.0"), H::url('info', 'conditions'))
+        ->addLink(__("Soutenir le projet"), H::url('info', 'encourage'))
         ->addLink(__("A propos"), H::url('info', 'credits'))
         ->typePills() : '';
 
@@ -36,7 +37,7 @@ if (is_array($data) && array_key_exists('items', $data)) {
         $accordion->addPanel(H::panel($title[0], $item['body'], null, isset($title[1]) ? $title[1] : null)->icon('hand-o-right'));
         $itemCount++;
     }
-    $page = (int) Container::getRequest()->getParam('page');
+    $page = max(1, (int) Container::getRequest()->getParam('page'));
     if ($page > 0 && $page <= $itemCount + 1) {
         $accordion->setOpenedItem($page - 1);
     }

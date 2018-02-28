@@ -6,4 +6,5 @@
 
 controller: ADMIN
 action:
-    db: 
+  index:
+  db:

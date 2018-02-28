@@ -356,9 +356,9 @@ abstract class L extends AbstractLayoutContainer
      * Render the JSON page
      * @return string
      */
-    public static function render(int $renderType = null)
+    public static function render(int $renderType = null, bool $prettyPrintIfDev = true)
     {
-        return Container::getJsonRequest()->render($renderType);
+        return Container::getJsonRequest()->render($renderType, $prettyPrintIfDev);
     }
 
     /**

@@ -5,6 +5,6 @@
 ## name@host.com : a user
 
 controller: PUBLIC
-action: 
-    index: 
-    display: 
+action:
+    index:
+    display:
