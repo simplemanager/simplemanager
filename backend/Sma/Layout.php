@@ -20,6 +20,8 @@ use Osf\Exception\ArchException;
  */
 abstract class Layout
 {
+    const LAYOUT_NAMESPACE = 'jslayout';
+    
     const RENDER_UPDATE = 0; // Envoie uniquement les changement
     const RENDER_INIT   = 1; // Envoie l'ensemble des données du layout
     const RENDER_AUTO   = 2; // Envoie d'abord l'ensemble des données, ensuite l'update
@@ -40,7 +42,7 @@ abstract class Layout
      */
     protected function getSession()
     {
-        return Container::getSession('jslayout');
+        return Container::getSession(self::LAYOUT_NAMESPACE);
     }
     
     public function __construct()
@@ -56,7 +58,7 @@ abstract class Layout
      * Render the JSON page
      * @return string
      */
-    public function render(int $renderType = null)
+    public function render(int $renderType = null, bool $prettyPrintIfDev = true)
     {
         // Calcul des données à rendre
         $data = $this->getComputedRenderData($renderType);
@@ -66,7 +68,7 @@ abstract class Layout
         $this->registerLayout();
         
         // Récupération JSON des données à envoyer
-        return Json::encode($data);
+        return Json::encode($data, $prettyPrintIfDev);
     }
     
     /**

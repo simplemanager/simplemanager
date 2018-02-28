@@ -17,13 +17,15 @@ use Sma\Bean\ContactBean;
  */
 abstract class Identity extends Container
 {
+    const IDENTITY_NAMESPACE = 'smai';
+    
     const SECTION_CONTACT    = 'contact'; // Infos personnelles de l'utilisateur courant
     const SECTION_COMPANY    = 'company'; // Entreprise de l'utilisateur courant
     const SECTION_ACCOUNT    = 'account'; // Paramètres du compte (id, mail...)
     const SECTION_PARAMS     = 'params';  // Paramètres complémentaires (profile/xxx.yml)
     const SECTION_LOGO_COLOR = 'color';   // Couleur dominante du logo
     
-    protected static $namespace = 'smai';
+    protected static $namespace = self::IDENTITY_NAMESPACE;
     
     /**
      * Is current user logged ?
