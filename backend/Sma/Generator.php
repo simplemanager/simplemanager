@@ -2,10 +2,8 @@
 namespace Sma;
 
 use Osf\Generator\AbstractGenerator;
-use Osf\Exception\ArchException;
 use Osf\Controller\Router;
 use Osf\Stream\Text as T;
-use Osf\Application\OsfApplication as Application;
 use Osf\Stream\Yaml;
 use Sma\Acl;
 
@@ -58,7 +56,7 @@ class Generator extends AbstractGenerator
         $comment    = 'Database models quick access';
         $static     = true;
         $blackList  = ['buildObject', 'getInstances', 'setMockNamespace', 
-                       'getAuth', 'getTranslate'];
+                       'getAuth', 'getTranslate', 'registerMock', 'cleanMocks'];
         $this->generateStaticClass($classes, $containers, $uses, $namespace, 
                                    $className, $fileName, $comment, $static,
                                    $blackList);
