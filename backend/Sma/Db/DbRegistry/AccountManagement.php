@@ -128,7 +128,13 @@ trait AccountManagement
         if ($zip->open($filePath, ZipArchive::CREATE) !== true) {
             throw new Exception('Unable to open file ' . $filePath);
         }
-        $zip->addGlob($workDir . '/*', 0, ['remove_all_path' => true, 'add_path' => $fileName . '/']);
+        
+        // addGlob do not works with PHP 7.2.2. Replaced by that:
+        $zfiles = glob($workDir . '/*');                                                         
+        foreach ($zfiles as $zfile) {                                                                                                                 
+            $zip->addFile($zfile, $fileName . '/' . basename($zfile));                                                                                  
+        }
+        
         $zip->setArchiveComment($comment);
         if (!$zip->close()) {
             throw new DisplayedException(__("Enregistrement du fichier de sauvegarde impossible. Veuillez nous excuser pour la gêne occasionnée."));
@@ -140,8 +146,8 @@ trait AccountManagement
         }
         
         // Nettoyage
-        foreach (glob($workDir . '/*') as $dumpFile) {
-            unlink($dumpFile);
+        foreach ($zfiles as $zfile) {
+            unlink($zfile);
         }
         rmdir($workDir);
         
