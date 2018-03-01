@@ -215,7 +215,7 @@ class ContactBean extends OCB implements Addon\WarningInterface, ExchangeableBea
         // TVA intra obligatoire
         if (!$this->getChargeWithTax() && !$this->getCompanyTvaIntra()) {
             $warns[] = $this->newWarn(__("Si vous facturez hors taxe, la tva intracommunautaire du client est obligatoire"), 'warning',
-                    $html, 'recipient', 'edit', ['id' => $this->getIdCompany(), 'f' => 'tvaIntra']);
+                    $html, 'recipient', 'edit', ['id' => $this->getIdCompany(), 'f' => 'tva_intra']);
             if ($firstWarnOnly) { return $warns[0]; }
         }
         
@@ -229,7 +229,7 @@ class ContactBean extends OCB implements Addon\WarningInterface, ExchangeableBea
         // Conseil : mettre la tva intra
         if ($withAdvices && !in_array(Text::toUpper($this->getAddress()->getCountry()), ['', 'FRANCE', 'FR']) && !$this->getCompanyTvaIntra()) {
             $warns[] = $this->newWarn(__("Client étranger : spécifiez la TVA Intracommunautaire et vérifiez s'il faut facturer HT."), 'info', AVH::STATUS_INFO, 
-                    $html, 'recipient', 'edit', ['id' => $this->getIdCompany(), 'f' => 'tvaIntra']);
+                    $html, 'recipient', 'edit', ['id' => $this->getIdCompany(), 'f' => 'tva_intra']);
             if ($firstWarnOnly) { return $warns[0]; }
         }
         

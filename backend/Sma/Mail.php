@@ -11,13 +11,14 @@ use Zend\Mail\Transport\Sendmail;
 use Zend\Mail\Transport\File as FileTransport;
 use Zend\Mail\Transport\FileOptions;
 use Zend\Mime\Mime;
-use Osf\Filter\Filter as F;
 use Osf\Exception\ArchException;
+use Osf\Console\ConsoleHelper;
+use Osf\Filter\Filter as F;
+use Sma\Controller\Cli\DeferredMailProcessing as DMP;
+use Sma\Session\Identity;
+use Sma\Mail\Template;
 use Sma\Container;
 use Sma\Log;
-use Sma\Mail\Template;
-use Sma\Session\Identity;
-use Sma\Controller\Cli\DeferredMailProcessing as DMP;
 use H;
 
 /**
@@ -476,9 +477,14 @@ class Mail
         }
         
         if (!$mail->getFrom()->count()) {
-            $mail->addFrom(
+            if (ConsoleHelper::isCli()) {
+                $noReply = Container::getConfig()->getConfig('mail', 'noreply');
+                $mail->addFrom($noReply['mail'], $noReply['name']);
+            } else {
+                $mail->addFrom(
                     Identity::getContactBean()->getEmail(), 
                     Identity::getContactBean()->getTitle());
+            }
         }
         
         return $this;

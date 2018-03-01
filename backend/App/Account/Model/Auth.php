@@ -75,8 +75,10 @@ class Auth
         C::set('REG::' . $verifKey, $verifVal, 24 * 3600);
         
         // Envoi du mail de confirmation
+        $noReply = Container::getConfig()->getConfig('mail', 'noreply');
         (new Mail())
             ->addTo($form->getValue('email'), trim($form->getValue('firstname') . ' ' . $form->getValue('lastname')))
+            ->addFrom($noReply['mail'], $noReply['name'])
             ->setSubject(sprintf(__("[%s] Ouverture de compte %s"), APP_SNAM, APP_NAME))
             ->addTitle(sprintf(__("Bienvenue %s !"), H::html($form->getValue('firstname'))))
             ->addParagraph(sprintf(__("Activez votre compte en cliquant sur le lien suivant. Vous verrez que %s vous simplifiera la vie."), APP_NAME))
@@ -86,7 +88,7 @@ class Auth
             ->addTitle(__("Délai d'activation"))
             ->addParagraph(sprintf(__("Vous avez jusqu'au %s (24 heures) pour activer votre compte. Passé ce délai, vous pouvez à tout moment"), date(__("d/m/Y à H:i"), time() + (3600 * 24))) . ' <a href="' . H::baseUrl(H::url('account', 'registration'), true) . '" target="_blank">' . __("renouveller votre inscription") . '</a>' . '.', false)
             ->send();
-        
+
         return $id;
     }
     
