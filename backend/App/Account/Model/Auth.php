@@ -75,10 +75,8 @@ class Auth
         C::set('REG::' . $verifKey, $verifVal, 24 * 3600);
         
         // Envoi du mail de confirmation
-        $noReply = Container::getConfig()->getConfig('mail', 'noreply');
         (new Mail())
             ->addTo($form->getValue('email'), trim($form->getValue('firstname') . ' ' . $form->getValue('lastname')))
-            ->addFrom($noReply['mail'], $noReply['name'])
             ->setSubject(sprintf(__("[%s] Ouverture de compte %s"), APP_SNAM, APP_NAME))
             ->addTitle(sprintf(__("Bienvenue %s !"), H::html($form->getValue('firstname'))))
             ->addParagraph(sprintf(__("Activez votre compte en cliquant sur le lien suivant. Vous verrez que %s vous simplifiera la vie."), APP_NAME))
@@ -195,7 +193,7 @@ class Auth
      */
     protected static function getRpaToken(string $email)
     {
-        return 'RPA::TOK::' . $email;
+        return 'RPA::TOK::' . Crypt::hash($email);
     }
     
     /**

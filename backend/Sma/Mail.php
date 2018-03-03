@@ -12,14 +12,13 @@ use Zend\Mail\Transport\File as FileTransport;
 use Zend\Mail\Transport\FileOptions;
 use Zend\Mime\Mime;
 use Osf\Exception\ArchException;
-use Osf\Console\ConsoleHelper;
 use Osf\Filter\Filter as F;
 use Sma\Controller\Cli\DeferredMailProcessing as DMP;
 use Sma\Session\Identity;
 use Sma\Mail\Template;
 use Sma\Container;
 use Sma\Log;
-use H;
+use H, Exception;
 
 /**
  * SMA mail
@@ -477,14 +476,16 @@ class Mail
         }
         
         if (!$mail->getFrom()->count()) {
-            if (ConsoleHelper::isCli()) {
+            try {
+                $contactBean = Identity::getContactBean();
+                $fromEmail = $contactBean->getEmail();
+                $fromName = $contactBean->getTitle();
+            } catch (Exception $e) {
                 $noReply = Container::getConfig()->getConfig('mail', 'noreply');
-                $mail->addFrom($noReply['mail'], $noReply['name']);
-            } else {
-                $mail->addFrom(
-                    Identity::getContactBean()->getEmail(), 
-                    Identity::getContactBean()->getTitle());
+                $fromEmail = isset($noReply['mail']) ? $noReply['mail'] : 'no-reply@' . APP_HOST;
+                $fromName = isset($noReply['name']) ? $noReply['name'] : APP_NAME;
             }
+            $mail->addFrom($fromEmail, $fromName);
         }
         
         return $this;

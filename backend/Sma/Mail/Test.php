@@ -40,7 +40,7 @@ class Test extends OsfTest
         self::assert(!strpos($html, "\n"));
         self::assert(strpos($html, '&nbsp;:'));
         self::assert(strpos($html, 'SimpleManager'));
-        
+
 //        file_put_contents('/tmp/mail.html', $mail->buildHtmlBody());
 //        file_put_contents('/tmp/mail.txt', $mail->buildTextBody());
         
