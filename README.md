@@ -6,6 +6,10 @@ with [PHP 7](https://github.com/php), [VueJS2](https://github.com/vuejs),
 
 Note: for the moment SimpleManager is only available in French.
 
+## Installation
+
+* Follow the [instructions](https://github.com/simplemanager/simplemanager-docker) from the docker repository.
+
 ## Links
 
 * [Official website](https://www.simplemanager.org)
@@ -17,4 +21,3 @@ Note: for the moment SimpleManager is only available in French.
 ## Screenshoot
 
 ![SimpleManager picture](https://blog.simplemanager.org/wp-content/uploads/2017/11/sma-factures.png)
-
