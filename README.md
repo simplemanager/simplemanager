@@ -12,12 +12,13 @@ Note: for the moment SimpleManager is only available in French.
 
 ## Links
 
-* [Official website](https://www.simplemanager.org)
-* [Online webapp](https://www.simplemanager.fr)
-* [Blog](https://blog.simplemanager.org)
 * [Docker container](https://github.com/simplemanager/simplemanager-docker)
 * [Twitter](https://twitter.com/simplemanagerfr)
 
-## Screenshoot
+## Vidéos (fr)
 
-![SimpleManager picture](https://blog.simplemanager.org/wp-content/uploads/2017/11/sma-factures.png)
+* [Introduction à SimpleManager et ses fonctionnalités](https://www.youtube.com/watch?v=Mnawp73GuL8)
+* [Installation standalone](https://www.youtube.com/watch?v=koRJPe6UVq0)
+* [Configuration](https://www.youtube.com/watch?v=3FiXlhZEx8s)
+* [Chaîne youtube](https://www.youtube.com/channel/UC5OGh0QLFlm3O9zW6c8cJKg)
+
